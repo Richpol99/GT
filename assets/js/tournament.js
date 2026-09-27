@@ -331,11 +331,10 @@ async function renderWECStandingsTable(container, seasonId, seasons) {
                         </div>
                     </td>
 
-                    <!-- 3. Auto / Categoría con Logo y Foto GT6 -->
+                    <!-- 3. Auto / Categoría con Logo Real de Marca -->
                     <td class="wec-cell-car d-none d-md-table-cell">
                         <span class="wec-cell-car-inner">
                             ${getCarBrandBadge(driverCar)}
-                            <img src="${getCarImageUrl(driverCar)}" alt="${driverCar}" class="wec-car-photo-thumb" onerror="this.style.display='none'">
                             <span>${driverCar}</span>
                         </span>
                     </td>
@@ -592,7 +591,6 @@ async function setupResultadosPage(seasons, activeSeason) {
                 </div>
                 <div class="wec-round-title-text" title="${race.title || 'Ronda ' + race.round_number}">${race.title || 'Ronda ' + race.round_number}</div>
                 <div class="wec-round-car-text" title="${race.car}">
-                    <img src="${getCarImageUrl(race.car)}" class="wec-round-car-img" alt="${race.car}" onerror="this.style.display='none'">
                     ${getCarBrandBadge(race.car)}
                     <span>${race.car}</span>
                 </div>
@@ -703,10 +701,9 @@ async function setupResultadosPage(seasons, activeSeason) {
                         </div>
                     </div>
 
-                    <!-- 3. Auto / Vehículo con Logo Real de Marca y Foto GT6 -->
+                    <!-- 3. Auto / Vehículo con Logo Real de Marca -->
                     <div class="wec-car-col">
                         ${getCarBrandBadge(race.car)}
-                        <img src="${getCarImageUrl(race.car)}" alt="${race.car}" class="wec-car-photo-thumb" onerror="this.style.display='none'">
                         <span>${race.car}</span>
                     </div>
 
