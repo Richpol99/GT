@@ -4,10 +4,10 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Resultados y posiciones de cada carrera disputada en el campeonato GT ACADEMY con telemetría FIA WEC.">
+	<meta name="description" content="Paddock oficial de pilotos y palmarés de la liga GT ACADEMY en Gran Turismo 6 (PS3).">
 
 	<!-- title -->
-	<title>Resultados de Carreras - GT ACADEMY</title>
+	<title>Paddock Oficial de Pilotos - GT ACADEMY</title>
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
@@ -31,11 +31,11 @@
 	<link rel="stylesheet" href="assets/css/main.css">
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
-	<!-- motorsport telemetry tournament style -->
+	<!-- modern motorsport tournament style -->
 	<link rel="stylesheet" href="assets/css/tournament.css">
 
 </head>
-<body class="resultados-page">
+<body class="paddock-page">
 	
 	<!--PreLoader-->
     <div class="loader">
@@ -54,7 +54,7 @@
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="index.html">
-								<img src="assets/img/logo.png" alt="">
+								<img src="assets/img/logo.png" alt="GT Academy">
 							</a>
 						</div>
 						<!-- logo -->
@@ -82,8 +82,6 @@
 									</ul>
 								</li>
 								<li><a href="discord.html">Unete a nuestro Discord</a></li>
-								<li>
-								</li>
 							</ul>
 						</nav>
 						<a class="mobile-show search-bar-icon" href="#"></a>
@@ -94,7 +92,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- end header --> 
+	<!-- end header -->
 	
 	<!-- breadcrumb-section -->
 	<div class="breadcrumb-section breadcrumb-bg">
@@ -102,7 +100,10 @@
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="breadcrumb-text">
-						<h1>Resultados Oficiales de Carreras</h1>
+						<h1>Paddock Oficial de Pilotos</h1>
+						<p class="text-white-50 mt-2 mb-0" style="letter-spacing: 2px; font-size: 0.85rem; font-weight: 600;">
+							PARRILLA DE COMPETIDORES & PALMARÉS • GRAN TURISMO 6 (PS3)
+						</p>
 					</div>
 				</div>
 			</div>
@@ -110,12 +111,50 @@
 	</div>
 	<!-- end breadcrumb section -->
 
-	<!-- Dynamic FIA WEC Tournament Content Container -->
-	<div class="resultados">
-		<div class="container text-center py-5">
-			<div class="wec-empty-state">
-				<i class="fas fa-spinner fa-spin fa-2x text-info mb-3"></i>
-				<p class="text-muted mb-0">Cargando telemetría de carreras FIA WEC...</p>
+    <div class="paddock-section">
+		<div class="container">
+			<!-- Toolbar / Control Bar -->
+			<div class="paddock-toolbar">
+				<div class="paddock-search-wrap">
+					<i class="fas fa-search paddock-search-icon"></i>
+					<input type="text" id="paddock-search" class="paddock-search-input" placeholder="Buscar por PSN ID o país...">
+				</div>
+				<div class="paddock-filters">
+					<button type="button" class="paddock-filter-btn active" data-sort="points"><i class="fas fa-bolt"></i> Puntos</button>
+					<button type="button" class="paddock-filter-btn" data-sort="wins"><i class="fas fa-trophy"></i> Victorias</button>
+					<button type="button" class="paddock-filter-btn" data-sort="podiums"><i class="fas fa-medal"></i> Podios</button>
+					<button type="button" class="paddock-filter-btn" data-sort="name"><i class="fas fa-sort-alpha-down"></i> A-Z</button>
+				</div>
+				<div class="paddock-counter" id="paddock-counter">
+					<i class="fas fa-users"></i> <span id="paddock-count-num">--</span> Pilotos
+				</div>
+			</div>
+
+			<!-- Drivers Grid -->
+			<div id="paddock-grid" class="paddock-grid">
+				<div class="col-12 text-center py-5">
+					<div class="wec-empty-state">
+						<i class="fas fa-spinner fa-spin fa-2x text-info mb-3"></i>
+						<p class="text-muted mb-0">Cargando pilotos del Paddock GT6...</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Palmarés de Piloto GT6 -->
+	<div id="gt6-driver-modal" class="gt6-modal-backdrop" aria-hidden="true">
+		<div class="gt6-modal-dialog">
+			<div class="gt6-modal-header">
+				<div class="gt6-modal-title">
+					<img id="modal-driver-flag" src="assets/country/pdi.png" alt="Bandera" class="gt6-driver-flag">
+					<h3 id="modal-driver-name">PSN ID</h3>
+					<span id="modal-driver-country" class="gt6-country-badge">GT</span>
+				</div>
+				<button type="button" class="gt6-modal-close" id="modal-close-btn">&times;</button>
+			</div>
+			<div class="gt6-modal-body" id="modal-driver-body">
+				<!-- Dynamically populated -->
 			</div>
 		</div>
 	</div>

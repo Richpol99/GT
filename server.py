@@ -2,7 +2,7 @@ import os
 import sys
 import secrets
 from functools import wraps
-from flask import Flask, request, jsonify, send_from_directory, session
+from flask import Flask, request, jsonify, send_from_directory, session, redirect
 from flask_cors import CORS
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -44,6 +44,11 @@ def admin_panel():
 def admin_assets(filename):
     return send_from_directory(os.path.join(BASE_DIR, 'admin'), filename)
 
+@app.route('/rangos.html')
+@app.route('/rangos')
+def redirect_rangos():
+    return redirect('/paddock.html', code=302)
+
 @app.route('/<path:filename>')
 def serve_file(filename):
     file_path = os.path.join(BASE_DIR, filename)
@@ -79,6 +84,14 @@ def get_season_races(season_id):
     try:
         races = db.get_races(season_id)
         return jsonify(races)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/paddock', methods=['GET'])
+def get_paddock():
+    try:
+        drivers = db.get_paddock_drivers()
+        return jsonify(drivers)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

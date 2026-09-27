@@ -3,8 +3,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const isRankingPage = window.location.pathname.includes('ranking.html');
     const isResultadosPage = window.location.pathname.includes('resultados.html');
     const isRangosPage = window.location.pathname.includes('rangos.html');
+    const isPaddockPage = window.location.pathname.includes('paddock.html');
 
-    if (!isRankingPage && !isResultadosPage && !isRangosPage) {
+    if (!isRankingPage && !isResultadosPage && !isRangosPage && !isPaddockPage) {
+        return;
+    }
+
+    // =======================================================
+    // 4. PÁGINA: PADDOCK OFICIAL DE PILOTOS (paddock.html)
+    // =======================================================
+    if (isPaddockPage) {
+        setupPaddockPage();
         return;
     }
 
@@ -796,3 +805,299 @@ async function setupRangosPage() {
         console.warn('No se pudo sincronizar rangos dinámicamente.');
     }
 }
+
+// -----------------------------------------------------------
+// 4. PÁGINA: PADDOCK OFICIAL DE PILOTOS (paddock.html)
+// -----------------------------------------------------------
+async function setupPaddockPage() {
+    const paddockGrid = document.getElementById('paddock-grid');
+    const searchInput = document.getElementById('paddock-search');
+    const filterBtns = document.querySelectorAll('.paddock-filter-btn');
+    const countNum = document.getElementById('paddock-count-num');
+    const modalBackdrop = document.getElementById('gt6-driver-modal');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+
+    if (!paddockGrid) return;
+
+    let allDrivers = [];
+    let currentSort = 'points';
+    let searchQuery = '';
+
+    try {
+        const resp = await fetch('/api/paddock');
+        if (!resp.ok) throw new Error('Error al consultar /api/paddock');
+        allDrivers = await resp.json();
+    } catch (err) {
+        console.error('Error cargando paddock:', err);
+        paddockGrid.innerHTML = `
+            <div class="col-12 text-center py-5">
+                <div class="wec-empty-state">
+                    <i class="fas fa-exclamation-triangle fa-2x text-warning mb-3"></i>
+                    <p class="text-white mb-2">No se pudo cargar la parrilla de pilotos.</p>
+                    <button class="btn btn-outline-info btn-sm mt-2" onclick="location.reload()">Reintentar</button>
+                </div>
+            </div>
+        `;
+        return;
+    }
+
+    function getSortedDrivers(drivers) {
+        const list = [...drivers];
+        if (currentSort === 'points') {
+            list.sort((a, b) => (b.total_points - a.total_points) || (b.wins - a.wins) || (b.podiums - a.podiums) || a.psn_id.localeCompare(b.psn_id));
+        } else if (currentSort === 'wins') {
+            list.sort((a, b) => (b.wins - a.wins) || (b.podiums - a.podiums) || (b.total_points - a.total_points) || a.psn_id.localeCompare(b.psn_id));
+        } else if (currentSort === 'podiums') {
+            list.sort((a, b) => (b.podiums - a.podiums) || (b.wins - a.wins) || (b.total_points - a.total_points) || a.psn_id.localeCompare(b.psn_id));
+        } else if (currentSort === 'name') {
+            list.sort((a, b) => a.psn_id.localeCompare(b.psn_id));
+        }
+        return list;
+    }
+
+    function renderGrid() {
+        let filtered = allDrivers.filter(d => {
+            if (!searchQuery) return true;
+            const q = searchQuery.toLowerCase();
+            return d.psn_id.toLowerCase().includes(q) || (d.country && d.country.toLowerCase().includes(q));
+        });
+
+        const sorted = getSortedDrivers(filtered);
+        if (countNum) countNum.textContent = sorted.length;
+
+        if (sorted.length === 0) {
+            paddockGrid.innerHTML = `
+                <div class="col-12 text-center py-5" style="grid-column: 1 / -1;">
+                    <div class="wec-empty-state">
+                        <i class="fas fa-search fa-2x text-muted mb-3"></i>
+                        <p class="text-muted mb-0">No se encontraron pilotos con el criterio de búsqueda.</p>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        paddockGrid.innerHTML = '';
+        sorted.forEach(d => {
+            const card = document.createElement('div');
+            card.className = 'gt6-driver-card';
+
+            const country = d.country || 'pdi';
+            const cCode = getCountryCode(country);
+            const signatureCar = d.signature_car || "Ford GT 2006";
+            const carImg = getCarImage(signatureCar);
+            const brandBadge = getCarBrandBadge(signatureCar);
+            const polesAndFastest = (d.poles || 0) + (d.fastest_laps || 0);
+
+            card.innerHTML = `
+                <div class="gt6-card-header">
+                    <div class="gt6-driver-identity">
+                        <img src="assets/country/${country}.png" alt="${country}" class="gt6-driver-flag" loading="lazy" decoding="async" onerror="this.src='assets/country/pdi.png'">
+                        <div>
+                            <div class="gt6-driver-name" title="${d.psn_id}">${d.psn_id}</div>
+                            <span class="gt6-country-badge">${cCode}</span>
+                        </div>
+                    </div>
+                    <span class="gt6-pilot-tag">GT6 PILOT</span>
+                </div>
+
+                <div class="gt6-card-machine">
+                    <img src="${carImg}" alt="${signatureCar}" class="gt6-card-machine-bg" loading="lazy" decoding="async">
+                    <div class="gt6-card-machine-overlay"></div>
+                    <div class="gt6-card-machine-info">
+                        ${brandBadge}
+                        <div class="gt6-machine-name" title="${signatureCar}">${signatureCar}</div>
+                    </div>
+                </div>
+
+                <div class="gt6-card-stats">
+                    <div class="gt6-stat-cell">
+                        <span class="gt6-stat-label"><i class="fas fa-trophy text-warning"></i> Victorias</span>
+                        <span class="gt6-stat-value gold">${d.wins || 0}</span>
+                    </div>
+                    <div class="gt6-stat-cell">
+                        <span class="gt6-stat-label"><i class="fas fa-medal text-info"></i> Podios</span>
+                        <span class="gt6-stat-value silver">${d.podiums || 0}</span>
+                    </div>
+                    <div class="gt6-stat-cell">
+                        <span class="gt6-stat-label"><i class="fas fa-stopwatch text-muted"></i> Poles / VR</span>
+                        <span class="gt6-stat-value">${polesAndFastest}</span>
+                    </div>
+                    <div class="gt6-stat-cell">
+                        <span class="gt6-stat-label"><i class="fas fa-bolt text-info"></i> Puntos</span>
+                        <span class="gt6-stat-value cyan">${d.total_points || 0}</span>
+                    </div>
+                </div>
+
+                <div class="gt6-card-footer">
+                    <span class="gt6-card-races-count">${d.races_count || 0} Carreras</span>
+                    <button type="button" class="gt6-btn-palmares" data-psn="${encodeURIComponent(d.psn_id)}">
+                        <i class="fas fa-chart-line"></i> Palmarés
+                    </button>
+                </div>
+            `;
+            paddockGrid.appendChild(card);
+        });
+
+        // Event listener for Palmarés buttons
+        paddockGrid.querySelectorAll('.gt6-btn-palmares').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const psn = decodeURIComponent(btn.dataset.psn);
+                openDriverModal(psn);
+            });
+        });
+    }
+
+    // Filter and search handlers
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.trim();
+            renderGrid();
+        });
+    }
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentSort = btn.dataset.sort;
+            renderGrid();
+        });
+    });
+
+    // Modal logic
+    async function openDriverModal(psnId) {
+        if (!modalBackdrop) return;
+        const modalDriverName = document.getElementById('modal-driver-name');
+        const modalDriverFlag = document.getElementById('modal-driver-flag');
+        const modalDriverCountry = document.getElementById('modal-driver-country');
+        const modalDriverBody = document.getElementById('modal-driver-body');
+
+        modalDriverName.textContent = psnId;
+        modalDriverBody.innerHTML = `
+            <div class="text-center py-4">
+                <i class="fas fa-spinner fa-spin fa-2x text-info mb-2"></i>
+                <p class="text-muted">Cargando palmarés de ${psnId}...</p>
+            </div>
+        `;
+
+        modalBackdrop.classList.add('show');
+        modalBackdrop.setAttribute('aria-hidden', 'false');
+
+        try {
+            const resp = await fetch(`/api/drivers/${encodeURIComponent(psnId)}`);
+            if (!resp.ok) throw new Error('Error al cargar perfil');
+            const driver = await resp.json();
+
+            const country = driver.country || 'pdi';
+            modalDriverFlag.src = `assets/country/${country}.png`;
+            modalDriverCountry.textContent = getCountryCode(country);
+
+            const history = driver.history || [];
+            const totalRaces = history.length;
+            const totalWins = history.filter(h => h.position === 1).length;
+            const totalPodiums = history.filter(h => h.position >= 1 && h.position <= 3).length;
+            const totalPts = history.reduce((sum, h) => sum + (h.points || 0), 0);
+            const winRate = totalRaces > 0 ? Math.round((totalWins / totalRaces) * 100) : 0;
+
+            let historyRowsHtml = '';
+            if (history.length === 0) {
+                historyRowsHtml = '<tr><td colspan="5" class="text-center text-muted py-3">Aún no tiene carreras registradas en el campeonato.</td></tr>';
+            } else {
+                history.forEach(h => {
+                    let posBadge = `<span class="badge bg-secondary">P${h.position}</span>`;
+                    if (h.position === 1) posBadge = '<span class="badge bg-warning text-dark"><i class="fas fa-trophy"></i> P1</span>';
+                    else if (h.position === 2) posBadge = '<span class="badge bg-light text-dark"><i class="fas fa-medal"></i> P2</span>';
+                    else if (h.position === 3) posBadge = '<span class="badge bg-danger text-light"><i class="fas fa-award"></i> P3</span>';
+
+                    const carBadge = getCarBrandBadge(h.car);
+
+                    historyRowsHtml += `
+                        <tr>
+                            <td><span class="text-info fw-bold">${h.season_name || 'T1'}</span> • R${h.round_number}</td>
+                            <td>${h.race_title || 'Carrera Oficial'}</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    ${carBadge}
+                                    <span style="font-size: 0.78rem;">${h.car}</span>
+                                </div>
+                            </td>
+                            <td class="text-center">${posBadge}</td>
+                            <td class="text-end text-info fw-bold">+${h.points} PTS</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            modalDriverBody.innerHTML = `
+                <div class="gt6-modal-stats-summary">
+                    <div class="gt6-modal-stat-box">
+                        <div class="num">${totalRaces}</div>
+                        <div class="lbl">Carreras</div>
+                    </div>
+                    <div class="gt6-modal-stat-box">
+                        <div class="num" style="color: #facc15;">${totalWins}</div>
+                        <div class="lbl">Victorias (${winRate}%)</div>
+                    </div>
+                    <div class="gt6-modal-stat-box">
+                        <div class="num" style="color: #e2e8f0;">${totalPodiums}</div>
+                        <div class="lbl">Podios</div>
+                    </div>
+                    <div class="gt6-modal-stat-box">
+                        <div class="num">${totalPts}</div>
+                        <div class="lbl">Puntos Totales</div>
+                    </div>
+                </div>
+
+                <h4 style="font-family: var(--font-heading); font-size: 0.95rem; color: #fff; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">
+                    <i class="fas fa-history text-info me-2"></i> Historial de Carreras GT6
+                </h4>
+
+                <div class="table-responsive">
+                    <table class="gt6-modal-history-table">
+                        <thead>
+                            <tr>
+                                <th>Ronda</th>
+                                <th>Evento</th>
+                                <th>Auto</th>
+                                <th class="text-center">Posición</th>
+                                <th class="text-end">Puntos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${historyRowsHtml}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        } catch (e) {
+            console.error(e);
+            modalDriverBody.innerHTML = `
+                <div class="text-center py-4">
+                    <p class="text-danger mb-0">Error al cargar historial del piloto.</p>
+                </div>
+            `;
+        }
+    }
+
+    function closeModal() {
+        if (modalBackdrop) {
+            modalBackdrop.classList.remove('show');
+            modalBackdrop.setAttribute('aria-hidden', 'true');
+        }
+    }
+
+    if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+    if (modalBackdrop) {
+        modalBackdrop.addEventListener('click', (e) => {
+            if (e.target === modalBackdrop) closeModal();
+        });
+    }
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+
+    // Initial render
+    renderGrid();
+}
+

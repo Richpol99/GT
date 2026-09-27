@@ -914,3 +914,499 @@ body.resultados-page {
     max-height: 100px;
   }
 }
+
+/* =========================================================
+   GT6 DRIVER PADDOCK HUB (paddock.html)
+   ========================================================= */
+
+.paddock-section {
+  padding: 50px 0 100px 0;
+  background-color: var(--wec-dark);
+  min-height: 70vh;
+}
+
+.paddock-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--wec-panel);
+  border: 1px solid var(--wec-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 35px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.paddock-search-wrap {
+  position: relative;
+  flex: 1 1 280px;
+  max-width: 400px;
+}
+
+.paddock-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--wec-muted);
+  font-size: 0.85rem;
+}
+
+.paddock-search-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--wec-border);
+  color: #fff;
+  padding: 10px 14px 10px 38px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.paddock-search-input:focus {
+  outline: none;
+  border-color: var(--wec-cyan);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+}
+
+.paddock-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.paddock-filter-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--wec-border);
+  color: var(--wec-text);
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.paddock-filter-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.paddock-filter-btn.active {
+  background: rgba(0, 229, 255, 0.15);
+  border-color: var(--wec-cyan);
+  color: var(--wec-cyan);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+}
+
+.paddock-counter {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--wec-cyan);
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Grid of Driver Cards */
+.paddock-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 24px;
+}
+
+.gt6-driver-card {
+  background: linear-gradient(160deg, #161b22 0%, #0d1117 100%);
+  border: 1px solid var(--wec-border);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
+}
+
+.gt6-driver-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(0, 229, 255, 0.45);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 229, 255, 0.15);
+}
+
+/* Card Header */
+.gt6-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.gt6-driver-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gt6-driver-flag {
+  width: 28px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.gt6-driver-name {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #fff;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 170px;
+}
+
+.gt6-country-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--wec-muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.gt6-pilot-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--wec-cyan);
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* Machine Spotlight in Card */
+.gt6-card-machine {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+  background-color: #05080c;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px 16px;
+}
+
+.gt6-card-machine-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.gt6-driver-card:hover .gt6-card-machine-bg {
+  transform: scale(1.08);
+  opacity: 0.75;
+}
+
+.gt6-card-machine-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(13, 17, 23, 0.95) 0%, rgba(13, 17, 23, 0.35) 60%, rgba(13, 17, 23, 0.8) 100%);
+  z-index: 1;
+}
+
+.gt6-card-machine-info {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.gt6-card-machine-info .wec-brand-badge {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gt6-machine-name {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Stats 2x2 Grid */
+.gt6-card-stats {
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.gt6-stat-cell {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.gt6-stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--wec-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.gt6-stat-value {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.gt6-stat-value.gold { color: #facc15; }
+.gt6-stat-value.cyan { color: var(--wec-cyan); }
+.gt6-stat-value.silver { color: #e2e8f0; }
+
+/* Card Footer */
+.gt6-card-footer {
+  padding: 12px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.gt6-card-races-count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--wec-muted);
+}
+
+.gt6-btn-palmares {
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  color: var(--wec-cyan);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gt6-btn-palmares:hover {
+  background: var(--wec-cyan);
+  color: #000;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
+}
+
+/* =========================================================
+   GT6 DRIVER MODAL (Palmarés)
+   ========================================================= */
+
+.gt6-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.gt6-modal-backdrop.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.gt6-modal-dialog {
+  background: #0d1117;
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 229, 255, 0.15);
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gt6-modal-backdrop.show .gt6-modal-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.gt6-modal-header {
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.gt6-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gt6-modal-title h3 {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.gt6-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--wec-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.gt6-modal-close:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.gt6-modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.gt6-modal-stats-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.gt6-modal-stat-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.gt6-modal-stat-box .num {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--wec-cyan);
+}
+
+.gt6-modal-stat-box .lbl {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--wec-muted);
+  text-transform: uppercase;
+}
+
+.gt6-modal-history-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+}
+
+.gt6-modal-history-table th {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--wec-muted);
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gt6-modal-history-table td {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.gt6-modal-history-table td:first-child {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.gt6-modal-history-table td:last-child {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .paddock-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .paddock-search-wrap {
+    max-width: 100%;
+  }
+  .gt6-modal-stats-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+

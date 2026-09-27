@@ -201,6 +201,53 @@ def get_drivers(query=None):
     conn.close()
     return drivers
 
+def get_paddock_drivers():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT 
+            d.id AS driver_id,
+            d.psn_id,
+            d.country,
+            d.rank,
+            COALESCE(SUM(rr.points), 0) AS total_points,
+            COUNT(rr.id) AS races_count,
+            SUM(CASE WHEN rr.position = 1 THEN 1 ELSE 0 END) AS wins,
+            SUM(CASE WHEN rr.position BETWEEN 1 AND 3 THEN 1 ELSE 0 END) AS podiums,
+            SUM(CASE WHEN rr.is_pole = 1 THEN 1 ELSE 0 END) AS poles,
+            SUM(CASE WHEN rr.is_fastest_lap = 1 THEN 1 ELSE 0 END) AS fastest_laps
+        FROM drivers d
+        LEFT JOIN race_results rr ON rr.driver_id = d.id
+        GROUP BY d.id
+        ORDER BY total_points DESC, wins DESC, podiums DESC, d.psn_id ASC
+    """)
+    drivers = [dict(r) for r in cursor.fetchall()]
+
+    cursor.execute("""
+        SELECT 
+            rr.driver_id,
+            r.car,
+            COUNT(rr.id) as races_count,
+            SUM(CASE WHEN rr.position = 1 THEN 1 ELSE 0 END) as wins_count,
+            MIN(rr.position) as best_pos
+        FROM race_results rr
+        JOIN races r ON r.id = rr.race_id
+        GROUP BY rr.driver_id, r.car
+        ORDER BY rr.driver_id, wins_count DESC, best_pos ASC, races_count DESC
+    """)
+    car_rows = cursor.fetchall()
+    driver_signature_cars = {}
+    for cr in car_rows:
+        d_id = cr['driver_id']
+        if d_id not in driver_signature_cars:
+            driver_signature_cars[d_id] = cr['car']
+
+    for d in drivers:
+        d['signature_car'] = driver_signature_cars.get(d['driver_id'], 'Ford GT 2006')
+
+    conn.close()
+    return drivers
+
 def create_race_with_results(season_id: int, round_number: int, title: str, car: str, track: str, race_date: str, results: list):
     conn = get_db()
     cursor = conn.cursor()
