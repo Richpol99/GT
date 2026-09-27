@@ -2011,25 +2011,25 @@ body.paddock-page {
   overflow: hidden;
 }
 
-/* Glassmorphism Car Stage (Left Column) */
+/* Glassmorphism Car Stage (Left Column) - Fully Transparent Stage */
 .hero-car-glass-stage {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 28px;
-  padding: 24px 20px;
-  box-shadow: 0 20px 45px -15px rgba(15, 23, 42, 0.06);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .hero-car-glass-stage:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.09);
+  transform: none;
+  box-shadow: none;
 }
 
 /* Car Display with Perspective Shadow */
