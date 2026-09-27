@@ -1,9 +1,9 @@
 // GT Academy - FIA WEC / Le Mans Telemetry Frontend Integration
 document.addEventListener('DOMContentLoaded', async () => {
-    const isRankingPage = window.location.pathname.includes('ranking.html');
-    const isResultadosPage = window.location.pathname.includes('resultados.html');
-    const isRangosPage = window.location.pathname.includes('rangos.html');
-    const isPaddockPage = window.location.pathname.includes('paddock.html');
+    const isPaddockPage = window.location.pathname.includes('paddock') || !!document.getElementById('paddock-grid');
+    const isRankingPage = window.location.pathname.includes('ranking') || !!document.querySelector('.ranking-content');
+    const isResultadosPage = window.location.pathname.includes('resultados') || !!document.querySelector('.resultados-page');
+    const isRangosPage = window.location.pathname.includes('rangos');
 
     if (!isRankingPage && !isResultadosPage && !isRangosPage && !isPaddockPage) {
         return;
@@ -174,6 +174,8 @@ function getCarImageUrl(carString) {
     }
     return 'assets/cars/default.jpg';
 }
+
+const getCarImage = getCarImageUrl;
 
 // =======================================================
 // RENDERIZADOR FIA WEC: TABLA DE CLASIFICACIÓN GENERAL
