@@ -160,9 +160,14 @@
     });
 
 
-    jQuery(window).on("load",function(){
-        jQuery(".loader").fadeOut(1000);
-    });
+    function hideLoader() {
+        var $loader = jQuery(".loader");
+        if ($loader.length && $loader.is(":visible")) {
+            $loader.stop(true, true).fadeOut(350);
+        }
+    }
+    jQuery(window).on("load", hideLoader);
+    setTimeout(hideLoader, 1500);
 
 
 }(jQuery));

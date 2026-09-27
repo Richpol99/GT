@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - GT ACADEMY</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/img/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0b0e14;
+            --bg-card: #141a24;
+            --border-color: #1e293b;
+            --gt-orange: #f28123;
+            --gt-hover: #d96f18;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+        }
+        .navbar-custom {
+            background-color: var(--bg-card);
+            border-bottom: 2px solid var(--gt-orange);
+            padding: 12px 24px;
+        }
+        .navbar-brand img {
+            max-height: 42px;
+        }
+        .nav-tabs {
+            border-bottom: 1px solid var(--border-color);
+        }
+        .nav-tabs .nav-link {
+            color: var(--text-muted);
+            border: none;
+            padding: 12px 20px;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            background: transparent;
+        }
+        .nav-tabs .nav-link.active {
+            color: var(--gt-orange);
+            background: transparent;
+            border-bottom: 3px solid var(--gt-orange);
+        }
+        .nav-tabs .nav-link:hover {
+            color: #fff;
+        }
+        .card-custom {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .table-dark-custom {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+        }
+        .table-dark-custom th {
+            border-bottom: 2px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+        .table-dark-custom td {
+            border-top: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+        .form-control, .form-select, select {
+            background-color: #0b0e14 !important;
+            border: 1px solid var(--border-color) !important;
+            color: #fff !important;
+            border-radius: 6px;
+        }
+        .form-control:focus, select:focus {
+            border-color: var(--gt-orange) !important;
+            box-shadow: 0 0 0 0.2rem rgba(242, 129, 35, 0.25) !important;
+        }
+        .btn-gt {
+            background-color: var(--gt-orange);
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            transition: all 0.2s;
+        }
+        .btn-gt:hover {
+            background-color: var(--gt-hover);
+            color: #fff;
+        }
+        .badge-rank {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .rank-diamante { background: #00e5ff; color: #000; }
+        .rank-platino  { background: #e2e8f0; color: #000; }
+        .rank-oro      { background: #fbbf24; color: #000; }
+        .rank-plata    { background: #94a3b8; color: #000; }
+        .rank-bronce   { background: #d97706; color: #fff; }
+        .flag-icon {
+            width: 26px;
+            height: 18px;
+            object-fit: cover;
+            border-radius: 2px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="../index.html">
+            <img src="../assets/img/logo.png" alt="GT Academy">
+            <span class="ms-2 small text-muted font-weight-bold" style="font-size: 14px; letter-spacing: 1px;">| PANEL ADMIN</span>
+        </a>
+        <div class="d-flex align-items-center">
+            <a href="../resultados.html" class="btn btn-outline-secondary btn-sm me-2 text-light" target="_blank"><i class="fas fa-external-link-alt"></i> Ver Web</a>
+            <button id="logoutBtn" class="btn btn-outline-danger btn-sm"><i class="fas fa-sign-out-alt"></i> Salir</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid py-4 px-lg-5">
+    <!-- Feedback Toast -->
+    <div id="toastBox" class="toast-container"></div>
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active" id="races-tab" data-bs-toggle="tab" data-bs-target="#races-pane" type="button"><i class="fas fa-flag-checkered me-2"></i> Carreras</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="drivers-tab" data-bs-toggle="tab" data-bs-target="#drivers-pane" type="button"><i class="fas fa-users me-2"></i> Pilotos & Rangos</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="seasons-tab" data-bs-toggle="tab" data-bs-target="#seasons-pane" type="button"><i class="fas fa-calendar-alt me-2"></i> Temporadas</button>
+        </li>
+    </ul>
+
+    <!-- Tabs Content -->
+    <div class="tab-content" id="adminTabsContent">
+
+        <!-- ============================================== -->
+        <!-- PESTAÑA: CARRERAS                             -->
+        <!-- ============================================== -->
+        <div class="tab-pane fade show active" id="races-pane" role="tabpanel">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex align-items-center">
+                    <label class="me-2 text-muted fw-bold">Temporada:</label>
+                    <select id="seasonFilterRaces" class="form-select" style="width: 200px;"></select>
+                </div>
+                <button class="btn btn-gt" id="btnToggleNewRace"><i class="fas fa-plus me-1"></i> Registrar Nueva Carrera</button>
+            </div>
+
+            <!-- Formulario de Nueva Carrera (Colapsable) -->
+            <div id="newRaceCard" class="card-custom" style="display: none;">
+                <h4 class="text-warning mb-3"><i class="fas fa-trophy me-2"></i> Registrar Resultado de Carrera</h4>
+                <form id="newRaceForm">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label text-muted small">Temporada</label>
+                            <select id="formSeasonId" class="form-select" required></select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label text-muted small">Ronda (Nº)</label>
+                            <input type="number" id="formRoundNumber" class="form-control" placeholder="1" min="1" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-muted small">Título de la Carrera</label>
+                            <input type="text" id="formRaceTitle" class="form-control" placeholder="RACE 01 Suzuka Circuit" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label text-muted small">Auto Utilizado</label>
+                            <input type="text" id="formRaceCar" class="form-control" placeholder="NISSAN GT-R NISMO 2014" required>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="text-light mb-0"><i class="fas fa-list-ol me-2"></i> Posiciones de Llegada (Cálculo Híbrido)</h6>
+                        <span class="small text-muted">Los puntos oficiales se calculan automáticamente, pero puedes modificarlos manualmente.</span>
+                    </div>
+
+                    <div class="table-responsive mb-3">
+                        <table class="table table-dark-custom" id="raceResultsTable">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px;">POS</th>
+                                    <th>PILOTO (ID PSN)</th>
+                                    <th style="width: 170px;">PAÍS</th>
+                                    <th style="width: 110px;">PUNTOS</th>
+                                    <th style="width: 80px;" class="text-center">POLE</th>
+                                    <th style="width: 90px;" class="text-center">V. RÁPIDA</th>
+                                    <th>NOTAS / TIEMPO</th>
+                                    <th style="width: 50px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="raceResultsTbody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btnAddResultRow"><i class="fas fa-plus"></i> Añadir Piloto (+)</button>
+                        <div>
+                            <button type="button" class="btn btn-secondary me-2" id="btnCancelRace">Cancelar</button>
+                            <button type="submit" class="btn btn-gt" id="btnSaveRace"><i class="fas fa-save me-1"></i> Guardar Carrera y Actualizar Puntos</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Lista de Carreras Registradas -->
+            <div class="card-custom">
+                <h5 class="text-light mb-3"><i class="fas fa-history me-2"></i> Carreras de la Temporada Seleccionada</h5>
+                <div id="racesListContainer">
+                    <p class="text-muted">Cargando carreras...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- PESTAÑA: PILOTOS & RANGOS                     -->
+        <!-- ============================================== -->
+        <div class="tab-pane fade" id="drivers-pane" role="tabpanel">
+            <div class="card-custom">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div style="max-width: 350px;" class="w-100">
+                        <input type="text" id="driverSearchInput" class="form-control" placeholder="🔍 Buscar piloto por PSN o país...">
+                    </div>
+                    <button class="btn btn-gt" id="btnOpenAddDriver"><i class="fas fa-user-plus me-1"></i> Añadir Piloto</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-dark-custom">
+                        <thead>
+                            <tr>
+                                <th>ID DE PSN</th>
+                                <th>PAÍS</th>
+                                <th>RANGO ACTUAL</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="driversTbody">
+                            <tr><td colspan="4" class="text-muted text-center py-4">Cargando pilotos...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- PESTAÑA: TEMPORADAS                           -->
+        <!-- ============================================== -->
+        <div class="tab-pane fade" id="seasons-pane" role="tabpanel">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="card-custom">
+                        <h5 class="text-light mb-3"><i class="fas fa-plus-circle me-2"></i> Crear Nueva Temporada</h5>
+                        <form id="createSeasonForm">
+                            <div class="mb-3">
+                                <label class="form-label text-muted small">Nombre de la Temporada</label>
+                                <input type="text" id="newSeasonName" class="form-control" placeholder="Temporada 3" required>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="newSeasonActive" checked>
+                                <label class="form-check-label text-muted small" for="newSeasonActive">Establecer como activa inmediatamente</label>
+                            </div>
+                            <button type="submit" class="btn btn-gt w-100">Crear Temporada</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="card-custom">
+                        <h5 class="text-light mb-3"><i class="fas fa-layer-group me-2"></i> Temporadas Existentes</h5>
+                        <div class="table-responsive">
+                            <table class="table table-dark-custom">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>NOMBRE</th>
+                                        <th>ESTADO</th>
+                                        <th>ACCIÓN</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="seasonsTbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Añadir Piloto -->
+<div class="modal fade" id="addDriverModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title" id="driverModalTitle"><i class="fas fa-user me-2"></i> Piloto</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="saveDriverForm">
+                <div class="modal-body">
+                    <input type="hidden" id="modalDriverId">
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">ID de PSN</label>
+                        <input type="text" id="modalDriverPsn" class="form-control" required placeholder="ej: richpol99">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">País</label>
+                        <select id="modalDriverCountry" class="form-select"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">Rango</label>
+                        <select id="modalDriverRank" class="form-select">
+                            <option value="bronce">Bronce</option>
+                            <option value="plata">Plata</option>
+                            <option value="oro">Oro</option>
+                            <option value="platino">Platino</option>
+                            <option value="diamante">Diamante</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-gt">Guardar Piloto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Datalist para autocompletar pilotos -->
+<datalist id="driversDatalist"></datalist>
+
+<script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

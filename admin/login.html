@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Administrativo - GT ACADEMY</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/img/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/all.min.css">
+    <style>
+        body {
+            background-color: #0b0e14;
+            color: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: radial-gradient(circle at 50% 20%, #1e293b 0%, #0b0e14 70%);
+        }
+        .login-card {
+            background: #141a24;
+            border: 1px solid #1e293b;
+            border-top: 4px solid #f28123;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 420px;
+            padding: 35px;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-header img {
+            max-height: 60px;
+            margin-bottom: 15px;
+        }
+        .login-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+        .login-header p {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        .form-control {
+            background-color: #0b0e14;
+            border: 1px solid #334155;
+            color: #fff;
+            border-radius: 6px;
+            padding: 12px;
+        }
+        .form-control:focus {
+            background-color: #0b0e14;
+            border-color: #f28123;
+            color: #fff;
+            box-shadow: 0 0 0 0.2rem rgba(242, 129, 35, 0.25);
+        }
+        .btn-gt {
+            background-color: #f28123;
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        .btn-gt:hover {
+            background-color: #d96f18;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .alert {
+            display: none;
+            font-size: 13px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <div class="login-header">
+        <a href="../index.html">
+            <img src="../assets/img/logo.png" alt="GT Academy">
+        </a>
+        <h2>PANEL DE CONTROL</h2>
+        <p>Gestión de Carreras y Puntuaciones</p>
+    </div>
+
+    <div id="alertBox" class="alert alert-danger" role="alert"></div>
+
+    <form id="loginForm">
+        <div class="form-group mb-3">
+            <label class="form-label text-muted small font-weight-bold">USUARIO</label>
+            <input type="text" id="username" class="form-control" placeholder="admin" required autocomplete="username">
+        </div>
+        <div class="form-group mb-4">
+            <label class="form-label text-muted small font-weight-bold">CONTRASEÑA</label>
+            <input type="password" id="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" id="loginBtn" class="btn btn-gt">INICIAR SESIÓN</button>
+    </form>
+
+    <div class="text-center mt-4">
+        <a href="../index.html" class="text-muted small text-decoration-none"><i class="fas fa-arrow-left"></i> Volver a la web pública</a>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('loginForm');
+    const alertBox = document.getElementById('alertBox');
+    const loginBtn = document.getElementById('loginBtn');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        alertBox.style.display = 'none';
+        loginBtn.disabled = true;
+        loginBtn.innerText = 'Verificando...';
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const resp = await fetch('/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await resp.json();
+
+            if (resp.ok) {
+                window.location.href = '/admin';
+            } else {
+                alertBox.innerText = data.error || 'Credenciales inválidas';
+                alertBox.style.display = 'block';
+            }
+        } catch (err) {
+            alertBox.innerText = 'Error conectando con el servidor.';
+            alertBox.style.display = 'block';
+        } finally {
+            loginBtn.disabled = false;
+            loginBtn.innerText = 'INICIAR SESIÓN';
+        }
+    });
+</script>
+
+</body>
+</html>
