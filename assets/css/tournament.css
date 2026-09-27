@@ -34,6 +34,81 @@ body.resultados-page {
 }
 
 /* --------------------------------------------------------------------------
+   0. COMPACT BREADCRUMB HERO (Contained & Reduced Height)
+   -------------------------------------------------------------------------- */
+.resultados-page .top-header-area,
+.ranking-page .top-header-area {
+  background-color: #071228 !important;
+}
+
+.resultados-page .breadcrumb-section,
+.ranking-page .breadcrumb-section {
+  max-width: 1140px;
+  margin: 110px auto 16px auto;
+  border-radius: 12px;
+  padding: 34px 24px !important;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(2, 132, 199, 0.25);
+  background-size: cover;
+  background-position: center;
+}
+
+.resultados-page .breadcrumb-section:after,
+.ranking-page .breadcrumb-section:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(9, 16, 33, 0.92) 0%, rgba(15, 23, 42, 0.88) 100%);
+  z-index: 1;
+}
+
+.resultados-page .breadcrumb-section .container,
+.ranking-page .breadcrumb-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.resultados-page .breadcrumb-text h1,
+.ranking-page .breadcrumb-text h1 {
+  font-family: var(--wec-sans);
+  font-size: 26px !important;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 !important;
+  letter-spacing: -0.3px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1200px) {
+  .resultados-page .breadcrumb-section,
+  .ranking-page .breadcrumb-section {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .resultados-page .breadcrumb-section,
+  .ranking-page .breadcrumb-section {
+    margin-top: 95px;
+    margin-bottom: 12px;
+    padding: 24px 16px;
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+  .resultados-page .breadcrumb-text h1,
+  .ranking-page .breadcrumb-text h1 {
+    font-size: 20px;
+  }
+}
+
+/* --------------------------------------------------------------------------
    1. HERO HEADER BLOCK (FIA WEC Official Session Header)
    -------------------------------------------------------------------------- */
 .wec-header-block {
