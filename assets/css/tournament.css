@@ -1,802 +1,771 @@
 /* ==========================================================================
-   GT ACADEMY - FIA FORMULA E DESIGN SYSTEM
-   Inspired by: https://www.fiaformulae.com/en/results-and-standings
+   GT ACADEMY - FIA WEC / LE MANS TELEMETRY DESIGN SYSTEM
+   Professional Motorsport Timing & Scoring Dashboard
    ========================================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap');
+
 :root {
-  --fe-navy-dark: #0a1124;
-  --fe-navy-header: #0f1932;
-  --fe-electric-blue: #00d2ff;
-  --fe-electric-glow: rgba(0, 210, 255, 0.25);
-  --fe-gt-orange: #f28123;
-  --fe-gt-orange-glow: rgba(242, 129, 35, 0.25);
-  --fe-bg-light: #f4f6fa;
-  --fe-card-bg: #ffffff;
-  --fe-border: #e2e8f0;
-  --fe-border-active: #00d2ff;
-  --fe-text-main: #0a1124;
-  --fe-text-muted: #64748b;
-  --fe-gold: #d97706;
-  --fe-silver: #64748b;
-  --fe-bronze: #b45309;
-  --fe-shadow-sm: 0 2px 6px rgba(10, 17, 36, 0.04);
-  --fe-shadow-md: 0 6px 18px rgba(10, 17, 36, 0.06);
-  --fe-shadow-hover: 0 10px 25px rgba(10, 17, 36, 0.1);
+  --wec-dark: #0a1120;
+  --wec-dark-surface: #0f172a;
+  --wec-dark-card: #1e293b;
+  --wec-cyan: #0284c7;
+  --wec-cyan-light: #38bdf8;
+  --wec-cyan-glow: rgba(56, 189, 248, 0.2);
+  --wec-green: #22c55e;
+  --wec-amber: #f59e0b;
+  --wec-orange: #f28123;
+  --wec-bg: #f1f5f9;
+  --wec-card-bg: #ffffff;
+  --wec-border: #cbd5e1;
+  --wec-border-subtle: #e2e8f0;
+  --wec-text: #0f172a;
+  --wec-text-muted: #64748b;
+  --wec-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, Menlo, monospace;
+  --wec-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body.ranking-page,
+body.resultados-page {
+  background-color: var(--wec-bg);
+  font-family: var(--wec-sans);
+  color: var(--wec-text);
+  overflow-x: hidden;
 }
 
 /* --------------------------------------------------------------------------
-   1. HERO HEADER BLOCK (Formula E Style)
+   1. HERO HEADER BLOCK (FIA WEC Official Session Header)
    -------------------------------------------------------------------------- */
-.fe-header-block {
-  background: linear-gradient(135deg, #091021 0%, #111d38 100%);
-  border-bottom: 3px solid var(--fe-gt-orange);
-  padding: 50px 0 45px 0;
+.wec-header-block {
+  background: linear-gradient(135deg, #09101f 0%, #0f172a 100%);
+  border-bottom: 3px solid var(--wec-orange);
+  padding: 45px 0 40px 0;
   color: #ffffff;
   position: relative;
   overflow: hidden;
 }
 
-.fe-header-block::after {
+.wec-header-block::after {
   content: "";
   position: absolute;
-  right: -50px;
-  top: -50px;
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(242, 129, 35, 0.15) 0%, transparent 70%);
+  right: -60px;
+  top: -60px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
   pointer-events: none;
 }
 
-.fe-header-category {
-  font-size: 13px;
-  font-weight: 800;
+.wec-header-category {
+  font-family: var(--wec-mono);
+  font-size: 12px;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--fe-gt-orange);
+  color: var(--wec-cyan-light);
   margin-bottom: 8px;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.fe-header-title {
-  font-size: 38px;
+.wec-header-category .wec-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--wec-green);
+  box-shadow: 0 0 8px var(--wec-green);
+  display: inline-block;
+  animation: wecPulse 2s infinite;
+}
+
+@keyframes wecPulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.wec-header-title {
+  font-family: var(--wec-sans);
+  font-size: 36px;
   font-weight: 800;
   color: #ffffff;
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
   letter-spacing: -0.5px;
   text-transform: uppercase;
-  font-family: 'Poppins', sans-serif;
 }
 
 @media (max-width: 768px) {
-  .fe-header-title {
-    font-size: 28px;
+  .wec-header-title {
+    font-size: 26px;
   }
 }
 
-.fe-header-desc {
-  font-size: 15px;
+.wec-header-desc {
+  font-size: 14px;
   color: #94a3b8;
-  max-width: 700px;
+  max-width: 720px;
   margin: 0;
   line-height: 1.6;
 }
 
 /* --------------------------------------------------------------------------
-   2. FILTER & NAVIGATION BAR (Race Results / Drivers Standings / Season Dropdown)
+   2. FILTER & NAVIGATION BAR
    -------------------------------------------------------------------------- */
-.fe-filter-bar {
+.wec-filter-bar {
   background: #ffffff;
-  border-bottom: 1px solid var(--fe-border);
-  padding: 16px 0;
+  border-bottom: 1px solid var(--wec-border);
+  padding: 14px 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
-.fe-nav-tabs {
+.wec-nav-tabs {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-.fe-nav-tab {
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--fe-text-muted);
+.wec-nav-tab {
+  background: #f8fafc;
+  border: 1px solid var(--wec-border);
+  color: #475569;
+  font-family: var(--wec-sans);
+  font-size: 13px;
   font-weight: 700;
-  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   padding: 8px 18px;
-  border-radius: 20px;
+  border-radius: 6px;
+  cursor: pointer;
   transition: all 0.2s ease;
-  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.fe-nav-tab:hover {
+.wec-nav-tab:hover {
   background: #f1f5f9;
-  color: var(--fe-text-main);
+  border-color: var(--wec-cyan);
+  color: var(--wec-cyan);
 }
 
-.fe-nav-tab.active {
-  background: #0a1124;
+.wec-nav-tab.active {
+  background: var(--wec-dark-surface);
+  border-color: var(--wec-cyan);
   color: #ffffff;
-  border-color: #0a1124;
-  box-shadow: 0 4px 12px rgba(10, 17, 36, 0.15);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
 }
 
-.fe-season-dropdown {
-  background: #ffffff !important;
-  border: 1px solid var(--fe-border) !important;
-  color: var(--fe-text-main) !important;
+.wec-season-dropdown {
+  background: #ffffff;
+  border: 1px solid var(--wec-border);
+  border-radius: 6px;
+  font-family: var(--wec-sans);
+  font-size: 13px;
   font-weight: 700;
-  font-size: 14px;
-  padding: 8px 16px !important;
-  border-radius: 8px !important;
-  box-shadow: var(--fe-shadow-sm);
+  color: #0f172a;
+  padding: 8px 14px;
+  outline: none;
   cursor: pointer;
+  transition: border-color 0.2s;
 }
 
-.fe-season-dropdown:focus {
-  border-color: var(--fe-gt-orange) !important;
-  box-shadow: 0 0 0 3px var(--fe-gt-orange-glow) !important;
+.wec-season-dropdown:focus {
+  border-color: var(--wec-cyan);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
 }
 
 /* --------------------------------------------------------------------------
-   3. HORIZONTAL ROUND SELECTOR RIBBON (Formula E Round Tiles Strip)
+   3. HORIZONTAL ROUND RIBBON (WEC Telemetry Tiles)
    -------------------------------------------------------------------------- */
-.fe-round-strip-wrapper {
-  background: #ffffff;
-  border-bottom: 1px solid var(--fe-border);
-  padding: 14px 0;
+.wec-round-strip-wrapper {
+  background: #f8fafc;
+  border-bottom: 1px solid var(--wec-border);
+  padding: 12px 0;
+}
+
+.wec-round-strip {
+  display: flex;
+  gap: 12px;
   overflow-x: auto;
-  white-space: nowrap;
+  padding-bottom: 6px;
+  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
 
-.fe-round-strip-wrapper::-webkit-scrollbar {
-  height: 4px;
+.wec-round-strip::-webkit-scrollbar {
+  height: 5px;
 }
-.fe-round-strip-wrapper::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+
+.wec-round-strip::-webkit-scrollbar-track {
+  background: #e2e8f0;
   border-radius: 4px;
 }
 
-.fe-round-strip {
-  display: flex;
-  gap: 12px;
-  padding: 4px 0;
+.wec-round-strip::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
 }
 
-.fe-round-tile {
+.wec-round-tile {
   flex: 0 0 auto;
-  background: #f8fafc;
-  border: 1.5px solid var(--fe-border);
-  border-radius: 10px;
-  padding: 10px 16px;
-  min-width: 170px;
-  text-decoration: none !important;
-  color: var(--fe-text-main);
-  transition: all 0.2s ease;
+  min-width: 175px;
+  background: #ffffff;
+  border: 1px solid var(--wec-border);
+  border-radius: 6px;
+  padding: 10px 14px;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  transition: all 0.15s ease;
+  user-select: none;
 }
 
-.fe-round-tile:hover {
-  background: #ffffff;
-  border-color: var(--fe-gt-orange);
+.wec-round-tile:hover {
+  border-color: var(--wec-cyan);
   transform: translateY(-2px);
-  box-shadow: var(--fe-shadow-md);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
 }
 
-.fe-round-tile.active {
-  background: #ffffff;
-  border-color: var(--fe-gt-orange);
-  border-top: 3.5px solid var(--fe-gt-orange);
-  box-shadow: var(--fe-shadow-md);
+.wec-round-tile.active {
+  background: #0f172a;
+  border-color: var(--wec-cyan);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25);
 }
 
-.fe-round-tile-top {
+.wec-round-tile-top {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  margin-bottom: 4px;
 }
 
-.fe-round-flag {
-  width: 24px;
-  height: 16px;
-  object-fit: cover;
-  border-radius: 2px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-}
-
-.fe-round-num {
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--fe-text-muted);
+.wec-round-num {
+  font-family: var(--wec-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--wec-cyan);
   letter-spacing: 0.5px;
 }
 
-.fe-round-tile.active .fe-round-num {
-  color: var(--fe-gt-orange);
+.wec-round-tile.active .wec-round-num {
+  color: var(--wec-cyan-light);
 }
 
-.fe-round-title-text {
+.wec-round-flag {
+  width: 18px;
+  height: 12px;
+  border-radius: 2px;
+  object-fit: cover;
+}
+
+.wec-round-title-text {
   font-size: 13px;
   font-weight: 700;
-  color: var(--fe-text-main);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 160px;
+  max-width: 150px;
+  color: var(--wec-text);
 }
 
-.fe-round-car-text {
-  font-size: 11px;
-  color: var(--fe-text-muted);
+.wec-round-tile.active .wec-round-title-text {
+  color: #ffffff;
+}
+
+.wec-round-car-text {
+  font-family: var(--wec-mono);
+  font-size: 10px;
+  color: var(--wec-text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 160px;
+}
+
+.wec-round-tile.active .wec-round-car-text {
+  color: #94a3b8;
 }
 
 /* --------------------------------------------------------------------------
-   4. ACTIVE RACE HERO / SESSION OVERVIEW
+   4. TELEMETRY STATUS BAR (High-Tech WEC Board)
    -------------------------------------------------------------------------- */
-.fe-session-header {
-  background: #ffffff;
-  border-bottom: 1px solid var(--fe-border);
-  padding: 24px 0;
-  margin-bottom: 25px;
-}
-
-.fe-session-title {
-  font-size: 26px;
-  font-weight: 800;
-  color: var(--fe-text-main);
-  margin: 0 0 6px 0;
-  text-transform: uppercase;
-}
-
-.fe-session-meta {
+.wec-telemetry-bar {
+  background: var(--wec-dark-surface);
+  color: var(--wec-cyan-light);
+  font-family: var(--wec-mono);
+  font-size: 12px;
+  padding: 12px 18px;
+  border-radius: 6px;
+  margin-bottom: 20px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
-  font-size: 13px;
-  color: var(--fe-text-muted);
+  justify-content: space-between;
+  gap: 12px;
+  border-left: 4px solid var(--wec-cyan);
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);
 }
 
-.fe-meta-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-}
-
-.fe-meta-tag.highlight {
-  color: var(--fe-gt-orange);
-}
-
-/* Input de búsqueda estilo Formula E */
-.fe-search-box {
-  background: #f8fafc !important;
-  border: 1px solid var(--fe-border) !important;
-  border-radius: 8px !important;
-  padding: 8px 14px !important;
-  font-size: 13px;
-  color: var(--fe-text-main) !important;
-  max-width: 280px;
-}
-
-.fe-search-box:focus {
-  background: #ffffff !important;
-  border-color: var(--fe-gt-orange) !important;
-  box-shadow: 0 0 0 3px var(--fe-gt-orange-glow) !important;
-}
-
-/* --------------------------------------------------------------------------
-   5. FORMULA E FULL GRID TABLE (Identical to FIA Formula E Results Cards)
-   -------------------------------------------------------------------------- */
-.fe-table-container {
-  background: transparent;
-  padding-bottom: 60px;
-}
-
-.fe-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 10px; /* Exact gap between cards */
-  margin: 0;
-}
-
-.fe-table thead tr th {
-  background: transparent;
-  border: none;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: #64748b;
-  padding: 8px 20px;
-  font-family: 'Poppins', sans-serif;
-}
-
-.fe-card-row {
-  background: #ffffff;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 1px 4px rgba(10, 17, 36, 0.04);
-}
-
-.fe-card-row:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(10, 17, 36, 0.08);
-}
-
-.fe-card-row td,
-.fe-card-row th {
-  padding: 16px 20px;
-  vertical-align: middle;
-  border-top: 1px solid #e2e8f0;
-  border-bottom: 1px solid #e2e8f0;
-  background: #ffffff;
-  color: #0a1124;
-}
-
-.fe-card-row td:first-child,
-.fe-card-row th:first-child {
-  border-left: 1px solid #e2e8f0;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
-}
-
-.fe-card-row td:last-child {
-  border-right: 1px solid #e2e8f0;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
-
-/* Columna 1: Posición + Delta */
-.fe-cell-pos {
-  width: 90px;
-}
-
-.fe-pos-inner {
-  display: inline-flex;
+.wec-telemetry-bar-left {
+  display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.fe-pos-number {
-  font-size: 20px;
-  font-weight: 800;
-  color: #0a1124;
-  min-width: 24px;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* Delta indicators (Formula E style) */
-.fe-delta {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  vertical-align: middle;
-}
-
-.fe-delta-up {
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 7px solid #10b981;
-}
-
-.fe-delta-down {
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 7px solid #ef4444;
-}
-
-.fe-delta-equal {
-  width: 8px;
-  height: 2px;
-  background: #94a3b8;
-  border: none;
-}
-
-/* Columna 2: Piloto */
-.fe-cell-driver {
-  text-align: left;
-  font-weight: normal;
-}
-
-.fe-driver-inner {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.fe-driver-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #0f1932 0%, #1e293b 100%);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 800;
+.wec-telemetry-tag {
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--wec-cyan-light);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
   letter-spacing: 0.5px;
-  flex-shrink: 0;
-  border: 1.5px solid #cbd5e1;
-  box-shadow: 0 2px 5px rgba(10, 17, 36, 0.1);
 }
 
-.fe-card-row.fe-row-p1 .fe-driver-avatar {
-  border-color: #f59e0b;
-  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25);
+.wec-telemetry-status-ok {
+  color: var(--wec-green);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.fe-driver-detail {
+.wec-telemetry-status-ok .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--wec-green);
+  display: inline-block;
+  animation: wecPulse 1.5s infinite;
+}
+
+.wec-search-box {
+  background: #ffffff;
+  border: 1px solid var(--wec-border);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-family: var(--wec-mono);
+  font-size: 12px;
+  color: #0f172a;
+  min-width: 240px;
+  transition: all 0.2s;
+}
+
+.wec-search-box:focus {
+  border-color: var(--wec-cyan);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   5. WEC RACE RESULTS ROWS (Data-Dense Telemetry Cards)
+   -------------------------------------------------------------------------- */
+.wec-rows-container {
   display: flex;
   flex-direction: column;
-  min-width: 0;
-}
-
-.fe-driver-name {
-  font-size: 16px;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: #0a1124;
-  letter-spacing: 0.5px;
-  line-height: 1.2;
-  font-family: 'Poppins', sans-serif;
-}
-
-.fe-driver-sub {
-  display: flex;
-  align-items: center;
   gap: 8px;
-  margin-top: 4px;
+  margin-bottom: 50px;
 }
 
-.fe-driver-flag {
-  width: 22px;
-  height: 15px;
-  object-fit: cover;
-  border-radius: 2px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+.wec-row {
+  background: var(--wec-card-bg);
+  border: 1px solid var(--wec-border);
+  border-radius: 6px;
+  padding: 12px 18px;
+  display: grid;
+  grid-template-columns: 58px 1.5fr 1.2fr 1fr 90px;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.03);
 }
 
-.fe-nation-code {
-  font-size: 12px;
-  font-weight: 700;
-  color: #64748b;
-  letter-spacing: 0.5px;
+.wec-row:hover {
+  background: #ffffff;
+  border-color: var(--wec-cyan);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.1);
 }
 
-.fe-driver-team-mobile {
-  display: none;
-  font-size: 12px;
-  color: #64748b;
-  font-weight: 600;
-  text-transform: uppercase;
-  margin-top: 2px;
-}
-
-/* Badges Pole & Fastest Lap */
-.fe-tag-pole {
-  background: #fee2e2;
-  color: #b91c1c;
-  font-size: 10px;
+/* Posición P1 / P2 / P3 / P4+ */
+.wec-pos {
+  background: var(--wec-dark-surface);
+  color: #ffffff;
+  font-family: var(--wec-mono);
   font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 3px;
-  border: 1px solid #fca5a5;
-  text-transform: uppercase;
+  font-size: 15px;
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 4px;
   letter-spacing: 0.5px;
 }
 
-.fe-tag-fastest {
-  background: #f3e8ff;
-  color: #7e22ce;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 3px;
-  border: 1px solid #d8b4fe;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.wec-row.p1 .wec-pos {
+  background: var(--wec-cyan);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
 }
 
-/* Columna 3: Equipo / Auto */
-.fe-cell-team {
-  text-align: left;
+.wec-row.p2 .wec-pos {
+  background: #334155;
+  color: #f1f5f9;
 }
 
-.fe-team-inner {
+.wec-row.p3 .wec-pos {
+  background: #475569;
+  color: #f8fafc;
+}
+
+/* Piloto details */
+.wec-driver-col {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.fe-car-crest {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: #f1f5f9;
+.wec-driver-flag {
+  width: 24px;
+  height: 16px;
+  border-radius: 2px;
+  object-fit: cover;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.wec-driver-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.wec-driver-name {
+  font-family: var(--wec-sans);
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+
+.wec-driver-badges {
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #475569;
-  font-size: 14px;
-  flex-shrink: 0;
-  border: 1px solid #e2e8f0;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: wrap;
 }
 
-.fe-team-label {
-  font-size: 14px;
+.wec-badge {
+  font-family: var(--wec-mono);
+  font-size: 10px;
   font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
   text-transform: uppercase;
-  color: #1e293b;
+  letter-spacing: 0.3px;
+}
+
+.wec-badge-category {
+  background: rgba(2, 132, 199, 0.1);
+  color: #0369a1;
+  border: 1px solid rgba(2, 132, 199, 0.2);
+}
+
+.wec-badge-pole {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.wec-badge-fl {
+  background: #f5f3ff;
+  color: #7c3aed;
+  border: 1px solid #ddd6fe;
+}
+
+.wec-badge-rank {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+/* Auto / Máquina */
+.wec-car-col {
+  font-family: var(--wec-mono);
+  font-size: 12px;
+  color: #334155;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wec-car-col i {
+  color: var(--wec-cyan);
+}
+
+/* Telemetría (GAP / Tiempo) */
+.wec-telemetry-col {
+  font-family: var(--wec-mono);
+  font-size: 13px;
+  color: #475569;
+}
+
+.wec-telemetry-col.leader {
+  color: var(--wec-green);
+  font-weight: 700;
+}
+
+/* Puntos */
+.wec-pts-col {
+  text-align: right;
+  font-family: var(--wec-sans);
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
   letter-spacing: 0.5px;
 }
 
-/* Columna 4: Tiempo / Gap */
-.fe-cell-time {
-  text-align: left;
-  font-family: 'SF Pro Mono', 'Roboto Mono', Menlo, monospace;
-  font-size: 14px;
-  font-weight: 600;
-  color: #475569;
+.wec-pts-badge {
+  background: #f8fafc;
+  border: 1px solid var(--wec-border);
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: inline-block;
 }
 
-/* Columna 5: Puntos (Formula E pure large typography) */
-.fe-cell-points {
-  text-align: right;
-  padding-right: 28px !important;
+.wec-row.p1 .wec-pts-badge {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #15803d;
 }
 
-.fe-points-val {
-  font-size: 28px;
-  font-weight: 800;
-  color: #0a1124;
-  line-height: 1;
-  font-family: 'Poppins', sans-serif;
-  letter-spacing: -0.5px;
-}
-
-.fe-card-row.fe-row-p1 .fe-points-val {
-  color: #d97706;
-}
-
-/* Mobile responsive card adjustments */
-@media (max-width: 768px) {
-  .fe-table thead {
+/* Responsive Grid para Rows */
+@media (max-width: 992px) {
+  .wec-row {
+    grid-template-columns: 50px 1.5fr 1fr 80px;
+    gap: 12px;
+  }
+  .wec-car-col {
     display: none;
   }
-  .fe-card-row td,
-  .fe-card-row th {
-    padding: 12px 14px;
+}
+
+@media (max-width: 768px) {
+  .wec-row {
+    grid-template-columns: 46px 1fr auto;
+    padding: 10px 14px;
+    gap: 10px;
   }
-  .fe-cell-team,
-  .fe-cell-time,
-  .fe-hide-mobile {
-    display: none !important;
+  .wec-telemetry-col {
+    display: none;
   }
-  .fe-driver-team-mobile {
-    display: block;
+  .wec-driver-name {
+    font-size: 14px;
   }
-  .fe-points-val {
-    font-size: 22px;
-  }
-  .fe-cell-points {
-    padding-right: 14px !important;
-  }
-  .fe-session-header .d-flex {
-    flex-direction: column;
-    align-items: flex-start !important;
-    gap: 15px;
-  }
-  .fe-search-box {
-    width: 100% !important;
-    max-width: 100% !important;
+  .wec-pts-col {
+    font-size: 15px;
   }
 }
 
 /* --------------------------------------------------------------------------
-   7. PAGE LEVEL OVERRIDES FOR RESULTADOS.HTML
+   6. DRIVERS STANDINGS TABLE (FIA WEC Matrix Classification)
    -------------------------------------------------------------------------- */
-.resultados-page .breadcrumb-section {
-  display: none !important;
+.wec-standings-container {
+  margin-bottom: 60px;
 }
 
-.resultados-page .resultados {
-  margin-top: 0 !important;
-  margin-bottom: 60px !important;
-  padding-top: 0 !important;
-  background: var(--fe-bg-light) !important;
-  min-height: 80vh;
-}
-
-.fe-stat-cell {
-  font-size: 14px;
-  font-weight: 700;
-  color: #334155;
-  text-align: center;
-}
-
-.fe-stat-win {
-  color: #d97706;
-  font-weight: 800;
-}
-
-.fe-rank-badge {
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  padding: 2px 7px;
-  border-radius: 4px;
-  letter-spacing: 0.5px;
-}
-.fe-rank-diamante { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
-.fe-rank-platino { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
-.fe-rank-oro { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
-.fe-rank-plata { background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; }
-.fe-rank-bronce { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
-
-.fe-empty-state {
-  background: #ffffff;
-  border: 1px solid var(--fe-border);
-  border-radius: 12px;
-  padding: 60px 20px;
-  text-align: center;
-  box-shadow: var(--fe-shadow-sm);
-  margin: 30px 0;
-}
-
-.fe-empty-icon {
-  font-size: 40px;
-  color: var(--fe-gt-orange);
-  margin-bottom: 16px;
-}
-
-/* --------------------------------------------------------------------------
-   8. FORMULA E STANDINGS PER-ROUND BREAKDOWN TABLE
-   -------------------------------------------------------------------------- */
-.ranking-page .breadcrumb-section {
-  display: none !important;
-}
-
-.ranking-page .ranking-content,
-.ranking-page .contact-from-section {
-  margin-top: 0 !important;
-  margin-bottom: 60px !important;
-  padding-top: 0 !important;
-  background: var(--fe-bg-light) !important;
-  min-height: 80vh;
-}
-
-.fe-standings-scroll {
+.wec-standings-scroll {
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 20px;
+  border: 1px solid var(--wec-border);
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
 }
 
-.fe-standings-scroll::-webkit-scrollbar {
+.wec-standings-scroll::-webkit-scrollbar {
   height: 6px;
 }
 
-.fe-standings-scroll::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+.wec-standings-scroll::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 3px;
 }
 
-.fe-standings-table {
+.wec-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 10px;
-  min-width: 860px;
-  margin: 0;
+  border-spacing: 0;
+  font-family: var(--wec-sans);
+  margin-bottom: 0;
 }
 
-.fe-standings-table thead tr th {
-  background: transparent;
-  border: none;
+.wec-table thead {
+  background: var(--wec-dark-surface);
+  color: #ffffff;
+}
+
+.wec-table thead th {
+  padding: 12px 14px;
+  font-family: var(--wec-mono);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: #64748b;
-  padding: 10px 14px;
-  font-family: 'Poppins', sans-serif;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--wec-cyan);
   white-space: nowrap;
 }
 
-.fe-standings-table thead tr th.fe-th-pos {
-  text-align: left;
-  padding-left: 20px;
+.wec-table thead th.th-pos {
   width: 60px;
-}
-
-.fe-standings-table thead tr th.fe-th-driver {
-  text-align: left;
-  min-width: 230px;
-}
-
-.fe-standings-table thead tr th.fe-th-team {
-  text-align: left;
-  min-width: 150px;
-}
-
-.fe-standings-table thead tr th.fe-th-round {
   text-align: center;
-  min-width: 62px;
 }
 
-.fe-standings-table thead tr th.fe-th-pts {
+.wec-table thead th.th-driver {
+  text-align: left;
+  min-width: 180px;
+}
+
+.wec-table thead th.th-car {
+  text-align: left;
+  min-width: 140px;
+}
+
+.wec-table thead th.th-round {
+  text-align: center;
+  min-width: 64px;
+  font-size: 11px;
+}
+
+.wec-table thead th.th-pts {
   text-align: right;
-  padding-right: 24px;
-  width: 90px;
+  min-width: 90px;
+  padding-right: 18px;
 }
 
-.fe-cell-round {
-  text-align: center;
-  vertical-align: middle;
-  padding: 12px 8px !important;
-  min-width: 62px;
-  border-top: 1px solid #e2e8f0;
-  border-bottom: 1px solid #e2e8f0;
+.wec-table tbody tr {
   background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  transition: background 0.15s ease;
 }
 
-.fe-round-points {
-  display: block;
-  font-size: 14px;
+.wec-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.wec-table tbody td,
+.wec-table tbody th {
+  padding: 12px 14px;
+  vertical-align: middle;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Celdas Standings */
+.wec-cell-pos {
+  text-align: center;
+}
+
+.wec-pos-tag {
+  background: var(--wec-dark-surface);
+  color: #ffffff;
+  font-family: var(--wec-mono);
+  font-size: 13px;
   font-weight: 800;
-  color: #0a1124;
-  line-height: 1.1;
-  font-family: 'Poppins', sans-serif;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 38px;
 }
 
-.fe-round-pos {
-  display: block;
-  font-size: 10px;
-  font-weight: 700;
-  color: #94a3b8;
-  margin-top: 2px;
-  letter-spacing: 0.5px;
+.wec-table tbody tr.row-p1 .wec-pos-tag {
+  background: var(--wec-cyan);
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
 }
 
-.fe-round-badges {
+.wec-cell-driver {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wec-driver-initials {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: #0f172a;
+  color: var(--wec-cyan-light);
+  font-family: var(--wec-mono);
+  font-weight: 800;
+  font-size: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  margin-top: 3px;
+  flex-shrink: 0;
 }
 
-.fe-tag-mini-pole {
-  background: #fee2e2;
-  color: #b91c1c;
-  font-size: 9px;
-  font-weight: 900;
-  padding: 1px 4px;
-  border-radius: 2px;
-  line-height: 1;
+.wec-cell-car {
+  font-family: var(--wec-mono);
+  font-size: 12px;
+  color: #475569;
 }
 
-.fe-tag-mini-fl {
-  background: #f3e8ff;
-  color: #7e22ce;
-  font-size: 9px;
-  font-weight: 900;
-  padding: 1px 4px;
-  border-radius: 2px;
-  line-height: 1;
+.wec-cell-round {
+  text-align: center;
+  font-family: var(--wec-mono);
+  font-size: 12px;
 }
 
-.fe-round-empty {
+.wec-round-pts-val {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.wec-round-pos-sub {
+  font-size: 10px;
+  color: var(--wec-text-muted);
+  display: block;
+}
+
+.wec-round-empty {
   color: #cbd5e1;
-  font-size: 15px;
-  font-weight: 600;
 }
 
+.wec-cell-total-pts {
+  text-align: right;
+  padding-right: 18px !important;
+}
 
+.wec-total-pts-tag {
+  font-family: var(--wec-sans);
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+  background: #f1f5f9;
+  border: 1px solid var(--wec-border);
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.wec-table tbody tr.row-p1 .wec-total-pts-tag {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #15803d;
+}
+
+/* --------------------------------------------------------------------------
+   7. EMPTY & ERROR STATES
+   -------------------------------------------------------------------------- */
+.wec-empty-state {
+  padding: 60px 20px;
+  background: #ffffff;
+  border: 1px dashed var(--wec-border);
+  border-radius: 8px;
+  margin: 30px auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+.wec-empty-icon {
+  font-size: 42px;
+  color: #94a3b8;
+  margin-bottom: 16px;
+}

@@ -1,4 +1,4 @@
-// GT Academy - Dynamic Tournament Frontend Integration
+// GT Academy - FIA WEC / Le Mans Telemetry Frontend Integration
 document.addEventListener('DOMContentLoaded', async () => {
     const isRankingPage = window.location.pathname.includes('ranking.html');
     const isResultadosPage = window.location.pathname.includes('resultados.html');
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // -----------------------------------------------------------
-// HELPERS COMPARTIDOS FORMULA E
+// HELPERS COMPARTIDOS FIA WEC TELEMETRY
 // -----------------------------------------------------------
 const countryCodeMap = {
     'argentina': 'ARG', 'brasil': 'BRA', 'chile': 'CHI', 'colombia': 'COL',
@@ -69,22 +69,23 @@ function getInitials(name) {
     return clean.substring(0, 2).toUpperCase() || 'GT';
 }
 
-function getDeltaHtml(pos) {
-    if (pos === 1) return '<span class="fe-delta fe-delta-up" title="Líder / Posición ganada"></span>';
-    if (pos <= 3) return '<span class="fe-delta fe-delta-up" title="Podio"></span>';
-    if (pos <= 10) return '<span class="fe-delta fe-delta-equal" title="Posición mantenida"></span>';
-    return '<span class="fe-delta fe-delta-down" title="Posición"></span>';
+function getCategoryBadge(pos, rank) {
+    if (pos === 1) return '<span class="wec-badge wec-badge-category">GT-PRO</span>';
+    if (rank === 'platino' || rank === 'diamante' || rank === 'oro') {
+        return '<span class="wec-badge wec-badge-category">GT-PRO</span>';
+    }
+    return '<span class="wec-badge wec-badge-rank">GT-CUP</span>';
 }
 
 // =======================================================
-// RENDERIZADOR OFICIAL FORMULA E: TABLA DE CLASIFICACIÓN
+// RENDERIZADOR FIA WEC: TABLA DE CLASIFICACIÓN GENERAL
 // =======================================================
-async function renderFormulaEStandingsTable(container, seasonId, seasons) {
+async function renderWECStandingsTable(container, seasonId, seasons) {
     container.innerHTML = `
         <div class="container text-center py-5">
-            <div class="fe-empty-state">
-                <i class="fas fa-spinner fa-spin fa-2x text-warning mb-3"></i>
-                <p class="text-muted mb-0">Cargando clasificación oficial de pilotos...</p>
+            <div class="wec-empty-state">
+                <i class="fas fa-spinner fa-spin fa-2x text-info mb-3"></i>
+                <p class="text-muted mb-0">Cargando clasificación oficial FIA WEC...</p>
             </div>
         </div>
     `;
@@ -125,8 +126,8 @@ async function renderFormulaEStandingsTable(container, seasonId, seasons) {
         if (standings.length === 0) {
             container.innerHTML = `
                 <div class="container text-center py-5">
-                    <div class="fe-empty-state">
-                        <i class="fas fa-trophy fe-empty-icon"></i>
+                    <div class="wec-empty-state">
+                        <i class="fas fa-trophy wec-empty-icon text-muted"></i>
                         <h4 class="text-dark fw-bold">No hay pilotos registrados con puntos en esta temporada</h4>
                         <p class="text-muted small mb-0">Los puntos obtenidos en cada carrera aparecerán desglosados aquí.</p>
                     </div>
@@ -139,55 +140,49 @@ async function renderFormulaEStandingsTable(container, seasonId, seasons) {
         let roundHeadersHtml = '';
         races.forEach(r => {
             roundHeadersHtml += `
-                <th class="fe-th-round" title="${r.title || 'Ronda ' + r.round_number}">
-                    RD ${String(r.round_number).padStart(2, '0')}
+                <th class="th-round" title="${r.title || 'Ronda ' + r.round_number}">
+                    R${String(r.round_number).padStart(2, '0')}
                 </th>
             `;
         });
 
         container.innerHTML = `
-            <!-- Overview Header de Clasificación -->
-            <div class="fe-session-header">
-                <div class="container">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                        <div>
-                            <p class="mb-1 text-uppercase fw-bold" style="font-size: 12px; letter-spacing: 1.5px; color: #f28123;">
-                                <i class="fas fa-trophy me-1"></i> CAMPEONATO OFICIAL &bull; CLASIFICACIÓN GENERAL
-                            </p>
-                            <h2 class="fe-session-title mb-1">DRIVERS STANDINGS</h2>
-                            <div class="fe-session-meta">
-                                <span class="fe-meta-tag highlight"><i class="fas fa-flag-checkered"></i> ${races.length} Rondas</span>
-                                <span class="fe-meta-tag"><i class="fas fa-users"></i> ${standings.length} Pilotos con puntos</span>
-                            </div>
-                        </div>
-                        <div>
-                            <input type="text" id="feStandingsSearch" class="form-control fe-search-box" placeholder="Buscar piloto o país...">
-                        </div>
+            <div class="container my-4">
+                <!-- Barra de Telemetría Superior WEC -->
+                <div class="wec-telemetry-bar">
+                    <div class="wec-telemetry-bar-left">
+                        <span class="wec-telemetry-tag">[TIMING &amp; SCORING]</span>
+                        <span>DRIVERS CHAMPIONSHIP CLASSIFICATION</span>
+                    </div>
+                    <div class="wec-telemetry-status-ok">
+                        <span class="dot"></span> STATUS: OFFICIAL TIMING &bull; DRY
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="d-none d-md-inline text-muted font-monospace">ROUNDS: ${races.length} &bull; DRIVERS: ${standings.length}</span>
+                        <input type="text" id="wecStandingsSearch" class="wec-search-box" placeholder="Buscar piloto o país...">
                     </div>
                 </div>
-            </div>
 
-            <!-- Tabla de Cards Formula E con Desglose de Rondas -->
-            <div class="container fe-table-container">
-                <div class="fe-standings-scroll">
-                    <table class="fe-standings-table">
+                <!-- Tabla de Clasificación Matriz WEC -->
+                <div class="wec-standings-scroll">
+                    <table class="wec-table">
                         <thead>
                             <tr>
-                                <th class="fe-th-pos">POS</th>
-                                <th class="fe-th-driver">DRIVER</th>
-                                <th class="fe-th-team fe-hide-mobile">TEAM / CAR</th>
+                                <th class="th-pos">POS</th>
+                                <th class="th-driver">PILOTO</th>
+                                <th class="th-car d-none d-md-table-cell">AUTO / CATEGORÍA</th>
                                 ${roundHeadersHtml}
-                                <th class="fe-th-pts">PTS</th>
+                                <th class="th-pts">TOTAL PTS</th>
                             </tr>
                         </thead>
-                        <tbody id="feStandingsRowsBody"></tbody>
+                        <tbody id="wecStandingsRowsBody"></tbody>
                     </table>
                 </div>
             </div>
         `;
 
-        const tbody = document.getElementById('feStandingsRowsBody');
-        const searchInput = document.getElementById('feStandingsSearch');
+        const tbody = document.getElementById('wecStandingsRowsBody');
+        const searchInput = document.getElementById('wecStandingsSearch');
 
         function renderRows(items) {
             tbody.innerHTML = '';
@@ -203,11 +198,6 @@ async function renderFormulaEStandingsTable(container, seasonId, seasons) {
             }
 
             items.forEach(item => {
-                let rankBadge = '';
-                if (item.rank) {
-                    rankBadge = `<span class="fe-rank-badge fe-rank-${item.rank}">${item.rank}</span>`;
-                }
-
                 const driverCar = driverCarMap[item.driver_id] || 'GT CUP';
 
                 // Generar celdas por ronda
@@ -216,68 +206,59 @@ async function renderFormulaEStandingsTable(container, seasonId, seasons) {
                     const rData = driverRoundMap[item.driver_id] ? driverRoundMap[item.driver_id][r.round_number] : null;
                     if (rData) {
                         let tagsHtml = '';
-                        if (rData.is_pole) tagsHtml += '<span class="fe-tag-mini-pole">P</span>';
-                        if (rData.is_fl) tagsHtml += '<span class="fe-tag-mini-fl">FL</span>';
+                        if (rData.is_pole) tagsHtml += '<span class="badge bg-danger text-white me-1" style="font-size: 8px;">P</span>';
+                        if (rData.is_fl) tagsHtml += '<span class="badge bg-purple text-white" style="font-size: 8px; background: #7c3aed;">FL</span>';
 
                         roundsCellsHtml += `
-                            <td class="fe-cell-round">
-                                <span class="fe-round-points">${rData.points}</span>
-                                <span class="fe-round-pos">P${rData.position}</span>
-                                ${tagsHtml ? `<div class="fe-round-badges">${tagsHtml}</div>` : ''}
+                            <td class="wec-cell-round">
+                                <span class="wec-round-pts-val">${rData.points}</span>
+                                <span class="wec-round-pos-sub">P${rData.position}</span>
+                                ${tagsHtml ? `<div class="mt-1">${tagsHtml}</div>` : ''}
                             </td>
                         `;
                     } else {
                         roundsCellsHtml += `
-                            <td class="fe-cell-round fe-round-empty">
-                                <span class="fe-round-points text-muted">—</span>
+                            <td class="wec-cell-round wec-round-empty">
+                                <span>—</span>
                             </td>
                         `;
                     }
                 });
 
                 const tr = document.createElement('tr');
-                tr.className = `fe-card-row ${item.position === 1 ? 'fe-row-p1' : ''}`;
+                tr.className = item.position === 1 ? 'row-p1' : '';
                 tr.innerHTML = `
-                    <!-- 1. Posición + Delta -->
-                    <td class="fe-cell-pos">
-                        <span class="fe-pos-inner">
-                            <span class="fe-pos-number">${item.position}</span>
-                            ${getDeltaHtml(item.position)}
-                        </span>
+                    <!-- 1. Posición WEC -->
+                    <td class="wec-cell-pos">
+                        <span class="wec-pos-tag">P${item.position}</span>
                     </td>
 
-                    <!-- 2. Piloto (Avatar + Nombre + Bandera + País + Subtítulo) -->
-                    <th scope="row" class="fe-cell-driver">
-                        <div class="fe-driver-inner">
-                            <div class="fe-driver-avatar">${getInitials(item.psn_id)}</div>
-                            <div class="fe-driver-detail">
-                                <span class="fe-driver-name">${item.psn_id}</span>
-                                <div class="fe-driver-sub">
-                                    <img src="assets/country/${item.country || 'pdi'}.png" alt="${item.country}" class="fe-driver-flag" onerror="this.src='assets/country/pdi.png'">
-                                    <span class="fe-nation-code">${getCountryCode(item.country)}</span>
-                                    ${rankBadge}
+                    <!-- 2. Piloto (Bandera + Nombre + Badges) -->
+                    <td>
+                        <div class="wec-cell-driver">
+                            <img src="assets/country/${item.country || 'pdi'}.png" alt="${item.country}" class="wec-driver-flag" onerror="this.src='assets/country/pdi.png'">
+                            <div class="wec-driver-info">
+                                <span class="wec-driver-name">${item.psn_id}</span>
+                                <div class="wec-driver-badges">
+                                    <span class="wec-badge wec-badge-rank">${getCountryCode(item.country)}</span>
+                                    ${item.rank ? `<span class="wec-badge wec-badge-rank">${item.rank.toUpperCase()}</span>` : ''}
+                                    ${getCategoryBadge(item.position, item.rank)}
                                 </div>
-                                <div class="fe-driver-team-mobile">${driverCar}</div>
                             </div>
-                        </div>
-                    </th>
-
-                    <!-- 3. Equipo / Auto -->
-                    <td class="fe-cell-team fe-hide-mobile">
-                        <div class="fe-team-inner">
-                            <div class="fe-car-crest">
-                                <i class="fas fa-car-side"></i>
-                            </div>
-                            <span class="fe-team-label">${driverCar}</span>
                         </div>
                     </td>
 
-                    <!-- 4. Desglose por Ronda -->
+                    <!-- 3. Auto / Categoría -->
+                    <td class="wec-cell-car d-none d-md-table-cell">
+                        <i class="fas fa-car-side text-muted me-1"></i> ${driverCar}
+                    </td>
+
+                    <!-- 4. Desglose de Rondas -->
                     ${roundsCellsHtml}
 
-                    <!-- 5. Puntos Totales (Formula E grande) -->
-                    <td class="fe-cell-points">
-                        <span class="fe-points-val">${item.total_points}</span>
+                    <!-- 5. Total de Puntos -->
+                    <td class="wec-cell-total-pts">
+                        <span class="wec-total-pts-tag">${item.total_points} PTS</span>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -299,8 +280,8 @@ async function renderFormulaEStandingsTable(container, seasonId, seasons) {
     } catch (e) {
         container.innerHTML = `
             <div class="container text-center py-5">
-                <div class="fe-empty-state text-danger">
-                    <i class="fas fa-exclamation-triangle fe-empty-icon text-danger"></i>
+                <div class="wec-empty-state text-danger">
+                    <i class="fas fa-exclamation-triangle wec-empty-icon text-danger"></i>
                     <h4 class="fw-bold">Error al cargar la clasificación</h4>
                     <p class="text-muted small mb-0">No se pudieron obtener los datos de la temporada.</p>
                 </div>
@@ -325,52 +306,54 @@ async function setupRankingPage(seasons, activeSeason) {
     });
 
     mainSection.innerHTML = `
-        <!-- 1. Hero Header Block -->
-        <div class="fe-header-block">
+        <!-- Hero Header FIA WEC Telemetry -->
+        <div class="wec-header-block">
             <div class="container">
-                <span class="fe-header-category">STANDINGS &bull; GT ACADEMY</span>
-                <h1 class="fe-header-title">DRIVERS STANDINGS</h1>
-                <p class="fe-header-desc">Clasificación oficial del campeonato general de pilotos de GT Academy con desglose de puntos por ronda y estadísticas completas.</p>
+                <span class="wec-header-category">
+                    <span class="wec-status-dot"></span> FIA WEC &bull; DRIVERS STANDINGS TELEMETRY
+                </span>
+                <h1 class="wec-header-title">CHAMPIONSHIP STANDINGS</h1>
+                <p class="wec-header-desc">Clasificación oficial del campeonato GT Academy en formato de telemetría y puntuación por ronda estilo World Endurance Championship.</p>
             </div>
         </div>
 
-        <!-- 2. Filter & Navigation Bar -->
-        <div class="fe-filter-bar">
+        <!-- Filter & Navigation Bar -->
+        <div class="wec-filter-bar">
             <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
-                <div class="fe-nav-tabs">
-                    <a href="resultados.html" class="fe-nav-tab" style="text-decoration: none;">
-                        <i class="fas fa-flag-checkered me-1"></i> Race Results
+                <div class="wec-nav-tabs">
+                    <a href="resultados.html" class="wec-nav-tab" style="text-decoration: none;">
+                        <i class="fas fa-flag-checkered"></i> Race Results
                     </a>
-                    <button class="fe-nav-tab active">
-                        <i class="fas fa-trophy me-1"></i> Drivers Standings
+                    <button class="wec-nav-tab active">
+                        <i class="fas fa-trophy"></i> Drivers Standings
                     </button>
                 </div>
                 <div class="d-flex align-items-center gap-2">
                     <label class="text-muted fw-bold small text-uppercase mb-0 d-none d-sm-inline">Temporada:</label>
-                    <select id="seasonSelectRanking" class="form-select fe-season-dropdown">
+                    <select id="seasonSelectRanking" class="form-select wec-season-dropdown">
                         ${seasonOptions}
                     </select>
                 </div>
             </div>
         </div>
 
-        <!-- 3. Standings Table Container -->
-        <div id="feRankingTableContent"></div>
+        <!-- Contenedor de la Tabla -->
+        <div id="wecRankingTableContent"></div>
     `;
 
-    const rankingTableContainer = document.getElementById('feRankingTableContent');
+    const rankingTableContainer = document.getElementById('wecRankingTableContent');
     const seasonSelect = document.getElementById('seasonSelectRanking');
 
     seasonSelect.addEventListener('change', (e) => {
         currentSeasonId = parseInt(e.target.value, 10);
-        renderFormulaEStandingsTable(rankingTableContainer, currentSeasonId, seasons);
+        renderWECStandingsTable(rankingTableContainer, currentSeasonId, seasons);
     });
 
-    renderFormulaEStandingsTable(rankingTableContainer, currentSeasonId, seasons);
+    renderWECStandingsTable(rankingTableContainer, currentSeasonId, seasons);
 }
 
 // -----------------------------------------------------------
-// 2. RESULTADOS DE CARRERAS (DISEÑO INSPIRADO EN FIA FORMULA E)
+// 2. RESULTADOS DE CARRERAS (FIA WEC TELEMETRY DASHBOARD)
 // -----------------------------------------------------------
 async function setupResultadosPage(seasons, activeSeason) {
     const mainSection = document.querySelector('.resultados');
@@ -379,7 +362,6 @@ async function setupResultadosPage(seasons, activeSeason) {
     let currentSeasonId = activeSeason.id;
     let currentTab = 'races'; // 'races' | 'standings'
     let cachedRaces = [];
-    let cachedStandings = [];
     let activeRaceIndex = 0;
 
     // Generar opciones de temporada
@@ -389,52 +371,54 @@ async function setupResultadosPage(seasons, activeSeason) {
         seasonOptions += `<option value="${s.id}" ${sel}>${s.name} ${s.is_active ? '(Activa)' : ''}</option>`;
     });
 
-    // 1. Estructura base Formula E: Hero Header + Filter Bar + Round Ribbon + Content
+    // Estructura base FIA WEC
     mainSection.innerHTML = `
-        <!-- 1. Hero Header Block -->
-        <div class="fe-header-block">
+        <!-- Hero Header FIA WEC Telemetry -->
+        <div class="wec-header-block">
             <div class="container">
-                <span class="fe-header-category">STANDINGS &bull; GT ACADEMY</span>
-                <h1 class="fe-header-title">RESULTS &amp; STANDINGS</h1>
-                <p class="fe-header-desc">Resultados oficiales de carreras, clasificación de pilotos y estadísticas en tiempo real de los torneos oficiales de GT Academy.</p>
+                <span class="wec-header-category">
+                    <span class="wec-status-dot"></span> FIA WEC &bull; OFFICIAL TIMING &amp; SCORING
+                </span>
+                <h1 class="wec-header-title">RACE RESULTS &amp; TELEMETRY</h1>
+                <p class="wec-header-desc">Resultados oficiales de carreras, diferencias de tiempo milimétricas y puntuación en tiempo real del torneo GT Academy.</p>
             </div>
         </div>
 
-        <!-- 2. Filter & Navigation Bar -->
-        <div class="fe-filter-bar">
+        <!-- Filter & Navigation Bar -->
+        <div class="wec-filter-bar">
             <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
-                <div class="fe-nav-tabs">
-                    <button class="fe-nav-tab active" data-tab="races">
-                        <i class="fas fa-flag-checkered me-1"></i> Race Results
+                <div class="wec-nav-tabs">
+                    <button class="wec-nav-tab active" data-tab="races">
+                        <i class="fas fa-flag-checkered"></i> Race Results
                     </button>
-                    <button class="fe-nav-tab" data-tab="standings">
-                        <i class="fas fa-trophy me-1"></i> Drivers Standings
+                    <button class="wec-nav-tab" data-tab="standings">
+                        <i class="fas fa-trophy"></i> Drivers Standings
                     </button>
                 </div>
                 <div class="d-flex align-items-center gap-2">
                     <label class="text-muted fw-bold small text-uppercase mb-0 d-none d-sm-inline">Temporada:</label>
-                    <select id="seasonSelectResultados" class="form-select fe-season-dropdown">
+                    <select id="seasonSelectResultados" class="form-select wec-season-dropdown">
                         ${seasonOptions}
                     </select>
                 </div>
             </div>
         </div>
 
-        <!-- 3. Horizontal Round Ribbon (Race Results Only) -->
-        <div class="fe-round-strip-wrapper" id="feRoundStripWrapper">
+        <!-- Horizontal Round Ribbon -->
+        <div class="wec-round-strip-wrapper" id="wecRoundStripWrapper">
             <div class="container">
-                <div class="fe-round-strip" id="feRoundStrip"></div>
+                <div class="wec-round-strip" id="wecRoundStrip"></div>
             </div>
         </div>
 
-        <!-- 4. Dynamic Content Area -->
-        <div id="feDynamicContent"></div>
+        <!-- Dynamic Content Area -->
+        <div id="wecDynamicContent"></div>
     `;
 
-    const roundStripWrapper = document.getElementById('feRoundStripWrapper');
-    const roundStrip = document.getElementById('feRoundStrip');
-    const contentArea = document.getElementById('feDynamicContent');
-    const navTabs = document.querySelectorAll('.fe-nav-tab');
+    const roundStripWrapper = document.getElementById('wecRoundStripWrapper');
+    const roundStrip = document.getElementById('wecRoundStrip');
+    const contentArea = document.getElementById('wecDynamicContent');
+    const navTabs = document.querySelectorAll('.wec-nav-tab');
     const seasonSelect = document.getElementById('seasonSelectResultados');
 
     // Tab switcher
@@ -479,8 +463,8 @@ async function setupResultadosPage(seasons, activeSeason) {
     async function loadRaces(seasonId) {
         contentArea.innerHTML = `
             <div class="container text-center py-5">
-                <div class="fe-empty-state">
-                    <i class="fas fa-spinner fa-spin fa-2x text-warning mb-3"></i>
+                <div class="wec-empty-state">
+                    <i class="fas fa-spinner fa-spin fa-2x text-info mb-3"></i>
                     <p class="text-muted mb-0">Cargando resultados de la temporada...</p>
                 </div>
             </div>
@@ -495,8 +479,8 @@ async function setupResultadosPage(seasons, activeSeason) {
                 roundStripWrapper.style.display = 'none';
                 contentArea.innerHTML = `
                     <div class="container text-center py-5">
-                        <div class="fe-empty-state">
-                            <i class="fas fa-flag-checkered fe-empty-icon"></i>
+                        <div class="wec-empty-state">
+                            <i class="fas fa-flag-checkered wec-empty-icon"></i>
                             <h4 class="text-dark fw-bold">No hay carreras registradas en esta temporada</h4>
                             <p class="text-muted small mb-0">Las carreras agregadas desde el panel administrativo aparecerán aquí.</p>
                         </div>
@@ -514,8 +498,8 @@ async function setupResultadosPage(seasons, activeSeason) {
         } catch (e) {
             contentArea.innerHTML = `
                 <div class="container text-center py-5">
-                    <div class="fe-empty-state text-danger">
-                        <i class="fas fa-exclamation-triangle fe-empty-icon text-danger"></i>
+                    <div class="wec-empty-state text-danger">
+                        <i class="fas fa-exclamation-triangle wec-empty-icon text-danger"></i>
                         <h4 class="fw-bold">Error de conexión</h4>
                         <p class="text-muted small mb-0">No se pudieron obtener las carreras desde el servidor.</p>
                     </div>
@@ -533,19 +517,19 @@ async function setupResultadosPage(seasons, activeSeason) {
             const isActive = idx === activeRaceIndex;
 
             const tile = document.createElement('div');
-            tile.className = `fe-round-tile ${isActive ? 'active' : ''}`;
+            tile.className = `wec-round-tile ${isActive ? 'active' : ''}`;
             tile.innerHTML = `
-                <div class="fe-round-tile-top">
-                    <img src="assets/country/${flagCountry}.png" alt="${flagCountry}" class="fe-round-flag" onerror="this.src='assets/country/pdi.png'">
-                    <span class="fe-round-num">RD ${String(race.round_number).padStart(2, '0')}</span>
+                <div class="wec-round-tile-top">
+                    <span class="wec-round-num">ROUND ${String(race.round_number).padStart(2, '0')}</span>
+                    <img src="assets/country/${flagCountry}.png" alt="${flagCountry}" class="wec-round-flag" onerror="this.src='assets/country/pdi.png'">
                 </div>
-                <div class="fe-round-title-text" title="${race.title || 'Ronda ' + race.round_number}">${race.title || 'Ronda ' + race.round_number}</div>
-                <div class="fe-round-car-text" title="${race.car}">${race.car}</div>
+                <div class="wec-round-title-text" title="${race.title || 'Ronda ' + race.round_number}">${race.title || 'Ronda ' + race.round_number}</div>
+                <div class="wec-round-car-text" title="${race.car}">${race.car}</div>
             `;
 
             tile.addEventListener('click', () => {
                 activeRaceIndex = idx;
-                roundStrip.querySelectorAll('.fe-round-tile').forEach(t => t.classList.remove('active'));
+                roundStrip.querySelectorAll('.wec-round-tile').forEach(t => t.classList.remove('active'));
                 tile.classList.add('active');
                 renderRaceView(race);
             });
@@ -563,117 +547,91 @@ async function setupResultadosPage(seasons, activeSeason) {
         const flagCountry = (winner && winner.country) ? winner.country : 'pdi';
 
         contentArea.innerHTML = `
-            <!-- Overview de la sesión Formula E -->
-            <div class="fe-session-header">
-                <div class="container">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                        <div>
-                            <p class="mb-1 text-uppercase fw-bold" style="font-size: 12px; letter-spacing: 1.5px; color: #f28123;">
-                                <img src="assets/country/${flagCountry}.png" alt="${flagCountry}" style="width: 20px; height: 13px; vertical-align: -1px; margin-right: 6px; border-radius: 2px;" onerror="this.src='assets/country/pdi.png'">
-                                RONDA ${String(race.round_number).padStart(2, '0')} &bull; ${race.track || 'CIRCUITO OFICIAL'}
-                            </p>
-                            <h2 class="fe-session-title mb-1">${race.title || 'RACE RESULTS'}</h2>
-                            <div class="fe-session-meta">
-                                <span class="fe-meta-tag highlight"><i class="fas fa-car-side"></i> ${race.car}</span>
-                                <span class="fe-meta-tag"><i class="fas fa-users"></i> ${results.length} Pilotos</span>
-                                ${race.race_date ? `<span class="fe-meta-tag"><i class="far fa-calendar-alt"></i> ${race.race_date}</span>` : ''}
-                            </div>
-                        </div>
-                        <div>
-                            <input type="text" id="feRaceSearch" class="form-control fe-search-box" placeholder="Buscar piloto o país...">
-                        </div>
+            <div class="container my-4">
+                <!-- Barra de Telemetría WEC Le Mans -->
+                <div class="wec-telemetry-bar">
+                    <div class="wec-telemetry-bar-left">
+                        <span class="wec-telemetry-tag">[LIVE TIMING]</span>
+                        <span>ROUND ${String(race.round_number).padStart(2, '0')} &mdash; ${race.title ? race.title.toUpperCase() : 'GT CUP'}</span>
+                    </div>
+                    <div class="wec-telemetry-status-ok">
+                        <span class="dot"></span> STATUS: TRACK CLEAR &bull; DRY
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="d-none d-md-inline text-muted font-monospace">CIRCUIT: ${race.track ? race.track.toUpperCase() : 'OFFICIAL'} &bull; ENTRANTS: ${results.length}</span>
+                        <input type="text" id="wecRaceSearch" class="wec-search-box" placeholder="Buscar piloto o país...">
                     </div>
                 </div>
-            </div>
 
-            <!-- Tabla de Cards Formula E -->
-            <div class="container fe-table-container">
-                <div class="table-responsive">
-                    <table class="fe-table">
-                        <thead>
-                            <tr>
-                                <th class="fe-cell-pos">POS</th>
-                                <th class="fe-cell-driver">PILOTO</th>
-                                <th class="fe-cell-team fe-hide-mobile">AUTO</th>
-                                <th class="fe-cell-time fe-hide-mobile">TIEMPO / GAP</th>
-                                <th class="fe-cell-points">PTS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="feRaceTableBody"></tbody>
-                    </table>
-                </div>
+                <!-- Lista de Filas Telemetría WEC -->
+                <div class="wec-rows-container" id="wecRaceRowsContainer"></div>
             </div>
         `;
 
-        const tbody = document.getElementById('feRaceTableBody');
-        const searchInput = document.getElementById('feRaceSearch');
+        const rowsContainer = document.getElementById('wecRaceRowsContainer');
+        const searchInput = document.getElementById('wecRaceSearch');
 
         function renderRows(items) {
-            tbody.innerHTML = '';
+            rowsContainer.innerHTML = '';
             if (items.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="5" class="text-center py-5 text-muted">
-                            <i class="fas fa-info-circle me-1"></i> No se encontraron pilotos para esta búsqueda.
-                        </td>
-                    </tr>
+                rowsContainer.innerHTML = `
+                    <div class="text-center py-5 text-muted wec-empty-state">
+                        <i class="fas fa-info-circle me-1"></i> No se encontraron pilotos para esta búsqueda.
+                    </div>
                 `;
                 return;
             }
 
             items.forEach(res => {
                 let badgesHtml = '';
-                if (res.is_pole) badgesHtml += `<span class="fe-tag-pole me-1">POLE</span>`;
-                if (res.is_fastest_lap) badgesHtml += `<span class="fe-tag-fastest">FL</span>`;
+                if (res.is_pole) badgesHtml += `<span class="wec-badge wec-badge-pole">POLE</span>`;
+                if (res.is_fastest_lap) badgesHtml += `<span class="wec-badge wec-badge-fl">FL</span>`;
+                if (res.rank) badgesHtml += `<span class="wec-badge wec-badge-rank">${res.rank.toUpperCase()}</span>`;
+                badgesHtml += getCategoryBadge(res.position, res.rank);
 
-                const tr = document.createElement('tr');
-                tr.className = `fe-card-row ${res.position === 1 ? 'fe-row-p1' : ''}`;
-                tr.innerHTML = `
-                    <!-- 1. Posición + Delta -->
-                    <td class="fe-cell-pos">
-                        <span class="fe-pos-inner">
-                            <span class="fe-pos-number">${res.position}</span>
-                            ${getDeltaHtml(res.position)}
-                        </span>
-                    </td>
+                const rowDiv = document.createElement('div');
+                rowDiv.className = `wec-row ${res.position === 1 ? 'p1' : (res.position === 2 ? 'p2' : (res.position === 3 ? 'p3' : ''))}`;
 
-                    <!-- 2. Piloto (Avatar + Nombre + País + Badges) -->
-                    <th scope="row" class="fe-cell-driver">
-                        <div class="fe-driver-inner">
-                            <div class="fe-driver-avatar">${getInitials(res.psn_id)}</div>
-                            <div class="fe-driver-detail">
-                                <span class="fe-driver-name">${res.psn_id}</span>
-                                <div class="fe-driver-sub">
-                                    <img src="assets/country/${res.country || 'pdi'}.png" alt="${res.country}" class="fe-driver-flag" onerror="this.src='assets/country/pdi.png'">
-                                    <span class="fe-nation-code">${getCountryCode(res.country)}</span>
-                                    ${badgesHtml}
-                                </div>
-                                <div class="fe-driver-team-mobile">${race.car}</div>
+                // Telemetría / Tiempo / GAP
+                let telemetryHtml = '';
+                if (res.position === 1) {
+                    telemetryHtml = `<div class="wec-telemetry-col leader"><i class="fas fa-flag-checkered me-1"></i> LÍDER ${res.notes ? '&bull; ' + res.notes : ''}</div>`;
+                } else {
+                    const gapText = res.notes ? res.notes : '+ GAP';
+                    telemetryHtml = `<div class="wec-telemetry-col">${gapText}</div>`;
+                }
+
+                rowDiv.innerHTML = `
+                    <!-- 1. Posición WEC -->
+                    <div class="wec-pos">P${res.position}</div>
+
+                    <!-- 2. Piloto (Bandera + Nombre + Badges) -->
+                    <div class="wec-driver-col">
+                        <img src="assets/country/${res.country || 'pdi'}.png" alt="${res.country}" class="wec-driver-flag" onerror="this.src='assets/country/pdi.png'">
+                        <div class="wec-driver-info">
+                            <span class="wec-driver-name">${res.psn_id}</span>
+                            <div class="wec-driver-badges">
+                                <span class="wec-badge wec-badge-rank">${getCountryCode(res.country)}</span>
+                                ${badgesHtml}
                             </div>
                         </div>
-                    </th>
+                    </div>
 
-                    <!-- 3. Auto / Equipo -->
-                    <td class="fe-cell-team">
-                        <div class="fe-team-inner">
-                            <div class="fe-car-crest">
-                                <i class="fas fa-car-side"></i>
-                            </div>
-                            <span class="fe-team-label">${race.car}</span>
-                        </div>
-                    </td>
+                    <!-- 3. Auto / Vehículo -->
+                    <div class="wec-car-col">
+                        <i class="fas fa-car-side"></i>
+                        <span>${race.car}</span>
+                    </div>
 
-                    <!-- 4. Tiempo / Gap -->
-                    <td class="fe-cell-time">
-                        ${res.notes ? res.notes : (res.position === 1 ? 'LÍDER' : '—')}
-                    </td>
+                    <!-- 4. Telemetría / Brecha al Líder -->
+                    ${telemetryHtml}
 
-                    <!-- 5. Puntos (Formula E pure large typography) -->
-                    <td class="fe-cell-points">
-                        <span class="fe-points-val">${res.points}</span>
-                    </td>
+                    <!-- 5. Puntos -->
+                    <div class="wec-pts-col">
+                        <span class="wec-pts-badge">+${res.points} PTS</span>
+                    </div>
                 `;
-                tbody.appendChild(tr);
+                rowsContainer.appendChild(rowDiv);
             });
         }
 
@@ -694,7 +652,7 @@ async function setupResultadosPage(seasons, activeSeason) {
     // CARGAR CLASIFICACIÓN GENERAL (DRIVERS STANDINGS)
     // =======================================================
     async function loadStandings(seasonId) {
-        renderFormulaEStandingsTable(contentArea, seasonId, seasons);
+        renderWECStandingsTable(contentArea, seasonId, seasons);
     }
 
     // Carga inicial

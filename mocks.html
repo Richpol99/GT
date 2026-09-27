@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>GT Academy - 5 Mockups de Diseño para Resultados y Clasificación</title>
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,800;0,900;1,800&family=Open+Sans:wght@300;400;600;700&family=Poppins:wght@400;600;700;800;900&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	
+	<style>
+		:root {
+			--gt-orange: #f28123;
+			--gt-dark: #0a1124;
+		}
+
+		body {
+			background: #f1f5f9;
+			font-family: 'Open Sans', sans-serif;
+			color: #1e293b;
+			margin: 0;
+			padding-bottom: 80px;
+		}
+
+		/* Mock Switcher Top Navigation */
+		.mock-selector-bar {
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+			background: #091021;
+			border-bottom: 2px solid var(--gt-orange);
+			padding: 12px 0;
+			box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+		}
+
+		.mock-pill-btn {
+			background: rgba(255,255,255,0.08);
+			border: 1px solid rgba(255,255,255,0.15);
+			color: #e2e8f0;
+			font-size: 13px;
+			font-weight: 700;
+			padding: 8px 16px;
+			border-radius: 20px;
+			cursor: pointer;
+			transition: all 0.2s;
+			white-space: nowrap;
+		}
+
+		.mock-pill-btn:hover {
+			background: rgba(242, 129, 35, 0.2);
+			border-color: var(--gt-orange);
+			color: #ffffff;
+		}
+
+		.mock-pill-btn.active {
+			background: var(--gt-orange);
+			border-color: var(--gt-orange);
+			color: #ffffff;
+			box-shadow: 0 0 12px rgba(242, 129, 35, 0.5);
+		}
+
+		.mock-desc-card {
+			background: #ffffff;
+			border-radius: 12px;
+			border: 1px solid #e2e8f0;
+			padding: 20px 24px;
+			margin: 25px auto 35px auto;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+		}
+
+		.mock-title {
+			font-size: 22px;
+			font-weight: 800;
+			color: #0a1124;
+			margin-bottom: 6px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.mock-badge {
+			font-size: 12px;
+			font-weight: 800;
+			background: #fff7ed;
+			color: #ea580c;
+			border: 1px solid #ffedd5;
+			padding: 4px 10px;
+			border-radius: 6px;
+			text-transform: uppercase;
+		}
+
+		.mock-container {
+			display: none;
+		}
+
+		.mock-container.active {
+			display: block;
+			animation: fadeIn 0.3s ease;
+		}
+
+		@keyframes fadeIn {
+			from { opacity: 0; transform: translateY(6px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		/* --------------------------------------------------------
+		   MOCK 1: FORMULA 1 GRAND PRIX (Slanted Angular Racing)
+		   -------------------------------------------------------- */
+		.f1-wrapper { font-family: 'Poppins', sans-serif; }
+		.f1-hero {
+			background: linear-gradient(135deg, #15151e 0%, #0b0b10 100%);
+			border-left: 6px solid #e10600;
+			padding: 30px;
+			border-radius: 10px;
+			color: #fff;
+			margin-bottom: 25px;
+		}
+		.f1-row {
+			background: #ffffff;
+			border-radius: 8px;
+			border: 1px solid #e5e7eb;
+			margin-bottom: 10px;
+			padding: 14px 20px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			transition: all 0.2s;
+			box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+			border-left: 5px solid #94a3b8;
+		}
+		.f1-row.pos-1 { border-left-color: #e10600; }
+		.f1-row.pos-2 { border-left-color: #94a3b8; }
+		.f1-row.pos-3 { border-left-color: #f59e0b; }
+		.f1-row:hover { transform: translateX(4px); box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+		.f1-pos-box {
+			font-family: 'Montserrat', sans-serif;
+			font-size: 24px;
+			font-weight: 900;
+			font-style: italic;
+			width: 45px;
+			color: #0b0b10;
+		}
+		.f1-driver-name {
+			font-size: 16px;
+			font-weight: 800;
+			text-transform: uppercase;
+			color: #0b0b10;
+			letter-spacing: 0.5px;
+		}
+		.f1-pts-pill {
+			background: #15151e;
+			color: #ffffff;
+			font-family: 'Montserrat', sans-serif;
+			font-size: 15px;
+			font-weight: 900;
+			padding: 6px 14px;
+			border-radius: 4px;
+			letter-spacing: 0.5px;
+		}
+		.f1-row.pos-1 .f1-pts-pill { background: #e10600; color: #fff; }
+
+		/* --------------------------------------------------------
+		   MOCK 2: GRAN TURISMO 7 WORLD SERIES (High-Tech Minimalist)
+		   -------------------------------------------------------- */
+		.gt7-wrapper { font-family: 'Open Sans', sans-serif; }
+		.gt7-hero {
+			background: #ffffff;
+			border: 1px solid #e2e8f0;
+			border-radius: 12px;
+			padding: 24px;
+			margin-bottom: 25px;
+			box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+			border-top: 4px solid #0050d8;
+		}
+		.gt7-card {
+			background: #ffffff;
+			border: 1px solid #e2e8f0;
+			border-radius: 10px;
+			padding: 16px 20px;
+			margin-bottom: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			transition: all 0.2s;
+		}
+		.gt7-card:hover {
+			border-color: #0050d8;
+			box-shadow: 0 8px 20px rgba(0, 80, 216, 0.08);
+			transform: translateY(-2px);
+		}
+		.gt7-pos-badge {
+			width: 38px;
+			height: 38px;
+			border-radius: 50%;
+			background: #f8fafc;
+			border: 1px solid #e2e8f0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 16px;
+			font-weight: 800;
+			color: #334155;
+		}
+		.gt7-card.p1 .gt7-pos-badge { background: #0050d8; color: #ffffff; border-color: #0050d8; }
+		.gt7-name { font-size: 16px; font-weight: 700; color: #0f172a; }
+		.gt7-rank-pill {
+			font-size: 11px;
+			font-weight: 700;
+			text-transform: uppercase;
+			padding: 2px 8px;
+			border-radius: 12px;
+		}
+
+		/* --------------------------------------------------------
+		   MOCK 3: FIA WEC / LE MANS TELEMETRY (Data-Dense Dashboard)
+		   -------------------------------------------------------- */
+		.wec-wrapper { font-family: 'Space Grotesk', sans-serif; }
+		.wec-bar {
+			background: #0f172a;
+			color: #38bdf8;
+			font-family: monospace;
+			font-size: 13px;
+			padding: 10px 16px;
+			border-radius: 6px;
+			margin-bottom: 20px;
+			display: flex;
+			justify-content: space-between;
+		}
+		.wec-row {
+			background: #ffffff;
+			border: 1px solid #cbd5e1;
+			border-radius: 4px;
+			margin-bottom: 8px;
+			display: grid;
+			grid-template-columns: 60px 1fr 180px 120px 100px;
+			align-items: center;
+			padding: 12px 16px;
+			transition: all 0.15s;
+		}
+		.wec-row:hover { background: #f8fafc; border-color: #0284c7; }
+		.wec-pos {
+			background: #0f172a;
+			color: #fff;
+			font-weight: 800;
+			text-align: center;
+			padding: 6px 0;
+			border-radius: 4px;
+			font-size: 16px;
+		}
+		.wec-row.p1 .wec-pos { background: #0284c7; }
+		.wec-telemetry { font-family: monospace; font-size: 13px; color: #475569; }
+		.wec-pts { text-align: right; font-weight: 800; font-size: 18px; color: #0f172a; }
+
+		/* --------------------------------------------------------
+		   MOCK 4: NEO-BRUTALIST ESPORTS (Bold High-Contrast Chunky)
+		   -------------------------------------------------------- */
+		.brutal-wrapper { font-family: 'Space Grotesk', sans-serif; }
+		.brutal-card {
+			background: #ffffff;
+			border: 2.5px solid #000000;
+			border-radius: 10px;
+			box-shadow: 4px 4px 0px #000000;
+			padding: 16px 20px;
+			margin-bottom: 14px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			transition: all 0.15s;
+		}
+		.brutal-card:hover {
+			transform: translate(-2px, -2px);
+			box-shadow: 6px 6px 0px #000000;
+		}
+		.brutal-pos {
+			font-size: 26px;
+			font-weight: 900;
+			color: #000000;
+			width: 45px;
+		}
+		.brutal-pts {
+			background: #fde047;
+			border: 2px solid #000000;
+			box-shadow: 2px 2px 0px #000000;
+			font-weight: 900;
+			font-size: 16px;
+			padding: 6px 14px;
+			border-radius: 6px;
+			color: #000;
+		}
+		.brutal-card.p1 { background: #fffbeb; }
+
+		/* --------------------------------------------------------
+		   MOCK 5: PORSCHE SUPERCUP MINIMALIST LUXURY
+		   -------------------------------------------------------- */
+		.lux-wrapper { font-family: 'Poppins', sans-serif; }
+		.lux-row {
+			background: #ffffff;
+			border: 1px solid #f1f5f9;
+			border-bottom: 1px solid #e2e8f0;
+			padding: 18px 24px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			transition: all 0.2s;
+		}
+		.lux-row:hover { background: #fafafa; }
+		.lux-pos { font-size: 18px; font-weight: 400; color: #94a3b8; width: 40px; }
+		.lux-row.p1 .lux-pos { font-weight: 800; color: #b45309; }
+		.lux-driver { font-size: 17px; color: #0a0a0a; letter-spacing: -0.3px; }
+		.lux-driver strong { font-weight: 800; text-transform: uppercase; }
+		.lux-pts { font-size: 22px; font-weight: 800; color: #0a0a0a; text-align: right; }
+	</style>
+</head>
+<body>
+
+	<!-- Selector de Mocks Superior Sticky -->
+	<div class="mock-selector-bar">
+		<div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
+			<div class="d-flex align-items-center gap-2">
+				<span class="text-white fw-bold small text-uppercase"><i class="fas fa-palette text-warning me-1"></i> Elige un Mockup:</span>
+			</div>
+			<div class="d-flex flex-wrap gap-2" id="mockTabs">
+				<button class="mock-pill-btn active" data-target="mock1">1. F1 Grand Prix</button>
+				<button class="mock-pill-btn" data-target="mock2">2. Gran Turismo 7 WS</button>
+				<button class="mock-pill-btn" data-target="mock3">3. FIA WEC Telemetry</button>
+				<button class="mock-pill-btn" data-target="mock4">4. Neo-Brutalist Esports</button>
+				<button class="mock-pill-btn" data-target="mock5">5. Porsche Luxury Cup</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="container my-4">
+
+		<!-- ========================================================
+		     MOCK 1: FORMULA 1 GRAND PRIX (Racing Speed & Slanted)
+		     ======================================================== -->
+		<div class="mock-container active" id="mock1">
+			<div class="mock-desc-card">
+				<div class="mock-title">
+					<span>🏁 Opción 1: Formula 1 Official Grand Prix Style</span>
+					<span class="mock-badge">Agresivo / Deportivo</span>
+				</div>
+				<p class="text-muted mb-0 small">Inspirado en la transmisión y app oficial de F1. Borde lateral con color de equipo/posición, números en cursiva aerodinámica, nombre en negrita condensada y puntos en badge de fibra de carbono.</p>
+			</div>
+
+			<div class="f1-wrapper">
+				<div class="f1-hero">
+					<div class="d-flex justify-content-between align-items-center">
+						<div>
+							<span class="badge bg-danger text-uppercase mb-2">RONDA 13 &bull; FORD GT 2006</span>
+							<h2 class="fw-bold mb-1">RACE RESULTS &amp; STANDINGS</h2>
+							<p class="small text-muted mb-0 text-white-50">Circuito Oficial GT Academy &bull; 14 Pilotos</p>
+						</div>
+						<div class="text-end d-none d-md-block">
+							<span class="text-white-50 small text-uppercase">TEMPORADA</span>
+							<h4 class="fw-bold mb-0 text-white">Temporada 1</h4>
+						</div>
+					</div>
+				</div>
+
+				<div class="f1-row pos-1">
+					<div class="d-flex align-items-center gap-3">
+						<span class="f1-pos-box">01</span>
+						<img src="assets/country/luxemburgo.png" alt="LUX" style="width: 24px; height: 16px; border-radius: 2px;">
+						<div>
+							<div class="f1-driver-name">TEMPESSST- <span class="badge bg-danger ms-1" style="font-size: 10px;">POLE</span></div>
+							<div class="small text-muted">FORD GT 2006 &bull; LÍDER DE CARRERA</div>
+						</div>
+					</div>
+					<div class="d-flex align-items-center gap-4">
+						<div class="text-muted small font-monospace d-none d-md-block">42:19.363</div>
+						<div class="f1-pts-pill">25 PTS</div>
+					</div>
+				</div>
+
+				<div class="f1-row pos-2">
+					<div class="d-flex align-items-center gap-3">
+						<span class="f1-pos-box">02</span>
+						<img src="assets/country/colombia.png" alt="COL" style="width: 24px; height: 16px; border-radius: 2px;">
+						<div>
+							<div class="f1-driver-name">BRAD_876875 <span class="badge bg-warning text-dark ms-1" style="font-size: 10px;">FL</span></div>
+							<div class="small text-muted">FORD GT 2006 &bull; +0.614s</div>
+						</div>
+					</div>
+					<div class="d-flex align-items-center gap-4">
+						<div class="text-muted small font-monospace d-none d-md-block">+0.614s</div>
+						<div class="f1-pts-pill">18 PTS</div>
+					</div>
+				</div>
+
+				<div class="f1-row pos-3">
+					<div class="d-flex align-items-center gap-3">
+						<span class="f1-pos-box">03</span>
+						<img src="assets/country/peru.png" alt="PER" style="width: 24px; height: 16px; border-radius: 2px;">
+						<div>
+							<div class="f1-driver-name">ANTONYPARDO</div>
+							<div class="small text-muted">FORD GT 2006 &bull; +6.087s</div>
+						</div>
+					</div>
+					<div class="d-flex align-items-center gap-4">
+						<div class="text-muted small font-monospace d-none d-md-block">+6.087s</div>
+						<div class="f1-pts-pill">15 PTS</div>
+					</div>
+				</div>
+
+				<div class="f1-row">
+					<div class="d-flex align-items-center gap-3">
+						<span class="f1-pos-box">04</span>
+						<img src="assets/country/paraguay.png" alt="PAR" style="width: 24px; height: 16px; border-radius: 2px;">
+						<div>
+							<div class="f1-driver-name">H4CK3R_25_GAMER</div>
+							<div class="small text-muted">FORD GT 2006</div>
+						</div>
+					</div>
+					<div class="d-flex align-items-center gap-4">
+						<div class="text-muted small font-monospace d-none d-md-block">+12.430s</div>
+						<div class="f1-pts-pill">12 PTS</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ========================================================
+		     MOCK 2: GRAN TURISMO 7 WORLD SERIES (Clean Minimalist Tech)
+		     ======================================================== -->
+		<div class="mock-container" id="mock2">
+			<div class="mock-desc-card">
+				<div class="mock-title">
+					<span>🎮 Opción 2: Gran Turismo 7 World Series Esports</span>
+					<span class="mock-badge">Oficial GT / Alta Precisión</span>
+				</div>
+				<p class="text-muted mb-0 small">Diseño auténtico de Gran Turismo World Series. Cabecera blanca con acento azul cobalto GT, avatares circulares limpios, medallas de rango (Oro, Plata, Bronce) y tiempos de precisión milimétrica.</p>
+			</div>
+
+			<div class="gt7-wrapper">
+				<div class="gt7-hero d-flex justify-content-between align-items-center">
+					<div>
+						<div class="text-uppercase fw-bold text-primary small mb-1"><i class="fas fa-trophy me-1"></i> GRAN TURISMO WORLD SERIES &bull; CLASIFICACIÓN</div>
+						<h2 class="fw-bold mb-0 text-dark">RACE 13 &mdash; FORD GT 2006</h2>
+					</div>
+					<div class="d-flex gap-2">
+						<span class="badge bg-light text-dark border px-3 py-2">14 Pilotos</span>
+						<span class="badge bg-primary px-3 py-2">Temporada 1</span>
+					</div>
+				</div>
+
+				<div class="gt7-card p1">
+					<div class="d-flex align-items-center gap-3">
+						<div class="gt7-pos-badge">1</div>
+						<img src="assets/country/luxemburgo.png" alt="LUX" style="width: 28px; height: 18px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+						<div>
+							<div class="gt7-name">Tempessst- <span class="gt7-rank-pill" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a;">ORO</span></div>
+							<div class="small text-muted"><i class="fas fa-car me-1"></i> Ford GT '06 &bull; Pole Position</div>
+						</div>
+					</div>
+					<div class="d-flex align-items-center gap-4">
+						<div class="small text-muted font-monospace d-none d-md-block">Ganador (42:19.363)</div>
+						<div class="fw-bold fs-5 text-primary">+25 PTS</div>
+					</div>
+				</div>
+
+				<div class="gt7-card">
+					<div class="d-flex align-items-center gap-3">
+						<div class="gt7-pos-badge">2</div>
+						<img src="assets/country/colombia.png" alt="COL" style="width: 28px; height: 18px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+						<div>
+							<div class="gt7-name">brad_876875 <span class="gt7-rank-pill" style="background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb;">PLATA</span></div>
+							<div class="small text-muted"><i class="fas fa-car me-1"></i> Ford GT '06 &bull; Vuelta Rápida</div>
+						</div>
+					</div>
+					<div class="d-flex align-items-center gap-4">
+						<div class="small text-muted font-monospace d-none d-md-block">+0.614s</div>
+						<div class="fw-bold fs-5 text-dark">+18 PTS</div>
+					</div>
+				</div>
+
+				<div class="gt7-card">
+					<div class="d-flex align-items-center gap-3">
+						<div class="gt7-pos-badge">3</div>
+						<img src="assets/country/peru.png" alt="PER" style="width: 28px; height: 18px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+						<div>
+							<div class="gt7-name">AntonyPardo <span class="gt7-rank-pill" style="background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb;">PLATA</span></div>
+							<div class="small text-muted"><i class="fas fa-car me-1"></i> Ford GT '06</div>
+						</div>
+					</div>
+					<div class="d-flex align-items-center gap-4">
+						<div class="small text-muted font-monospace d-none d-md-block">+6.087s</div>
+						<div class="fw-bold fs-5 text-dark">+15 PTS</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ========================================================
+		     MOCK 3: FIA WEC TELEMETRY DASHBOARD
+		     ======================================================== -->
+		<div class="mock-container" id="mock3">
+			<div class="mock-desc-card">
+				<div class="mock-title">
+					<span>⏱️ Opción 3: FIA WEC / Le Mans Telemetry Dashboard</span>
+					<span class="mock-badge">Técnico / Alta Densidad</span>
+				</div>
+				<p class="text-muted mb-0 small">Estilo cronometraje profesional estilo Le Mans / WEC. Barra de estatus superior con datos de pista, tabla tabular milimétrica, bloques de posición en negro titanio y brechas directas con el líder.</p>
+			</div>
+
+			<div class="wec-wrapper">
+				<div class="wec-bar">
+					<span>[LIVE TIMING] ROUND 13 &mdash; GT ACADEMY CUP</span>
+					<span>STATUS: TRACK CLEAR &bull; DRY</span>
+					<span>LAPS: 25 / 25</span>
+				</div>
+
+				<div class="wec-row p1">
+					<div class="wec-pos">P1</div>
+					<div class="d-flex align-items-center gap-2">
+						<img src="assets/country/luxemburgo.png" alt="LUX" style="width: 20px; height: 14px;">
+						<strong>TEMPESSST-</strong>
+						<span class="badge bg-info text-dark" style="font-size: 10px;">GT-PRO</span>
+					</div>
+					<div class="wec-telemetry">FORD GT 2006</div>
+					<div class="wec-telemetry text-success">LÍDER &bull; 42:19.363</div>
+					<div class="wec-pts">25 PTS</div>
+				</div>
+
+				<div class="wec-row">
+					<div class="wec-pos">P2</div>
+					<div class="d-flex align-items-center gap-2">
+						<img src="assets/country/colombia.png" alt="COL" style="width: 20px; height: 14px;">
+						<strong>BRAD_876875</strong>
+						<span class="badge bg-light text-dark border" style="font-size: 10px;">GT-SILVER</span>
+					</div>
+					<div class="wec-telemetry">FORD GT 2006</div>
+					<div class="wec-telemetry">+0.614 GAP</div>
+					<div class="wec-pts">18 PTS</div>
+				</div>
+
+				<div class="wec-row">
+					<div class="wec-pos">P3</div>
+					<div class="d-flex align-items-center gap-2">
+						<img src="assets/country/peru.png" alt="PER" style="width: 20px; height: 14px;">
+						<strong>ANTONYPARDO</strong>
+						<span class="badge bg-light text-dark border" style="font-size: 10px;">GT-SILVER</span>
+					</div>
+					<div class="wec-telemetry">FORD GT 2006</div>
+					<div class="wec-telemetry">+6.087 GAP</div>
+					<div class="wec-pts">15 PTS</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ========================================================
+		     MOCK 4: NEO-BRUTALIST ESPORTS (Bold High-Contrast Chunky)
+		     ======================================================== -->
+		<div class="mock-container" id="mock4">
+			<div class="mock-desc-card">
+				<div class="mock-title">
+					<span>⚡ Opción 4: Neo-Brutalist Esports Modern</span>
+					<span class="mock-badge">Impactante / Juvenil</span>
+				</div>
+				<p class="text-muted mb-0 small">Tendencia de diseño moderno: bordes negros gruesos (2.5px), sombras duras (`box-shadow: 4px 4px 0px #000`), etiquetas llamativas amarillas y tipografía geométrica de alto impacto visual.</p>
+			</div>
+
+			<div class="brutal-wrapper">
+				<div class="brutal-card p1">
+					<div class="d-flex align-items-center gap-3">
+						<div class="brutal-pos">#01</div>
+						<img src="assets/country/luxemburgo.png" alt="LUX" style="width: 32px; height: 22px; border: 2px solid #000;">
+						<div>
+							<h4 class="fw-bold mb-0 text-dark">TEMPESSST-</h4>
+							<span class="small fw-bold text-muted">FORD GT 2006 &bull; 🏆 1º LUGAR</span>
+						</div>
+					</div>
+					<div class="brutal-pts">+25 PTS</div>
+				</div>
+
+				<div class="brutal-card">
+					<div class="d-flex align-items-center gap-3">
+						<div class="brutal-pos">#02</div>
+						<img src="assets/country/colombia.png" alt="COL" style="width: 32px; height: 22px; border: 2px solid #000;">
+						<div>
+							<h4 class="fw-bold mb-0 text-dark">BRAD_876875</h4>
+							<span class="small fw-bold text-muted">FORD GT 2006 &bull; +0.614s</span>
+						</div>
+					</div>
+					<div class="brutal-pts">+18 PTS</div>
+				</div>
+
+				<div class="brutal-card">
+					<div class="d-flex align-items-center gap-3">
+						<div class="brutal-pos">#03</div>
+						<img src="assets/country/peru.png" alt="PER" style="width: 32px; height: 22px; border: 2px solid #000;">
+						<div>
+							<h4 class="fw-bold mb-0 text-dark">ANTONYPARDO</h4>
+							<span class="small fw-bold text-muted">FORD GT 2006 &bull; +6.087s</span>
+						</div>
+					</div>
+					<div class="brutal-pts">+15 PTS</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ========================================================
+		     MOCK 5: PORSCHE SUPERCUP LUXURY MINIMALIST
+		     ======================================================== -->
+		<div class="mock-container" id="mock5">
+			<div class="mock-desc-card">
+				<div class="mock-title">
+					<span>🏎️ Opción 5: Porsche Carrera Cup / Luxury Motorsport</span>
+					<span class="mock-badge">Elegante / Minimalista</span>
+				</div>
+				<p class="text-muted mb-0 small">Lujo y sofisticación europea. Mucho aire blanco, líneas divisorias ultrafinas, tipografía refinada suiza y números de puntos sin cajas pesadas, destacando la elegancia del motorsport.</p>
+			</div>
+
+			<div class="lux-wrapper">
+				<div class="bg-white rounded-3 shadow-sm border overflow-hidden">
+					<div class="lux-row p1">
+						<div class="d-flex align-items-center gap-4">
+							<span class="lux-pos">01</span>
+							<img src="assets/country/luxemburgo.png" alt="LUX" style="width: 22px; height: 15px; border-radius: 2px;">
+							<div class="lux-driver">
+								<strong>Tempessst-</strong>
+								<span class="text-muted small ms-2">&bull; Ford GT 2006</span>
+							</div>
+						</div>
+						<div class="d-flex align-items-center gap-5">
+							<span class="text-muted small font-monospace d-none d-md-block">42:19.363</span>
+							<span class="lux-pts text-warning">25</span>
+						</div>
+					</div>
+
+					<div class="lux-row">
+						<div class="d-flex align-items-center gap-4">
+							<span class="lux-pos">02</span>
+							<img src="assets/country/colombia.png" alt="COL" style="width: 22px; height: 15px; border-radius: 2px;">
+							<div class="lux-driver">
+								<strong>brad_876875</strong>
+								<span class="text-muted small ms-2">&bull; Ford GT 2006</span>
+							</div>
+						</div>
+						<div class="d-flex align-items-center gap-5">
+							<span class="text-muted small font-monospace d-none d-md-block">+0.614</span>
+							<span class="lux-pts">18</span>
+						</div>
+					</div>
+
+					<div class="lux-row">
+						<div class="d-flex align-items-center gap-4">
+							<span class="lux-pos">03</span>
+							<img src="assets/country/peru.png" alt="PER" style="width: 22px; height: 15px; border-radius: 2px;">
+							<div class="lux-driver">
+								<strong>AntonyPardo</strong>
+								<span class="text-muted small ms-2">&bull; Ford GT 2006</span>
+							</div>
+						</div>
+						<div class="d-flex align-items-center gap-5">
+							<span class="text-muted small font-monospace d-none d-md-block">+6.087</span>
+							<span class="lux-pts">15</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		// Switcher interactivo de mocks
+		const tabs = document.querySelectorAll('#mockTabs button');
+		const containers = document.querySelectorAll('.mock-container');
+
+		tabs.forEach(tab => {
+			tab.addEventListener('click', () => {
+				tabs.forEach(t => t.classList.remove('active'));
+				containers.forEach(c => c.classList.remove('active'));
+
+				tab.classList.add('active');
+				const target = tab.getAttribute('data-target');
+				const targetContainer = document.getElementById(target);
+				if (targetContainer) {
+					targetContainer.classList.add('active');
+				}
+			});
+		});
+	</script>
+</body>
+</html>
