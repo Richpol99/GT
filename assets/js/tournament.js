@@ -240,6 +240,26 @@ async function setupResultadosPage(seasons, activeSeason) {
         return clean.substring(0, 2).toUpperCase() || 'GT';
     }
 
+    const countryCodeMap = {
+        'argentina': 'ARG', 'brasil': 'BRA', 'chile': 'CHI', 'colombia': 'COL',
+        'luxemburgo': 'LUX', 'mexico': 'MEX', 'panama': 'PAN', 'paraguay': 'PAR',
+        'peru': 'PER', 'rd': 'DOM', 'rusia': 'RUS', 'safrica': 'RSA',
+        'venezuela': 'VEN', 'alemania': 'GER', 'francia': 'FRA', 'eu': 'USA', 'pdi': 'GT'
+    };
+
+    function getCountryCode(country) {
+        if (!country) return 'GT';
+        const c = country.toLowerCase().trim();
+        return countryCodeMap[c] || c.substring(0, 3).toUpperCase();
+    }
+
+    function getDeltaHtml(pos) {
+        if (pos === 1) return '<span class="fe-delta fe-delta-up" title="Líder / Posición ganada"></span>';
+        if (pos <= 3) return '<span class="fe-delta fe-delta-up" title="Podio"></span>';
+        if (pos <= 10) return '<span class="fe-delta fe-delta-equal" title="Posición mantenida"></span>';
+        return '<span class="fe-delta fe-delta-down" title="Posición"></span>';
+    }
+
     // Tab switcher
     navTabs.forEach(tabBtn => {
         tabBtn.addEventListener('click', () => {
@@ -362,20 +382,22 @@ async function setupResultadosPage(seasons, activeSeason) {
         if (!race) return;
 
         let results = race.results || [];
+        const winner = results[0] || null;
+        const flagCountry = (winner && winner.country) ? winner.country : 'pdi';
 
         contentArea.innerHTML = `
-            <!-- Overview de la sesión -->
+            <!-- Overview de la sesión Formula E -->
             <div class="fe-session-header">
                 <div class="container">
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                         <div>
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <span class="badge bg-dark text-white text-uppercase px-2 py-1" style="font-size: 11px; letter-spacing: 1px;">RONDA ${String(race.round_number).padStart(2, '0')}</span>
-                            </div>
-                            <h2 class="fe-session-title">${race.title || 'Ronda ' + race.round_number}</h2>
+                            <p class="mb-1 text-uppercase fw-bold" style="font-size: 12px; letter-spacing: 1.5px; color: #f28123;">
+                                <img src="assets/country/${flagCountry}.png" alt="${flagCountry}" style="width: 20px; height: 13px; vertical-align: -1px; margin-right: 6px; border-radius: 2px;" onerror="this.src='assets/country/pdi.png'">
+                                RONDA ${String(race.round_number).padStart(2, '0')} &bull; ${race.track || 'CIRCUITO OFICIAL'}
+                            </p>
+                            <h2 class="fe-session-title mb-1">${race.title || 'RACE RESULTS'}</h2>
                             <div class="fe-session-meta">
                                 <span class="fe-meta-tag highlight"><i class="fas fa-car-side"></i> ${race.car}</span>
-                                <span class="fe-meta-tag"><i class="fas fa-map-marker-alt"></i> ${race.track || 'Circuito Oficial'}</span>
                                 <span class="fe-meta-tag"><i class="fas fa-users"></i> ${results.length} Pilotos</span>
                                 ${race.race_date ? `<span class="fe-meta-tag"><i class="far fa-calendar-alt"></i> ${race.race_date}</span>` : ''}
                             </div>
@@ -387,17 +409,17 @@ async function setupResultadosPage(seasons, activeSeason) {
                 </div>
             </div>
 
-            <!-- Tabla Flotante Formula E -->
+            <!-- Tabla de Cards Formula E -->
             <div class="container fe-table-container">
                 <div class="table-responsive">
                     <table class="fe-table">
                         <thead>
                             <tr>
-                                <th style="width: 70px; text-align: center;">POS</th>
-                                <th>PILOTO</th>
-                                <th class="fe-hide-mobile">AUTO</th>
-                                <th class="fe-hide-mobile">TIEMPO / DETALLES</th>
-                                <th style="text-align: right; width: 120px;">PUNTOS</th>
+                                <th class="fe-cell-pos">POS</th>
+                                <th class="fe-cell-driver">PILOTO</th>
+                                <th class="fe-cell-team fe-hide-mobile">AUTO</th>
+                                <th class="fe-cell-time fe-hide-mobile">TIEMPO / GAP</th>
+                                <th class="fe-cell-points">PTS</th>
                             </tr>
                         </thead>
                         <tbody id="feRaceTableBody"></tbody>
@@ -423,41 +445,55 @@ async function setupResultadosPage(seasons, activeSeason) {
             }
 
             items.forEach(res => {
-                let posClass = 'other';
-                if (res.position === 1) posClass = 'p1';
-                else if (res.position === 2) posClass = 'p2';
-                else if (res.position === 3) posClass = 'p3';
-                else if (res.position <= 10) posClass = 'top10';
-
                 let badgesHtml = '';
-                if (res.is_pole) badgesHtml += `<span class="fe-tag fe-tag-pole me-1">POLE</span>`;
-                if (res.is_fastest_lap) badgesHtml += `<span class="fe-tag fe-tag-fastest">FL</span>`;
+                if (res.is_pole) badgesHtml += `<span class="fe-tag-pole me-1">POLE</span>`;
+                if (res.is_fastest_lap) badgesHtml += `<span class="fe-tag-fastest">FL</span>`;
 
                 const tr = document.createElement('tr');
-                tr.className = `fe-row ${posClass}`;
+                tr.className = `fe-card-row ${res.position === 1 ? 'fe-row-p1' : ''}`;
                 tr.innerHTML = `
-                    <td class="text-center">
-                        <div class="fe-pos-num">${res.position}</div>
+                    <!-- 1. Posición + Delta -->
+                    <td class="fe-cell-pos">
+                        <span class="fe-pos-inner">
+                            <span class="fe-pos-number">${res.position}</span>
+                            ${getDeltaHtml(res.position)}
+                        </span>
                     </td>
-                    <td>
-                        <div class="fe-driver-cell">
+
+                    <!-- 2. Piloto (Avatar + Nombre + País + Badges) -->
+                    <th scope="row" class="fe-cell-driver">
+                        <div class="fe-driver-inner">
                             <div class="fe-driver-avatar">${getInitials(res.psn_id)}</div>
-                            <div class="fe-driver-details">
-                                <div class="fe-driver-name">${res.psn_id}</div>
+                            <div class="fe-driver-detail">
+                                <span class="fe-driver-name">${res.psn_id}</span>
                                 <div class="fe-driver-sub">
-                                    <img src="assets/country/${res.country || 'pdi'}.png" alt="${res.country}" class="fe-round-flag" style="width: 18px; height: 12px;" onerror="this.src='assets/country/pdi.png'">
-                                    <span class="text-uppercase">${res.country || 'PDI'}</span>
+                                    <img src="assets/country/${res.country || 'pdi'}.png" alt="${res.country}" class="fe-driver-flag" onerror="this.src='assets/country/pdi.png'">
+                                    <span class="fe-nation-code">${getCountryCode(res.country)}</span>
                                     ${badgesHtml}
                                 </div>
+                                <div class="fe-driver-team-mobile">${race.car}</div>
                             </div>
                         </div>
+                    </th>
+
+                    <!-- 3. Auto / Equipo -->
+                    <td class="fe-cell-team">
+                        <div class="fe-team-inner">
+                            <div class="fe-car-crest">
+                                <i class="fas fa-car-side"></i>
+                            </div>
+                            <span class="fe-team-label">${race.car}</span>
+                        </div>
                     </td>
-                    <td class="fe-car-cell">${race.car}</td>
-                    <td class="fe-time-cell">
-                        ${res.notes ? res.notes : '<span class="text-muted">—</span>'}
+
+                    <!-- 4. Tiempo / Gap -->
+                    <td class="fe-cell-time">
+                        ${res.notes ? res.notes : (res.position === 1 ? 'LÍDER' : '—')}
                     </td>
-                    <td class="fe-points-cell">
-                        <span class="fe-points-badge">+${res.points} PTS</span>
+
+                    <!-- 5. Puntos (Formula E pure large typography) -->
+                    <td class="fe-cell-points">
+                        <span class="fe-points-val">${res.points}</span>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -514,10 +550,10 @@ async function setupResultadosPage(seasons, activeSeason) {
                 <div class="container">
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                         <div>
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <span class="badge bg-warning text-dark text-uppercase px-2 py-1" style="font-size: 11px; letter-spacing: 1px; font-weight: 800;">CAMPEONATO GENERAL</span>
-                            </div>
-                            <h2 class="fe-session-title">DRIVERS STANDINGS</h2>
+                            <p class="mb-1 text-uppercase fw-bold" style="font-size: 12px; letter-spacing: 1.5px; color: #f28123;">
+                                <i class="fas fa-trophy me-1"></i> CAMPEONATO OFICIAL &bull; CLASIFICACIÓN GENERAL
+                            </p>
+                            <h2 class="fe-session-title mb-1">DRIVERS STANDINGS</h2>
                             <div class="fe-session-meta">
                                 <span class="fe-meta-tag highlight"><i class="fas fa-trophy"></i> Temporada Oficial</span>
                                 <span class="fe-meta-tag"><i class="fas fa-users"></i> ${standings.length} Pilotos con puntos</span>
@@ -535,13 +571,13 @@ async function setupResultadosPage(seasons, activeSeason) {
                     <table class="fe-table">
                         <thead>
                             <tr>
-                                <th style="width: 70px; text-align: center;">POS</th>
-                                <th>PILOTO</th>
-                                <th class="text-center">PAÍS</th>
-                                <th class="text-center fe-hide-mobile">CARRERAS</th>
-                                <th class="text-center fe-hide-mobile">VICTORIAS</th>
-                                <th class="text-center fe-hide-mobile">PODIOS</th>
-                                <th style="text-align: right; width: 130px;">TOTAL PTS</th>
+                                <th class="fe-cell-pos">POS</th>
+                                <th class="fe-cell-driver">PILOTO</th>
+                                <th class="text-center fe-hide-mobile">PAÍS</th>
+                                <th class="fe-stat-cell fe-hide-mobile">CARRERAS</th>
+                                <th class="fe-stat-cell fe-hide-mobile">VICTORIAS</th>
+                                <th class="fe-stat-cell fe-hide-mobile">PODIOS</th>
+                                <th class="fe-cell-points">PTS</th>
                             </tr>
                         </thead>
                         <tbody id="feStandingsTableBody"></tbody>
@@ -567,40 +603,43 @@ async function setupResultadosPage(seasons, activeSeason) {
             }
 
             items.forEach(item => {
-                let posClass = 'other';
-                if (item.position === 1) posClass = 'p1';
-                else if (item.position === 2) posClass = 'p2';
-                else if (item.position === 3) posClass = 'p3';
-                else if (item.position <= 10) posClass = 'top10';
-
                 let rankBadge = '';
                 if (item.rank) {
                     rankBadge = `<span class="fe-rank-badge fe-rank-${item.rank}">${item.rank}</span>`;
                 }
 
                 const tr = document.createElement('tr');
-                tr.className = `fe-row ${posClass}`;
+                tr.className = `fe-card-row ${item.position === 1 ? 'fe-row-p1' : ''}`;
                 tr.innerHTML = `
-                    <td class="text-center">
-                        <div class="fe-pos-num">${item.position}</div>
+                    <!-- 1. Posición + Delta -->
+                    <td class="fe-cell-pos">
+                        <span class="fe-pos-inner">
+                            <span class="fe-pos-number">${item.position}</span>
+                            ${getDeltaHtml(item.position)}
+                        </span>
                     </td>
-                    <td>
-                        <div class="fe-driver-cell">
+
+                    <!-- 2. Piloto (Avatar + Nombre + País + Rango) -->
+                    <th scope="row" class="fe-cell-driver">
+                        <div class="fe-driver-inner">
                             <div class="fe-driver-avatar">${getInitials(item.psn_id)}</div>
-                            <div class="fe-driver-details">
-                                <div class="fe-driver-name">${item.psn_id}</div>
+                            <div class="fe-driver-detail">
+                                <span class="fe-driver-name">${item.psn_id}</span>
                                 <div class="fe-driver-sub">
+                                    <img src="assets/country/${item.country || 'pdi'}.png" alt="${item.country}" class="fe-driver-flag" onerror="this.src='assets/country/pdi.png'">
+                                    <span class="fe-nation-code">${getCountryCode(item.country)}</span>
                                     ${rankBadge}
                                 </div>
                             </div>
                         </div>
+                    </th>
+
+                    <!-- 3. País -->
+                    <td class="text-center fe-hide-mobile">
+                        <span class="small text-uppercase fw-bold text-muted">${item.country || 'PDI'}</span>
                     </td>
-                    <td class="text-center">
-                        <div class="d-inline-flex align-items-center gap-1">
-                            <img src="assets/country/${item.country || 'pdi'}.png" alt="${item.country}" class="fe-round-flag" style="width: 20px; height: 13px;" onerror="this.src='assets/country/pdi.png'">
-                            <span class="small text-uppercase fw-bold text-muted">${item.country || 'PDI'}</span>
-                        </div>
-                    </td>
+
+                    <!-- 4. Stats -->
                     <td class="fe-stat-cell fe-hide-mobile">${item.races_completed || 0}</td>
                     <td class="fe-stat-cell fe-hide-mobile ${item.wins > 0 ? 'fe-stat-win' : ''}">
                         ${item.wins > 0 ? `<i class="fas fa-trophy me-1 text-warning"></i>${item.wins}` : '0'}
@@ -608,8 +647,10 @@ async function setupResultadosPage(seasons, activeSeason) {
                     <td class="fe-stat-cell fe-hide-mobile">
                         ${item.podiums > 0 ? `<i class="fas fa-medal me-1 text-warning"></i>${item.podiums}` : '0'}
                     </td>
-                    <td class="fe-points-cell">
-                        <span class="fe-points-badge">${item.total_points} PTS</span>
+
+                    <!-- 5. Puntos Totales (Formula E large typography) -->
+                    <td class="fe-cell-points">
+                        <span class="fe-points-val">${item.total_points}</span>
                     </td>
                 `;
                 tbody.appendChild(tr);
