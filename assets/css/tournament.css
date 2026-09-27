@@ -2048,7 +2048,7 @@ body.paddock-page {
   height: auto;
   display: block;
   object-fit: contain;
-  filter: drop-shadow(0 20px 28px rgba(15, 23, 42, 0.14));
+  filter: drop-shadow(0 25px 35px rgba(15, 23, 42, 0.22));
   transform-origin: left center;
   margin-left: -40px;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
@@ -2056,7 +2056,7 @@ body.paddock-page {
 
 .hero-car-glass-stage:hover .hero-car-isolated-img {
   transform: scale(1.025) translateY(-2px);
-  filter: drop-shadow(0 26px 36px rgba(15, 23, 42, 0.18));
+  filter: drop-shadow(0 32px 45px rgba(15, 23, 42, 0.28));
 }
 
 /* Stage Bottom Telemetry */
