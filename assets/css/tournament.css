@@ -2490,6 +2490,10 @@ body.paddock-page {
   .gt-pill-mobile-btn {
     display: inline-flex;
   }
+  .hero-ferrari-headline {
+    text-align: center;
+    margin-top: 1rem;
+  }
 }
 
 
