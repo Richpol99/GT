@@ -306,17 +306,6 @@ async function setupRankingPage(seasons, activeSeason) {
     });
 
     mainSection.innerHTML = `
-        <!-- Hero Header FIA WEC Telemetry -->
-        <div class="wec-header-block">
-            <div class="container">
-                <span class="wec-header-category">
-                    <span class="wec-status-dot"></span> FIA WEC &bull; DRIVERS STANDINGS TELEMETRY
-                </span>
-                <h1 class="wec-header-title">CHAMPIONSHIP STANDINGS</h1>
-                <p class="wec-header-desc">Clasificación oficial del campeonato GT Academy en formato de telemetría y puntuación por ronda estilo World Endurance Championship.</p>
-            </div>
-        </div>
-
         <!-- Filter & Navigation Bar -->
         <div class="wec-filter-bar">
             <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
@@ -373,17 +362,6 @@ async function setupResultadosPage(seasons, activeSeason) {
 
     // Estructura base FIA WEC
     mainSection.innerHTML = `
-        <!-- Hero Header FIA WEC Telemetry -->
-        <div class="wec-header-block">
-            <div class="container">
-                <span class="wec-header-category">
-                    <span class="wec-status-dot"></span> FIA WEC &bull; OFFICIAL TIMING &amp; SCORING
-                </span>
-                <h1 class="wec-header-title">RACE RESULTS &amp; TELEMETRY</h1>
-                <p class="wec-header-desc">Resultados oficiales de carreras, diferencias de tiempo milimétricas y puntuación en tiempo real del torneo GT Academy.</p>
-            </div>
-        </div>
-
         <!-- Filter & Navigation Bar -->
         <div class="wec-filter-bar">
             <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
