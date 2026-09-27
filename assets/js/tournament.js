@@ -154,7 +154,7 @@ async function setupRankingPage(seasons, activeSeason) {
 // RESULTADOS DE CARRERAS
 // -----------------------------------------------------------
 async function setupResultadosPage(seasons, activeSeason) {
-    const mainSection = document.querySelector('.contact-from-section') || document.querySelector('.resultados');
+    const mainSection = document.querySelector('.resultados');
     if (!mainSection) return;
 
     // Crear barra de control
@@ -182,17 +182,14 @@ async function setupResultadosPage(seasons, activeSeason) {
         <div id="racePillsContainer" class="d-flex flex-wrap gap-2 mt-3"></div>
     `;
 
-    const targetRow = document.querySelector('.contact-from-section .container') || mainSection;
-    targetRow.parentNode.insertBefore(controlsContainer, targetRow);
-
     // Contenedor dinámico de carreras
     const racesDisplay = document.createElement('div');
     racesDisplay.id = 'dynamicRacesContainer';
-    controlsContainer.after(racesDisplay);
 
-    // Ocultar contenido estático viejo de resultados
-    const oldResults = document.querySelectorAll('.contact-from-section');
-    oldResults.forEach(el => el.style.display = 'none');
+    // Limpiar contenido estático viejo de resultados y adjuntar los dinámicos
+    mainSection.innerHTML = '';
+    mainSection.appendChild(controlsContainer);
+    mainSection.appendChild(racesDisplay);
 
     let currentRaces = [];
 

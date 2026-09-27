@@ -303,31 +303,84 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const card = document.createElement('div');
                 card.className = 'border border-secondary rounded p-3 mb-3 bg-black';
                 
-                let resultsHtml = '';
+                let resultsBadges = '';
                 (r.results || []).slice(0, 5).forEach(res => {
-                    resultsHtml += `
+                    resultsBadges += `
                         <span class="badge bg-secondary me-2 mb-1">
                             #${res.position} ${res.psn_id} (+${res.points} pts)
                         </span>
                     `;
                 });
                 if (r.results && r.results.length > 5) {
-                    resultsHtml += `<span class="badge bg-dark text-muted">+${r.results.length - 5} más</span>`;
+                    resultsBadges += `<span class="badge bg-dark text-muted">+${r.results.length - 5} más</span>`;
                 }
+
+                let fullTableRows = '';
+                (r.results || []).forEach(res => {
+                    fullTableRows += `
+                        <tr>
+                            <td class="text-center fw-bold">#${res.position}</td>
+                            <td class="fw-bold text-light">${res.psn_id}</td>
+                            <td><img src="../assets/country/${res.country || 'pdi'}.png" alt="${res.country}" class="flag-icon" onerror="this.src='../assets/country/pdi.png'"> ${String(res.country || '').toUpperCase()}</td>
+                            <td class="text-center text-warning fw-bold">${res.points} pts</td>
+                            <td class="text-center">${res.is_pole ? '🚩' : '-'}</td>
+                            <td class="text-center">${res.is_fastest_lap ? '⚡' : '-'}</td>
+                            <td class="text-muted small">${res.notes || '-'}</td>
+                        </tr>
+                    `;
+                });
 
                 card.innerHTML = `
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h6 class="text-warning mb-1">${r.title} <span class="badge bg-secondary ms-2">${r.car}</span></h6>
                             <div class="small text-muted mb-2">Ronda ${r.round_number} &bull; ${(r.results || []).length} pilotos participantes</div>
-                            <div>${resultsHtml}</div>
+                            <div class="mb-2">${resultsBadges}</div>
                         </div>
-                        <div>
-                            <button class="btn btn-outline-danger btn-sm btn-delete-race" data-id="${r.id}"><i class="fas fa-trash"></i> Eliminar</button>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-info btn-sm btn-toggle-details" data-id="${r.id}">
+                                <i class="fas fa-list me-1"></i> Ver Detalle
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm btn-delete-race" data-id="${r.id}">
+                                <i class="fas fa-trash me-1"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="race-details-table mt-3 pt-3 border-top border-secondary" id="race-details-${r.id}" style="display: none;">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-dark-custom mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width:60px;">POS</th>
+                                        <th>PILOTO</th>
+                                        <th>PAÍS</th>
+                                        <th class="text-center">PUNTOS</th>
+                                        <th class="text-center">POLE</th>
+                                        <th class="text-center">V. RÁPIDA</th>
+                                        <th>NOTAS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${fullTableRows}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 `;
                 racesListContainer.appendChild(card);
+            });
+
+            // Toggle detalles de carrera
+            document.querySelectorAll('.btn-toggle-details').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.target.closest('button').dataset.id;
+                    const detailsEl = document.getElementById(`race-details-${id}`);
+                    if (detailsEl) {
+                        const isHidden = detailsEl.style.display === 'none';
+                        detailsEl.style.display = isHidden ? 'block' : 'none';
+                        btn.innerHTML = isHidden ? '<i class="fas fa-chevron-up me-1"></i> Ocultar' : '<i class="fas fa-list me-1"></i> Ver Detalle';
+                    }
+                });
             });
 
             // Eventos eliminar carrera
