@@ -658,3 +658,145 @@
   margin-bottom: 16px;
 }
 
+/* --------------------------------------------------------------------------
+   8. FORMULA E STANDINGS PER-ROUND BREAKDOWN TABLE
+   -------------------------------------------------------------------------- */
+.ranking-page .breadcrumb-section {
+  display: none !important;
+}
+
+.ranking-page .ranking-content,
+.ranking-page .contact-from-section {
+  margin-top: 0 !important;
+  margin-bottom: 60px !important;
+  padding-top: 0 !important;
+  background: var(--fe-bg-light) !important;
+  min-height: 80vh;
+}
+
+.fe-standings-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 20px;
+}
+
+.fe-standings-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.fe-standings-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.fe-standings-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  min-width: 860px;
+  margin: 0;
+}
+
+.fe-standings-table thead tr th {
+  background: transparent;
+  border: none;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #64748b;
+  padding: 10px 14px;
+  font-family: 'Poppins', sans-serif;
+  white-space: nowrap;
+}
+
+.fe-standings-table thead tr th.fe-th-pos {
+  text-align: left;
+  padding-left: 20px;
+  width: 60px;
+}
+
+.fe-standings-table thead tr th.fe-th-driver {
+  text-align: left;
+  min-width: 230px;
+}
+
+.fe-standings-table thead tr th.fe-th-team {
+  text-align: left;
+  min-width: 150px;
+}
+
+.fe-standings-table thead tr th.fe-th-round {
+  text-align: center;
+  min-width: 62px;
+}
+
+.fe-standings-table thead tr th.fe-th-pts {
+  text-align: right;
+  padding-right: 24px;
+  width: 90px;
+}
+
+.fe-cell-round {
+  text-align: center;
+  vertical-align: middle;
+  padding: 12px 8px !important;
+  min-width: 62px;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.fe-round-points {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0a1124;
+  line-height: 1.1;
+  font-family: 'Poppins', sans-serif;
+}
+
+.fe-round-pos {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+.fe-round-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 3px;
+}
+
+.fe-tag-mini-pole {
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 9px;
+  font-weight: 900;
+  padding: 1px 4px;
+  border-radius: 2px;
+  line-height: 1;
+}
+
+.fe-tag-mini-fl {
+  background: #f3e8ff;
+  color: #7e22ce;
+  font-size: 9px;
+  font-weight: 900;
+  padding: 1px 4px;
+  border-radius: 2px;
+  line-height: 1;
+}
+
+.fe-round-empty {
+  color: #cbd5e1;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+

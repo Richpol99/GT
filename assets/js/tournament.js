@@ -48,121 +48,325 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // -----------------------------------------------------------
-// RANKING GENERAL
+// HELPERS COMPARTIDOS FORMULA E
 // -----------------------------------------------------------
-async function setupRankingPage(seasons, activeSeason) {
-    const tableContainer = document.querySelector('.resultados .container') || document.querySelector('.table-responsive');
-    if (!tableContainer) return;
+const countryCodeMap = {
+    'argentina': 'ARG', 'brasil': 'BRA', 'chile': 'CHI', 'colombia': 'COL',
+    'luxemburgo': 'LUX', 'mexico': 'MEX', 'panama': 'PAN', 'paraguay': 'PAR',
+    'peru': 'PER', 'rd': 'DOM', 'rusia': 'RUS', 'safrica': 'RSA',
+    'venezuela': 'VEN', 'alemania': 'GER', 'francia': 'FRA', 'eu': 'USA', 'pdi': 'GT'
+};
 
-    // Insertar barra de controles interactiva
-    const toolbar = document.createElement('div');
-    toolbar.className = 'gt-toolbar mb-4';
-    
-    let seasonOptions = '';
-    seasons.forEach(s => {
-        const sel = s.id === activeSeason.id ? 'selected' : '';
-        seasonOptions += `<option value="${s.id}" ${sel}>${s.name} ${s.is_active ? '(Activa)' : ''}</option>`;
-    });
+function getCountryCode(country) {
+    if (!country) return 'GT';
+    const c = country.toLowerCase().trim();
+    return countryCodeMap[c] || c.substring(0, 3).toUpperCase();
+}
 
-    toolbar.innerHTML = `
-        <div class="row align-items-center">
-            <div class="col-md-6 mb-3 mb-md-0">
-                <div class="input-group">
-                    <span class="input-group-text" style="border-right: none; background: #f8fafc !important; border-color: #e2e8f0 !important; color: #f28123;"><i class="fas fa-search"></i></span>
-                    <input type="text" id="rankingSearch" class="form-control gt-search-input" placeholder="Buscar piloto o país en tiempo real..." style="border-left: none;">
-                </div>
-            </div>
-            <div class="col-md-6 text-md-end d-flex align-items-center justify-content-md-end">
-                <label class="me-2 text-muted fw-bold small text-uppercase mb-0">Temporada:</label>
-                <select id="seasonSelect" class="form-select gt-season-select" style="max-width: 220px;">
-                    ${seasonOptions}
-                </select>
+function getInitials(name) {
+    if (!name) return 'GT';
+    const clean = name.replace(/[^a-zA-Z0-9]/g, '');
+    return clean.substring(0, 2).toUpperCase() || 'GT';
+}
+
+function getDeltaHtml(pos) {
+    if (pos === 1) return '<span class="fe-delta fe-delta-up" title="Líder / Posición ganada"></span>';
+    if (pos <= 3) return '<span class="fe-delta fe-delta-up" title="Podio"></span>';
+    if (pos <= 10) return '<span class="fe-delta fe-delta-equal" title="Posición mantenida"></span>';
+    return '<span class="fe-delta fe-delta-down" title="Posición"></span>';
+}
+
+// =======================================================
+// RENDERIZADOR OFICIAL FORMULA E: TABLA DE CLASIFICACIÓN
+// =======================================================
+async function renderFormulaEStandingsTable(container, seasonId, seasons) {
+    container.innerHTML = `
+        <div class="container text-center py-5">
+            <div class="fe-empty-state">
+                <i class="fas fa-spinner fa-spin fa-2x text-warning mb-3"></i>
+                <p class="text-muted mb-0">Cargando clasificación oficial de pilotos...</p>
             </div>
         </div>
     `;
 
-    // Encontrar tabla existente
-    const existingTable = document.querySelector('.table');
-    if (existingTable && existingTable.parentNode) {
-        existingTable.parentNode.insertBefore(toolbar, existingTable);
-    }
+    try {
+        const [standingsResp, racesResp] = await Promise.all([
+            fetch(`/api/seasons/${seasonId}/standings`),
+            fetch(`/api/seasons/${seasonId}/races`)
+        ]);
 
-    let standingsData = [];
+        const standings = await standingsResp.json();
+        let races = await racesResp.json();
 
-    async function loadStandings(seasonId) {
-        const tbody = document.querySelector('.table tbody');
-        if (!tbody) return;
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-muted"><i class="fas fa-spinner fa-spin me-2 text-warning"></i> Cargando clasificación...</td></tr>';
+        // Ordenar carreras por número de ronda ascendente
+        races.sort((a, b) => a.round_number - b.round_number);
 
-        try {
-            const resp = await fetch(`/api/seasons/${seasonId}/standings`);
-            standingsData = await resp.json();
-            renderStandings(standingsData);
-        } catch (e) {
-            tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-danger">Error cargando clasificación.</td></tr>';
-        }
-    }
+        // Mapear resultados de cada piloto por ronda
+        const driverRoundMap = {};
+        const driverCarMap = {};
 
-    function renderStandings(data) {
-        const tbody = document.querySelector('.table tbody');
-        if (!tbody) return;
-        tbody.innerHTML = '';
+        races.forEach(race => {
+            (race.results || []).forEach(res => {
+                if (!driverRoundMap[res.driver_id]) {
+                    driverRoundMap[res.driver_id] = {};
+                }
+                driverRoundMap[res.driver_id][race.round_number] = {
+                    points: res.points,
+                    position: res.position,
+                    is_pole: res.is_pole,
+                    is_fl: res.is_fastest_lap
+                };
+                if (!driverCarMap[res.driver_id]) {
+                    driverCarMap[res.driver_id] = race.car;
+                }
+            });
+        });
 
-        if (data.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-muted">No hay registros de puntos en esta temporada aún.</td></tr>';
+        if (standings.length === 0) {
+            container.innerHTML = `
+                <div class="container text-center py-5">
+                    <div class="fe-empty-state">
+                        <i class="fas fa-trophy fe-empty-icon"></i>
+                        <h4 class="text-dark fw-bold">No hay pilotos registrados con puntos en esta temporada</h4>
+                        <p class="text-muted small mb-0">Los puntos obtenidos en cada carrera aparecerán desglosados aquí.</p>
+                    </div>
+                </div>
+            `;
             return;
         }
 
-        data.forEach(item => {
-            const tr = document.createElement('tr');
-            
-            // Icono de medalla para top 3
-            let posDisplay = `<span class="badge rounded-pill bg-light text-dark border px-2 py-1">#${item.position}</span>`;
-            let rowStyle = '';
-            if (item.position === 1) {
-                posDisplay = '<span class="badge rounded-pill px-3 py-1" style="background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; font-weight: 800; font-size: 14px;">🥇 1</span>';
-                rowStyle = 'background: rgba(251, 191, 36, 0.08);';
-            } else if (item.position === 2) {
-                posDisplay = '<span class="badge rounded-pill px-3 py-1" style="background: linear-gradient(135deg, #e2e8f0, #94a3b8); color: #000; font-weight: 800; font-size: 14px;">🥈 2</span>';
-                rowStyle = 'background: rgba(203, 213, 225, 0.05);';
-            } else if (item.position === 3) {
-                posDisplay = '<span class="badge rounded-pill px-3 py-1" style="background: linear-gradient(135deg, #f97316, #c2410c); color: #fff; font-weight: 800; font-size: 14px;">🥉 3</span>';
-                rowStyle = 'background: rgba(249, 115, 22, 0.05);';
+        // Construir encabezados de rondas
+        let roundHeadersHtml = '';
+        races.forEach(r => {
+            roundHeadersHtml += `
+                <th class="fe-th-round" title="${r.title || 'Ronda ' + r.round_number}">
+                    RD ${String(r.round_number).padStart(2, '0')}
+                </th>
+            `;
+        });
+
+        container.innerHTML = `
+            <!-- Overview Header de Clasificación -->
+            <div class="fe-session-header">
+                <div class="container">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div>
+                            <p class="mb-1 text-uppercase fw-bold" style="font-size: 12px; letter-spacing: 1.5px; color: #f28123;">
+                                <i class="fas fa-trophy me-1"></i> CAMPEONATO OFICIAL &bull; CLASIFICACIÓN GENERAL
+                            </p>
+                            <h2 class="fe-session-title mb-1">DRIVERS STANDINGS</h2>
+                            <div class="fe-session-meta">
+                                <span class="fe-meta-tag highlight"><i class="fas fa-flag-checkered"></i> ${races.length} Rondas</span>
+                                <span class="fe-meta-tag"><i class="fas fa-users"></i> ${standings.length} Pilotos con puntos</span>
+                            </div>
+                        </div>
+                        <div>
+                            <input type="text" id="feStandingsSearch" class="form-control fe-search-box" placeholder="Buscar piloto o país...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Cards Formula E con Desglose de Rondas -->
+            <div class="container fe-table-container">
+                <div class="fe-standings-scroll">
+                    <table class="fe-standings-table">
+                        <thead>
+                            <tr>
+                                <th class="fe-th-pos">POS</th>
+                                <th class="fe-th-driver">DRIVER</th>
+                                <th class="fe-th-team fe-hide-mobile">TEAM / CAR</th>
+                                ${roundHeadersHtml}
+                                <th class="fe-th-pts">PTS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="feStandingsRowsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
+        const tbody = document.getElementById('feStandingsRowsBody');
+        const searchInput = document.getElementById('feStandingsSearch');
+
+        function renderRows(items) {
+            tbody.innerHTML = '';
+            if (items.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="${4 + races.length}" class="text-center py-5 text-muted">
+                            <i class="fas fa-info-circle me-1"></i> No se encontraron pilotos para esta búsqueda.
+                        </td>
+                    </tr>
+                `;
+                return;
             }
 
-            if (rowStyle) tr.setAttribute('style', rowStyle);
+            items.forEach(item => {
+                let rankBadge = '';
+                if (item.rank) {
+                    rankBadge = `<span class="fe-rank-badge fe-rank-${item.rank}">${item.rank}</span>`;
+                }
 
-            tr.innerHTML = `
-                <td class="text-center fw-bold align-middle">${posDisplay}</td>
-                <td class="text-center fw-bold text-dark align-middle" style="font-size: 15px;">${item.psn_id}</td>
-                <td class="text-center align-middle">
-                    <img src="assets/country/${item.country}.png" alt="${item.country}" class="gt-flag-img" loading="lazy" decoding="async" onerror="this.src='assets/country/pdi.png'">
-                    <span class="ms-1 small text-muted text-uppercase">${item.country}</span>
-                </td>
-                <td class="text-center fw-bold align-middle">
-                    <span class="gt-pts-badge">${item.total_points} PTS</span>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
+                const driverCar = driverCarMap[item.driver_id] || 'GT CUP';
+
+                // Generar celdas por ronda
+                let roundsCellsHtml = '';
+                races.forEach(r => {
+                    const rData = driverRoundMap[item.driver_id] ? driverRoundMap[item.driver_id][r.round_number] : null;
+                    if (rData) {
+                        let tagsHtml = '';
+                        if (rData.is_pole) tagsHtml += '<span class="fe-tag-mini-pole">P</span>';
+                        if (rData.is_fl) tagsHtml += '<span class="fe-tag-mini-fl">FL</span>';
+
+                        roundsCellsHtml += `
+                            <td class="fe-cell-round">
+                                <span class="fe-round-points">${rData.points}</span>
+                                <span class="fe-round-pos">P${rData.position}</span>
+                                ${tagsHtml ? `<div class="fe-round-badges">${tagsHtml}</div>` : ''}
+                            </td>
+                        `;
+                    } else {
+                        roundsCellsHtml += `
+                            <td class="fe-cell-round fe-round-empty">
+                                <span class="fe-round-points text-muted">—</span>
+                            </td>
+                        `;
+                    }
+                });
+
+                const tr = document.createElement('tr');
+                tr.className = `fe-card-row ${item.position === 1 ? 'fe-row-p1' : ''}`;
+                tr.innerHTML = `
+                    <!-- 1. Posición + Delta -->
+                    <td class="fe-cell-pos">
+                        <span class="fe-pos-inner">
+                            <span class="fe-pos-number">${item.position}</span>
+                            ${getDeltaHtml(item.position)}
+                        </span>
+                    </td>
+
+                    <!-- 2. Piloto (Avatar + Nombre + Bandera + País + Subtítulo) -->
+                    <th scope="row" class="fe-cell-driver">
+                        <div class="fe-driver-inner">
+                            <div class="fe-driver-avatar">${getInitials(item.psn_id)}</div>
+                            <div class="fe-driver-detail">
+                                <span class="fe-driver-name">${item.psn_id}</span>
+                                <div class="fe-driver-sub">
+                                    <img src="assets/country/${item.country || 'pdi'}.png" alt="${item.country}" class="fe-driver-flag" onerror="this.src='assets/country/pdi.png'">
+                                    <span class="fe-nation-code">${getCountryCode(item.country)}</span>
+                                    ${rankBadge}
+                                </div>
+                                <div class="fe-driver-team-mobile">${driverCar}</div>
+                            </div>
+                        </div>
+                    </th>
+
+                    <!-- 3. Equipo / Auto -->
+                    <td class="fe-cell-team fe-hide-mobile">
+                        <div class="fe-team-inner">
+                            <div class="fe-car-crest">
+                                <i class="fas fa-car-side"></i>
+                            </div>
+                            <span class="fe-team-label">${driverCar}</span>
+                        </div>
+                    </td>
+
+                    <!-- 4. Desglose por Ronda -->
+                    ${roundsCellsHtml}
+
+                    <!-- 5. Puntos Totales (Formula E grande) -->
+                    <td class="fe-cell-points">
+                        <span class="fe-points-val">${item.total_points}</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        renderRows(standings);
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const q = e.target.value.toLowerCase().trim();
+                const filtered = standings.filter(s => 
+                    s.psn_id.toLowerCase().includes(q) || (s.country && s.country.toLowerCase().includes(q))
+                );
+                renderRows(filtered);
+            });
+        }
+
+    } catch (e) {
+        container.innerHTML = `
+            <div class="container text-center py-5">
+                <div class="fe-empty-state text-danger">
+                    <i class="fas fa-exclamation-triangle fe-empty-icon text-danger"></i>
+                    <h4 class="fw-bold">Error al cargar la clasificación</h4>
+                    <p class="text-muted small mb-0">No se pudieron obtener los datos de la temporada.</p>
+                </div>
+            </div>
+        `;
     }
+}
 
-    // Buscador interactivo
-    document.getElementById('rankingSearch').addEventListener('input', (e) => {
-        const q = e.target.value.toLowerCase().trim();
-        const filtered = standingsData.filter(d => 
-            d.psn_id.toLowerCase().includes(q) || d.country.toLowerCase().includes(q)
-        );
-        renderStandings(filtered);
+// =======================================================
+// 1. PÁGINA: RANKING GENERAL (ranking.html)
+// =======================================================
+async function setupRankingPage(seasons, activeSeason) {
+    const mainSection = document.querySelector('.ranking-content') || document.querySelector('.contact-from-section') || document.querySelector('.resultados');
+    if (!mainSection) return;
+
+    let currentSeasonId = activeSeason.id;
+
+    let seasonOptions = '';
+    seasons.forEach(s => {
+        const sel = s.id === currentSeasonId ? 'selected' : '';
+        seasonOptions += `<option value="${s.id}" ${sel}>${s.name} ${s.is_active ? '(Activa)' : ''}</option>`;
     });
 
-    // Cambio de temporada
-    document.getElementById('seasonSelect').addEventListener('change', (e) => {
-        loadStandings(e.target.value);
+    mainSection.innerHTML = `
+        <!-- 1. Hero Header Block -->
+        <div class="fe-header-block">
+            <div class="container">
+                <span class="fe-header-category">STANDINGS &bull; GT ACADEMY</span>
+                <h1 class="fe-header-title">DRIVERS STANDINGS</h1>
+                <p class="fe-header-desc">Clasificación oficial del campeonato general de pilotos de GT Academy con desglose de puntos por ronda y estadísticas completas.</p>
+            </div>
+        </div>
+
+        <!-- 2. Filter & Navigation Bar -->
+        <div class="fe-filter-bar">
+            <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div class="fe-nav-tabs">
+                    <a href="resultados.html" class="fe-nav-tab" style="text-decoration: none;">
+                        <i class="fas fa-flag-checkered me-1"></i> Race Results
+                    </a>
+                    <button class="fe-nav-tab active">
+                        <i class="fas fa-trophy me-1"></i> Drivers Standings
+                    </button>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <label class="text-muted fw-bold small text-uppercase mb-0 d-none d-sm-inline">Temporada:</label>
+                    <select id="seasonSelectRanking" class="form-select fe-season-dropdown">
+                        ${seasonOptions}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Standings Table Container -->
+        <div id="feRankingTableContent"></div>
+    `;
+
+    const rankingTableContainer = document.getElementById('feRankingTableContent');
+    const seasonSelect = document.getElementById('seasonSelectRanking');
+
+    seasonSelect.addEventListener('change', (e) => {
+        currentSeasonId = parseInt(e.target.value, 10);
+        renderFormulaEStandingsTable(rankingTableContainer, currentSeasonId, seasons);
     });
 
-    // Carga inicial
-    loadStandings(activeSeason.id);
+    renderFormulaEStandingsTable(rankingTableContainer, currentSeasonId, seasons);
 }
 
 // -----------------------------------------------------------
@@ -232,33 +436,6 @@ async function setupResultadosPage(seasons, activeSeason) {
     const contentArea = document.getElementById('feDynamicContent');
     const navTabs = document.querySelectorAll('.fe-nav-tab');
     const seasonSelect = document.getElementById('seasonSelectResultados');
-
-    // Helper: Iniciales de piloto para el avatar
-    function getInitials(name) {
-        if (!name) return 'GT';
-        const clean = name.replace(/[^a-zA-Z0-9]/g, '');
-        return clean.substring(0, 2).toUpperCase() || 'GT';
-    }
-
-    const countryCodeMap = {
-        'argentina': 'ARG', 'brasil': 'BRA', 'chile': 'CHI', 'colombia': 'COL',
-        'luxemburgo': 'LUX', 'mexico': 'MEX', 'panama': 'PAN', 'paraguay': 'PAR',
-        'peru': 'PER', 'rd': 'DOM', 'rusia': 'RUS', 'safrica': 'RSA',
-        'venezuela': 'VEN', 'alemania': 'GER', 'francia': 'FRA', 'eu': 'USA', 'pdi': 'GT'
-    };
-
-    function getCountryCode(country) {
-        if (!country) return 'GT';
-        const c = country.toLowerCase().trim();
-        return countryCodeMap[c] || c.substring(0, 3).toUpperCase();
-    }
-
-    function getDeltaHtml(pos) {
-        if (pos === 1) return '<span class="fe-delta fe-delta-up" title="Líder / Posición ganada"></span>';
-        if (pos <= 3) return '<span class="fe-delta fe-delta-up" title="Podio"></span>';
-        if (pos <= 10) return '<span class="fe-delta fe-delta-equal" title="Posición mantenida"></span>';
-        return '<span class="fe-delta fe-delta-down" title="Posición"></span>';
-    }
 
     // Tab switcher
     navTabs.forEach(tabBtn => {
@@ -517,157 +694,7 @@ async function setupResultadosPage(seasons, activeSeason) {
     // CARGAR CLASIFICACIÓN GENERAL (DRIVERS STANDINGS)
     // =======================================================
     async function loadStandings(seasonId) {
-        contentArea.innerHTML = `
-            <div class="container text-center py-5">
-                <div class="fe-empty-state">
-                    <i class="fas fa-spinner fa-spin fa-2x text-warning mb-3"></i>
-                    <p class="text-muted mb-0">Cargando clasificación de pilotos...</p>
-                </div>
-            </div>
-        `;
-
-        try {
-            const resp = await fetch(`/api/seasons/${seasonId}/standings`);
-            cachedStandings = await resp.json();
-            renderStandingsView(cachedStandings);
-        } catch (e) {
-            contentArea.innerHTML = `
-                <div class="container text-center py-5">
-                    <div class="fe-empty-state text-danger">
-                        <i class="fas fa-exclamation-triangle fe-empty-icon text-danger"></i>
-                        <h4 class="fw-bold">Error de conexión</h4>
-                        <p class="text-muted small mb-0">No se pudo cargar la tabla de clasificación.</p>
-                    </div>
-                </div>
-            `;
-        }
-    }
-
-    // Renderizar la vista de clasificación
-    function renderStandingsView(standings) {
-        contentArea.innerHTML = `
-            <div class="fe-session-header">
-                <div class="container">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                        <div>
-                            <p class="mb-1 text-uppercase fw-bold" style="font-size: 12px; letter-spacing: 1.5px; color: #f28123;">
-                                <i class="fas fa-trophy me-1"></i> CAMPEONATO OFICIAL &bull; CLASIFICACIÓN GENERAL
-                            </p>
-                            <h2 class="fe-session-title mb-1">DRIVERS STANDINGS</h2>
-                            <div class="fe-session-meta">
-                                <span class="fe-meta-tag highlight"><i class="fas fa-trophy"></i> Temporada Oficial</span>
-                                <span class="fe-meta-tag"><i class="fas fa-users"></i> ${standings.length} Pilotos con puntos</span>
-                            </div>
-                        </div>
-                        <div>
-                            <input type="text" id="feStandingsSearch" class="form-control fe-search-box" placeholder="Buscar piloto o país...">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container fe-table-container">
-                <div class="table-responsive">
-                    <table class="fe-table">
-                        <thead>
-                            <tr>
-                                <th class="fe-cell-pos">POS</th>
-                                <th class="fe-cell-driver">PILOTO</th>
-                                <th class="text-center fe-hide-mobile">PAÍS</th>
-                                <th class="fe-stat-cell fe-hide-mobile">CARRERAS</th>
-                                <th class="fe-stat-cell fe-hide-mobile">VICTORIAS</th>
-                                <th class="fe-stat-cell fe-hide-mobile">PODIOS</th>
-                                <th class="fe-cell-points">PTS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="feStandingsTableBody"></tbody>
-                    </table>
-                </div>
-            </div>
-        `;
-
-        const tbody = document.getElementById('feStandingsTableBody');
-        const searchInput = document.getElementById('feStandingsSearch');
-
-        function renderRows(items) {
-            tbody.innerHTML = '';
-            if (items.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="text-center py-5 text-muted">
-                            <i class="fas fa-info-circle me-1"></i> No hay pilotos registrados con puntos aún.
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            items.forEach(item => {
-                let rankBadge = '';
-                if (item.rank) {
-                    rankBadge = `<span class="fe-rank-badge fe-rank-${item.rank}">${item.rank}</span>`;
-                }
-
-                const tr = document.createElement('tr');
-                tr.className = `fe-card-row ${item.position === 1 ? 'fe-row-p1' : ''}`;
-                tr.innerHTML = `
-                    <!-- 1. Posición + Delta -->
-                    <td class="fe-cell-pos">
-                        <span class="fe-pos-inner">
-                            <span class="fe-pos-number">${item.position}</span>
-                            ${getDeltaHtml(item.position)}
-                        </span>
-                    </td>
-
-                    <!-- 2. Piloto (Avatar + Nombre + País + Rango) -->
-                    <th scope="row" class="fe-cell-driver">
-                        <div class="fe-driver-inner">
-                            <div class="fe-driver-avatar">${getInitials(item.psn_id)}</div>
-                            <div class="fe-driver-detail">
-                                <span class="fe-driver-name">${item.psn_id}</span>
-                                <div class="fe-driver-sub">
-                                    <img src="assets/country/${item.country || 'pdi'}.png" alt="${item.country}" class="fe-driver-flag" onerror="this.src='assets/country/pdi.png'">
-                                    <span class="fe-nation-code">${getCountryCode(item.country)}</span>
-                                    ${rankBadge}
-                                </div>
-                            </div>
-                        </div>
-                    </th>
-
-                    <!-- 3. País -->
-                    <td class="text-center fe-hide-mobile">
-                        <span class="small text-uppercase fw-bold text-muted">${item.country || 'PDI'}</span>
-                    </td>
-
-                    <!-- 4. Stats -->
-                    <td class="fe-stat-cell fe-hide-mobile">${item.races_completed || 0}</td>
-                    <td class="fe-stat-cell fe-hide-mobile ${item.wins > 0 ? 'fe-stat-win' : ''}">
-                        ${item.wins > 0 ? `<i class="fas fa-trophy me-1 text-warning"></i>${item.wins}` : '0'}
-                    </td>
-                    <td class="fe-stat-cell fe-hide-mobile">
-                        ${item.podiums > 0 ? `<i class="fas fa-medal me-1 text-warning"></i>${item.podiums}` : '0'}
-                    </td>
-
-                    <!-- 5. Puntos Totales (Formula E large typography) -->
-                    <td class="fe-cell-points">
-                        <span class="fe-points-val">${item.total_points}</span>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        renderRows(standings);
-
-        if (searchInput) {
-            searchInput.addEventListener('input', (e) => {
-                const q = e.target.value.toLowerCase().trim();
-                const filtered = standings.filter(s => 
-                    s.psn_id.toLowerCase().includes(q) || (s.country && s.country.toLowerCase().includes(q))
-                );
-                renderRows(filtered);
-            });
-        }
+        renderFormulaEStandingsTable(contentArea, seasonId, seasons);
     }
 
     // Carga inicial
