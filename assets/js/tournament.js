@@ -78,12 +78,11 @@ function getInitials(name) {
     return clean.substring(0, 2).toUpperCase() || 'GT';
 }
 
-function getCategoryBadge(pos, rank) {
-    if (pos === 1) return '<span class="wec-badge wec-badge-category">GT-PRO</span>';
-    if (rank === 'platino' || rank === 'diamante' || rank === 'oro') {
-        return '<span class="wec-badge wec-badge-category">GT-PRO</span>';
-    }
-    return '<span class="wec-badge wec-badge-rank">GT-CUP</span>';
+function getCategoryBadge(pos) {
+    if (pos === 1) return '<span class="wec-badge wec-badge-category">LÍDER</span>';
+    if (pos <= 3) return '<span class="wec-badge wec-badge-category">PODIO</span>';
+    if (pos <= 10) return '<span class="wec-badge wec-badge-category">TOP 10</span>';
+    return '<span class="wec-badge wec-badge-rank">GRID</span>';
 }
 
 // -----------------------------------------------------------
@@ -335,8 +334,7 @@ async function renderWECStandingsTable(container, seasonId, seasons) {
                                 <span class="wec-driver-name">${item.psn_id}</span>
                                 <div class="wec-driver-badges">
                                     <span class="wec-badge wec-badge-rank">${getCountryCode(item.country)}</span>
-                                    ${item.rank ? `<span class="wec-badge wec-badge-rank">${item.rank.toUpperCase()}</span>` : ''}
-                                    ${getCategoryBadge(item.position, item.rank)}
+                                    ${getCategoryBadge(item.position)}
                                 </div>
                             </div>
                         </div>
@@ -681,8 +679,7 @@ async function setupResultadosPage(seasons, activeSeason) {
                 let badgesHtml = '';
                 if (res.is_pole) badgesHtml += `<span class="wec-badge wec-badge-pole">POLE</span>`;
                 if (res.is_fastest_lap) badgesHtml += `<span class="wec-badge wec-badge-fl">FL</span>`;
-                if (res.rank) badgesHtml += `<span class="wec-badge wec-badge-rank">${res.rank.toUpperCase()}</span>`;
-                badgesHtml += getCategoryBadge(res.position, res.rank);
+                badgesHtml += getCategoryBadge(res.position);
 
                 const rowDiv = document.createElement('div');
                 rowDiv.className = `wec-row ${res.position === 1 ? 'p1' : (res.position === 2 ? 'p2' : (res.position === 3 ? 'p3' : ''))}`;

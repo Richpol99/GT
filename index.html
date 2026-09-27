@@ -4,16 +4,17 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Sitio oficial de la GT ACADEMY en Gran Turismo. Calendario de carreras, resultados, rankings, setups de autos y comunidad de pilotos.">
+	<meta name="description" content="GT ACADEMY - Campeonato y Liga Oficial de Simracing en Gran Turismo 6 (PS3). Telemetría FIA WEC, Paddock de pilotos, circuitos y resultados oficiales.">
 
 	<!-- title -->
-	<title>GT ACADEMY - Campeonato y Comunidad Gran Turismo</title>
+	<title>GT ACADEMY - Campeonato Oficial Gran Turismo 6 (PS3)</title>
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 	<!-- fontawesome -->
 	<link rel="stylesheet" href="assets/css/all.min.css">
 	<!-- bootstrap -->
@@ -30,9 +31,11 @@
 	<link rel="stylesheet" href="assets/css/main.css">
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
+	<!-- modern motorsport & glassmorphism style -->
+	<link rel="stylesheet" href="assets/css/tournament.css">
 
 </head>
-<body>
+<body class="home-page" style="background-color: #f8fafc; color: #0f172a;">
 	
 	<!--PreLoader-->
     <div class="loader">
@@ -51,7 +54,7 @@
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="index.html">
-								<img src="assets/img/logo.png" alt="">
+								<img src="assets/img/logo-dark.png" alt="GT Academy" style="max-height: 48px;">
 							</a>
 						</div>
 						<!-- logo -->
@@ -59,28 +62,24 @@
 						<!-- menu start -->
 						<nav class="main-menu">
 							<ul>
+								<li class="current-list-item"><a href="index.html">Inicio</a></li>
 								<li><a href="#">Eventos</a>
 									<ul class="sub-menu">
+										<li><a href="paddock.html">Paddock de Pilotos</a></li>
 										<li><a href="resultados.html">Resultados</a></li>
 										<li><a href="ranking.html">Tabla de puntos General</a></li>
-										<li><a href="paddock.html">Paddock de Pilotos</a></li>
 										<li><a href="calendario.html">Calendario de la temporada</a></li>
 									</ul>
 								</li>
+								<li><a href="#circuitos">Circuitos</a></li>
 								<li><a href="#">Setup</a>
 									<ul class="sub-menu">
-										<li><a href="setup.html">concepto de Setup</a></li>
-										<li><a href="conceptos.html">Como hacer tu propio setup</a></li>
+										<li><a href="setup.html">Concepto de Setup</a></li>
+										<li><a href="conceptos.html">Cómo hacer tu propio setup</a></li>
 									</ul>
 								</li>
-								<li><a href="#">Multimedia</a>
-									<ul class="sub-menu">
-										<li><a href="galeria.html">Galeria de Fotos</a></li>
-									</ul>
-								</li>
-								<li><a href="discord.html">Unete a nuestro Discord</a></li>
-								<li>
-								</li>
+								<li><a href="galeria.html">Galería</a></li>
+								<li><a href="discord.html">Comunidad Discord</a></li>
 							</ul>
 						</nav>
 						<a class="mobile-show search-bar-icon" href="#"></a>
@@ -92,110 +91,389 @@
 		</div>
 	</div>
 	<!-- end header -->
-	<!-- hero area -->
-	<div class="hero-area hero-bg" style="background-image: url('assets/img/inicio.webp'); position: relative;">
+
+	<!-- HERO AREA (Light Glassmorphism Motorsport Hero) -->
+	<section class="hero-area" style="padding-top: 170px; padding-bottom: 90px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; position: relative;">
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-9 offset-lg-2 text-center">
-					<div class="hero-text">
-						<div class="hero-text-tablecell">
-							<h1>¡Temporada 2 PROXIMAMENTE!</h1>
+			<div class="row align-items-center">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="gt-glass-card p-4 p-md-5" style="background: rgba(255, 255, 255, 0.95); border: 1px solid #cbd5e1; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);">
+						<div class="d-inline-flex align-items-center gap-2 mb-3" style="background: rgba(242, 129, 35, 0.08); border: 1px solid rgba(242, 129, 35, 0.25); padding: 5px 14px; border-radius: 20px;">
+							<span style="width: 8px; height: 8px; border-radius: 50%; background: #16a34a; display: inline-block;"></span>
+							<span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #f28123; letter-spacing: 1.5px; text-transform: uppercase;">LIGA OFICIAL • GRAN TURISMO 6 (PS3)</span>
+						</div>
+						<h1 style="font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; font-weight: 800; color: #0f172a; margin-bottom: 16px; letter-spacing: -0.5px; text-transform: uppercase;">
+							GT ACADEMY LEAGUE
+						</h1>
+						<p style="font-size: 1.05rem; color: #64748b; line-height: 1.6; max-width: 680px; margin: 0 auto 28px auto;">
+							El campeonato de simracing definitivo en PlayStation 3. Parrilla unificada en sala privada online, balance estricto por Puntos de Rendimiento (PR), telemetría milimétrica en tiempo real y el espíritu de competición pura en cada circuito.
+						</p>
+						<div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
+							<a href="paddock.html" class="btn-gt-primary">
+								<i class="fas fa-users"></i> Explorar Paddock de Pilotos
+							</a>
+							<a href="ranking.html" class="btn-gt-secondary">
+								<i class="fas fa-trophy"></i> Clasificación General
+							</a>
+							<a href="#circuitos" class="btn-gt-outline">
+								<i class="fas fa-road"></i> Ver Circuitos
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Quick Stats Strip -->
+			<div class="row mt-5">
+				<div class="col-lg-10 offset-lg-1">
+					<div class="gt-stats-strip">
+						<div class="gt-stat-box">
+							<div class="num" style="color: #f28123;">37</div>
+							<div class="lbl">Pilotos Registrados</div>
+						</div>
+						<div class="gt-stat-box">
+							<div class="num" style="color: #0284c7;">14</div>
+							<div class="lbl">Rondas Oficiales</div>
+						</div>
+						<div class="gt-stat-box">
+							<div class="num" style="color: #16a34a;">10</div>
+							<div class="lbl">Circuitos de GT6</div>
+						</div>
+						<div class="gt-stat-box">
+							<div class="num" style="color: #0f172a;">PS3</div>
+							<div class="lbl">Salas Online Privadas</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- end hero area -->
+	</section>
+	<!-- END HERO AREA -->
 
-	<!-- product section -->
-<div class="QUE_ES mt-150 mb-150">
-    <div class="container">
-			<style>
-                /* Estilo para aumentar el tamaño de la letra del texto */
-                .QUE_ES p {
-                    font-size: 18px; /* Tamaño de letra aumentado */
-                }
-            </style>
-			<style>
-                /* Estilo para centrar y aumentar el tamaño del título */
-                .QUE_ES h3 {
-                    text-align: center; /* Centrar el texto */
-                    font-size: 30px; /* Tamaño de letra aumentado */
-					margin-bottom: 80px;
-                }
-            </style>
-                    <h3>¿QUÉ ES LA GT ACADEMY?</h3>
-                    <p>La GT Academy es un campeonato emocionante diseñado para pilotos novatos 
-                        y experimentados por igual, que se lleva a cabo semanalmente. En este evento, 
-                        los participantes se enfrentan a desafíos únicos que incluyen cambios de automóvil, 
-                        pista y condiciones climáticas, lo que brinda una experiencia dinámica y desafiante para todos los involucrados.</p>
-                    <p><strong>Participación Semanal: </span></strong>Cada semana, los pilotos tienen la oportunidad de participar en la GT Academy. Se les presenta un conjunto de desafíos nuevos y emocionantes que ponen a prueba sus habilidades en diversas condiciones de manejo.</p>
-                    <p><strong>Cambio de Automóvil: </span></strong>Una de las características distintivas de la GT Academy es que los participantes deben adaptarse a diferentes vehículos de carrera cada semana. Desde coches deportivos hasta fórmulas de carreras, la variedad de automóviles desafía la adaptabilidad y habilidad de los pilotos.</p>
-                    <p><strong>Variedad de Pistas: </span></strong>Además de cambiar de automóvil, los pilotos también se enfrentan a una variedad de pistas de carreras en todo el mundo. Desde circuitos famosos hasta rutas desafiantes, cada pista presenta sus propios desafíos únicos que requieren habilidades específicas de conducción.</p>
-                    <p><strong>Condiciones Climáticas Cambiantes: </span></strong>Para agregar aún más complejidad, las condiciones climáticas cambian constantemente en la GT Academy. Desde días soleados hasta lluvias torrenciales, los pilotos deben ajustar su estrategia de conducción para adaptarse a las condiciones del momento.</p>
-                    <p><strong>Desarrollo de Habilidades: </span></strong>La GT Academy ofrece a los pilotos novatos la oportunidad de mejorar sus habilidades de conducción bajo desafíos. Para los pilotos experimentados, es una plataforma para perfeccionar aún más sus técnicas de manejo y estrategias de carrera.</p>    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+	<!-- PILARES DEL CAMPEONATO -->
+	<section class="py-5" style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
+		<div class="container py-4">
+			<div class="row mb-5">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #f28123; letter-spacing: 2px; text-transform: uppercase;">FILOSOFÍA DE COMPETICIÓN</span>
+					<h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 800; color: #0f172a; margin-top: 6px; letter-spacing: -0.5px;">
+						¿CÓMO SE COMPITE EN LA GT ACADEMY?
+					</h2>
+					<p style="color: #64748b; font-size: 15px;">Diseñado para simracers de PlayStation 3 que buscan máxima igualdad mecánica y deportividad absoluta.</p>
+				</div>
+			</div>
 
-<!-- Paddock GT6 Section -->
-<div class="paddock-showcase-section mt-150 mb-150">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2 text-center">
-                <div class="section-title">
-                    <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 800;">PADDOCK OFICIAL DE PILOTOS <span class="orange-text">GT6</span></h3>
-                    <p style="font-size: 16px; color: #94a3b8;">En la GT Academy todos los competidores corren en una misma parrilla unificada en Gran Turismo 6 (PS3). Sin rangos arbitrarios: tu prestigio se forja en la pista con cada carrera, podio y victoria.</p>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="feature-box text-center p-4" style="background: #161b22; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; height: 100%;">
-                    <div class="feature-icon mb-3" style="font-size: 2.2rem; color: #00e5ff;">
-                        <i class="fas fa-id-card"></i>
-                    </div>
-                    <h4 class="text-white mb-2" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">Ficha de Piloto GT6</h4>
-                    <p class="text-muted small">Cada competidor cuenta con su tarjeta oficial con PSN ID, bandera de país y su máquina insignia oficial de Gran Turismo 6.</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="feature-box text-center p-4" style="background: #161b22; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; height: 100%;">
-                    <div class="feature-icon mb-3" style="font-size: 2.2rem; color: #facc15;">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                    <h4 class="text-white mb-2" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">Palmarés en Tiempo Real</h4>
-                    <p class="text-muted small">Estadísticas calculadas en tiempo real: victorias, podios, poles, vueltas rápidas y puntos acumulados en la liga.</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="feature-box text-center p-4" style="background: #161b22; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; height: 100%;">
-                    <div class="feature-icon mb-3" style="font-size: 2.2rem; color: #22c55e;">
-                        <i class="fas fa-flag-checkered"></i>
-                    </div>
-                    <h4 class="text-white mb-2" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">Parrilla Unificada PS3</h4>
-                    <p class="text-muted small">Salas online competitivas con igualdad mecánica, balance de rendimiento por PR, sin ayudas artificiales y telemetría transparente.</p>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-12 text-center">
-                <a href="paddock.html" class="boxed-btn" style="border-radius: 30px; padding: 12px 30px; font-weight: 700;">
-                    <i class="fas fa-users me-2"></i> Ver Paddock de Pilotos
-                </a>
-                <a href="ranking.html" class="bordered-btn ml-3" style="border-radius: 30px; padding: 12px 30px; font-weight: 700;">
-                    <i class="fas fa-table me-2"></i> Tabla de Puntos
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
+			<div class="row g-4">
+				<div class="col-lg-4 col-md-6 mb-4">
+					<div class="gt-pillar-card">
+						<div class="gt-pillar-icon" style="color: #f28123;">
+							<i class="fas fa-flag-checkered"></i>
+						</div>
+						<h3 class="gt-pillar-title">Parrilla Abierta & Sin Rangos</h3>
+						<p class="gt-pillar-desc">
+							Eliminamos las categorías artificiales de bronce o plata. Cada piloto entra a la pista con su PSN ID y su propia habilidad al volante; el respeto y la reputación se forjan curva a curva con podios y constancia.
+						</p>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6 mb-4">
+					<div class="gt-pillar-card">
+						<div class="gt-pillar-icon" style="color: #0284c7;">
+							<i class="fas fa-sliders-h"></i>
+						</div>
+						<h3 class="gt-pillar-title">Igualdad Técnica & PR GT6</h3>
+						<p class="gt-pillar-desc">
+							Regulación estricta en sala por Puntos de Rendimiento (PR), compuestos de neumáticos oficiales y prohibición de ayudas artificiales (TCS=0, sin ayudas de frenada; solo ABS=1 permitido). Lo único que marca la diferencia son tus manos.
+						</p>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6 mb-4">
+					<div class="gt-pillar-card">
+						<div class="gt-pillar-icon" style="color: #16a34a;">
+							<i class="fas fa-stopwatch"></i>
+						</div>
+						<h3 class="gt-pillar-title">Telemetría WEC & Paddock</h3>
+						<p class="gt-pillar-desc">
+							Resultados oficiales de sala, diferencias de tiempo milimétricas, registro de vueltas rápidas, poles y palmarés histórico actualizado directamente en base de datos tras cada bandera a cuadros.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- END PILARES -->
+
+	<!-- VITRINA DE CIRCUITOS DE GRAN TURISMO 6 -->
+	<section class="gt-circuits-section" id="circuitos">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #f28123; letter-spacing: 2px; text-transform: uppercase;">TRAZADOS OFICIALES GT6</span>
+					<h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-top: 6px; letter-spacing: -0.5px;">
+						CIRCUITOS DE LA TEMPORADA
+					</h2>
+					<p style="color: #64748b; font-size: 15px; max-width: 650px; margin: 0 auto;">
+						Desde trazados legendarios de la Fórmula 1 y las 24 Horas de Le Mans hasta los circuitos clásicos originales de Gran Turismo en PS3.
+					</p>
+				</div>
+			</div>
+
+			<div class="gt-circuits-grid">
+				<!-- Circuito 1: Laguna Seca -->
+				<div class="gt-circuit-card">
+					<div class="gt-circuit-header">
+						<div class="gt-circuit-title-wrap">
+							<img src="assets/country/eu.png" alt="USA" class="gt-circuit-flag" onerror="this.src='assets/country/pdi.png'">
+							<div>
+								<h3 class="gt-circuit-name">Laguna Seca</h3>
+								<div class="gt-circuit-location">California • EE. UU.</div>
+							</div>
+						</div>
+						<span class="gt-circuit-round-badge">Ronda 06</span>
+					</div>
+					<div class="gt-circuit-map-wrap">
+						<img src="assets/tracks/laguna_seca.svg" alt="Trazado Laguna Seca" loading="lazy">
+					</div>
+					<div class="gt-circuit-specs-grid">
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Longitud</div>
+							<div class="gt-circuit-spec-val">3.60 km</div>
+						</div>
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Curvas</div>
+							<div class="gt-circuit-spec-val">11 (Sacacorchos)</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Circuito 2: Brands Hatch -->
+				<div class="gt-circuit-card">
+					<div class="gt-circuit-header">
+						<div class="gt-circuit-title-wrap">
+							<img src="assets/country/pdi.png" alt="UK" class="gt-circuit-flag">
+							<div>
+								<h3 class="gt-circuit-name">Brands Hatch GP</h3>
+								<div class="gt-circuit-location">Kent • Reino Unido</div>
+							</div>
+						</div>
+						<span class="gt-circuit-round-badge">Ronda 07</span>
+					</div>
+					<div class="gt-circuit-map-wrap">
+						<img src="assets/tracks/brands_hatch.svg" alt="Trazado Brands Hatch" loading="lazy">
+					</div>
+					<div class="gt-circuit-specs-grid">
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Longitud</div>
+							<div class="gt-circuit-spec-val">3.91 km</div>
+						</div>
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Curvas</div>
+							<div class="gt-circuit-spec-val">9 curvas</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Circuito 3: Nürburgring GP -->
+				<div class="gt-circuit-card">
+					<div class="gt-circuit-header">
+						<div class="gt-circuit-title-wrap">
+							<img src="assets/country/alemania.png" alt="Alemania" class="gt-circuit-flag" onerror="this.src='assets/country/pdi.png'">
+							<div>
+								<h3 class="gt-circuit-name">Nürburgring GP</h3>
+								<div class="gt-circuit-location">Nürburg • Alemania</div>
+							</div>
+						</div>
+						<span class="gt-circuit-round-badge">Ronda 08</span>
+					</div>
+					<div class="gt-circuit-map-wrap">
+						<img src="assets/tracks/nurburgring_gp.svg" alt="Trazado Nürburgring GP" loading="lazy">
+					</div>
+					<div class="gt-circuit-specs-grid">
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Longitud</div>
+							<div class="gt-circuit-spec-val">5.15 km</div>
+						</div>
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Curvas</div>
+							<div class="gt-circuit-spec-val">16 curvas</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Circuito 4: Grand Valley Speedway -->
+				<div class="gt-circuit-card">
+					<div class="gt-circuit-header">
+						<div class="gt-circuit-title-wrap">
+							<img src="assets/country/pdi.png" alt="Polyphony" class="gt-circuit-flag">
+							<div>
+								<h3 class="gt-circuit-name">Grand Valley Speedway</h3>
+								<div class="gt-circuit-location">Clásico Gran Turismo</div>
+							</div>
+						</div>
+						<span class="gt-circuit-round-badge">Ronda 10</span>
+					</div>
+					<div class="gt-circuit-map-wrap">
+						<img src="assets/tracks/grand_valley.svg" alt="Trazado Grand Valley" loading="lazy">
+					</div>
+					<div class="gt-circuit-specs-grid">
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Longitud</div>
+							<div class="gt-circuit-spec-val">4.94 km</div>
+						</div>
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Curvas</div>
+							<div class="gt-circuit-spec-val">14 curvas</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Circuito 5: Silverstone -->
+				<div class="gt-circuit-card">
+					<div class="gt-circuit-header">
+						<div class="gt-circuit-title-wrap">
+							<img src="assets/country/pdi.png" alt="UK" class="gt-circuit-flag">
+							<div>
+								<h3 class="gt-circuit-name">Silverstone GP</h3>
+								<div class="gt-circuit-location">Northamptonshire • UK</div>
+							</div>
+						</div>
+						<span class="gt-circuit-round-badge">Ronda 12</span>
+					</div>
+					<div class="gt-circuit-map-wrap">
+						<img src="assets/tracks/silverstone.svg" alt="Trazado Silverstone" loading="lazy">
+					</div>
+					<div class="gt-circuit-specs-grid">
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Longitud</div>
+							<div class="gt-circuit-spec-val">5.89 km</div>
+						</div>
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Curvas</div>
+							<div class="gt-circuit-spec-val">18 curvas</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Circuito 6: Spa-Francorchamps -->
+				<div class="gt-circuit-card">
+					<div class="gt-circuit-header">
+						<div class="gt-circuit-title-wrap">
+							<img src="assets/country/pdi.png" alt="Bélgica" class="gt-circuit-flag">
+							<div>
+								<h3 class="gt-circuit-name">Spa-Francorchamps</h3>
+								<div class="gt-circuit-location">Stavelot • Bélgica</div>
+							</div>
+						</div>
+						<span class="gt-circuit-round-badge">Ronda 13</span>
+					</div>
+					<div class="gt-circuit-map-wrap">
+						<img src="assets/tracks/spa_francorchamps.svg" alt="Trazado Spa-Francorchamps" loading="lazy">
+					</div>
+					<div class="gt-circuit-specs-grid">
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Longitud</div>
+							<div class="gt-circuit-spec-val">7.00 km</div>
+						</div>
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Curvas</div>
+							<div class="gt-circuit-spec-val">19 (Eau Rouge)</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Circuito 7: Suzuka -->
+				<div class="gt-circuit-card">
+					<div class="gt-circuit-header">
+						<div class="gt-circuit-title-wrap">
+							<img src="assets/country/pdi.png" alt="Japón" class="gt-circuit-flag">
+							<div>
+								<h3 class="gt-circuit-name">Suzuka Circuit</h3>
+								<div class="gt-circuit-location">Mie • Japón</div>
+							</div>
+						</div>
+						<span class="gt-circuit-round-badge">Especial GT6</span>
+					</div>
+					<div class="gt-circuit-map-wrap">
+						<img src="assets/tracks/suzuka.svg" alt="Trazado Suzuka" loading="lazy">
+					</div>
+					<div class="gt-circuit-specs-grid">
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Longitud</div>
+							<div class="gt-circuit-spec-val">5.81 km</div>
+						</div>
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Curvas</div>
+							<div class="gt-circuit-spec-val">18 (Figura en 8)</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Circuito 8: Circuit de la Sarthe / Le Mans -->
+				<div class="gt-circuit-card">
+					<div class="gt-circuit-header">
+						<div class="gt-circuit-title-wrap">
+							<img src="assets/country/francia.png" alt="Francia" class="gt-circuit-flag" onerror="this.src='assets/country/pdi.png'">
+							<div>
+								<h3 class="gt-circuit-name">Circuit de la Sarthe</h3>
+								<div class="gt-circuit-location">Le Mans • Francia</div>
+							</div>
+						</div>
+						<span class="gt-circuit-round-badge">24H Especial</span>
+					</div>
+					<div class="gt-circuit-map-wrap">
+						<img src="assets/tracks/lemans.svg" alt="Trazado Le Mans" loading="lazy">
+					</div>
+					<div class="gt-circuit-specs-grid">
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Longitud</div>
+							<div class="gt-circuit-spec-val">13.63 km</div>
+						</div>
+						<div class="gt-circuit-spec-cell">
+							<div class="gt-circuit-spec-lbl">Curvas</div>
+							<div class="gt-circuit-spec-val">38 (Mulsanne)</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="text-center mt-5">
+				<a href="calendario.html" class="btn-gt-primary">
+					<i class="fas fa-calendar-alt"></i> Ver Calendario Completo de Fechas
+				</a>
+			</div>
+		</div>
+	</section>
+	<!-- END VITRINA DE CIRCUITOS -->
+
+	<!-- PADDOCK CTA CALLOUT -->
+	<section class="py-5" style="background-color: #ffffff; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
+		<div class="container py-4">
+			<div class="gt-glass-card p-4 p-md-5 text-center" style="max-width: 900px; margin: 0 auto;">
+				<div class="d-inline-flex align-items-center gap-2 mb-2" style="background: rgba(242, 129, 35, 0.08); border: 1px solid rgba(242, 129, 35, 0.25); padding: 4px 12px; border-radius: 20px;">
+					<span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #f28123; text-transform: uppercase;">PADDOCK OFICIAL ABIERTO</span>
+				</div>
+				<h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.9rem; font-weight: 800; color: #0f172a; margin-bottom: 12px;">
+					CONOCE A LOS 37 PILOTOS INSCRITOS
+				</h2>
+				<p style="color: #64748b; font-size: 15px; max-width: 600px; margin: 0 auto 24px auto;">
+					Consulta las tarjetas oficiales de piloto con sus autos insignia de Gran Turismo 6, estadísticas de carrera, podios y palmarés acumulado.
+				</p>
+				<div class="d-flex flex-wrap justify-content-center gap-3">
+					<a href="paddock.html" class="btn-gt-primary">
+						<i class="fas fa-id-card"></i> Ingresar al Paddock
+					</a>
+					<a href="discord.html" class="btn-gt-outline">
+						<i class="fab fa-discord"></i> Unirse al Discord Oficial
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- END PADDOCK CTA -->
 
 	<!-- logo carousel -->
-	<div class="logo-carousel-section">
+	<div class="logo-carousel-section py-4" style="background: #f8fafc;">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
@@ -222,16 +500,15 @@
 	</div>
 	<!-- end logo carousel -->
 
-	
 	<!-- copyright -->
-	<div class="copyright">
+	<div class="copyright py-3" style="background: #ffffff; border-top: 1px solid #e2e8f0;">
 		<div class="container">
-			<div class="row">
+			<div class="row align-items-center">
 				<div class="col-lg-6 col-md-12">
-					<p>Pagina Creada por Ricardo Polanco</p>
+					<p class="mb-0 text-muted small" style="font-family: 'Space Grotesk', sans-serif;">Página creada para la comunidad de Gran Turismo 6 (PS3) por Ricardo Polanco</p>
 				</div>
 				<div class="col-lg-6 text-right col-md-12">
-					<a href="/admin" class="text-muted small" style="text-decoration: none; opacity: 0.7;"><i class="fas fa-lock"></i> Panel Admin</a>
+					<a href="/admin" class="text-muted small" style="text-decoration: none; opacity: 0.8; font-family: 'JetBrains Mono', monospace;"><i class="fas fa-lock me-1"></i> Panel Admin</a>
 				</div>
 			</div>
 		</div>
@@ -258,6 +535,8 @@
 	<script src="assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
+	<!-- tournament dynamic js -->
+	<script src="assets/js/tournament.js"></script>
 
 </body>
 </html>

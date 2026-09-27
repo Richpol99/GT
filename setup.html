@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Aprende qué es un setup en Gran Turismo y cómo optimizar la configuración de tu automóvil para maximizar rendimiento y tiempos por vuelta.">
+	<meta name="description" content="Aprende qué es un setup en Gran Turismo y cómo optimizar la configuración de tu automóvil para maximizar rendimiento y tiempos por vuelta en GT6.">
 
 	<!-- title -->
 	<title>¿Qué es un Setup? - GT ACADEMY</title>
@@ -14,6 +14,7 @@
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 	<!-- fontawesome -->
 	<link rel="stylesheet" href="assets/css/all.min.css">
 	<!-- bootstrap -->
@@ -30,9 +31,11 @@
 	<link rel="stylesheet" href="assets/css/main.css">
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
+	<!-- motorsport telemetry tournament style -->
+	<link rel="stylesheet" href="assets/css/tournament.css">
 
 </head>
-<body>
+<body class="setup-page">
 	
 	<!--PreLoader-->
     <div class="loader">
@@ -51,7 +54,7 @@
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="index.html">
-								<img src="assets/img/logo.png" alt="">
+								<img src="assets/img/logo-dark.png" alt="GT Academy" style="max-height: 48px;">
 							</a>
 						</div>
 						<!-- logo -->
@@ -59,28 +62,24 @@
 						<!-- menu start -->
 						<nav class="main-menu">
 							<ul>
+								<li><a href="index.html">Inicio</a></li>
 								<li><a href="#">Eventos</a>
 									<ul class="sub-menu">
+										<li><a href="paddock.html">Paddock de Pilotos</a></li>
 										<li><a href="resultados.html">Resultados</a></li>
 										<li><a href="ranking.html">Tabla de puntos General</a></li>
-										<li><a href="paddock.html">Paddock de Pilotos</a></li>
 										<li><a href="calendario.html">Calendario de la temporada</a></li>
 									</ul>
 								</li>
-								<li><a href="#">Setup</a>
+								<li><a href="index.html#circuitos">Circuitos</a></li>
+								<li class="current-list-item"><a href="#">Setup</a>
 									<ul class="sub-menu">
-										<li><a href="setup.html">concepto de Setup</a></li>
-										<li><a href="conceptos.html">Como hacer tu propio setup</a></li>
+										<li><a href="setup.html">Concepto de Setup</a></li>
+										<li><a href="conceptos.html">Cómo hacer tu propio setup</a></li>
 									</ul>
 								</li>
-								<li><a href="#">Multimedia</a>
-									<ul class="sub-menu">
-										<li><a href="galeria.html">Galeria de Fotos</a></li>
-									</ul>
-								</li>
-								<li><a href="discord.html">Unete a nuestro Discord</a></li>
-								<li>
-								</li>
+								<li><a href="galeria.html">Galería</a></li>
+								<li><a href="discord.html">Comunidad Discord</a></li>
 							</ul>
 						</nav>
 						<a class="mobile-show search-bar-icon" href="#"></a>
@@ -94,12 +93,13 @@
 	<!-- end header -->
 	
 	<!-- breadcrumb-section -->
-	<div class="breadcrumb-section breadcrumb-bg">
+	<div class="breadcrumb-section">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="breadcrumb-text">
-						<h1>¿Que es un setup?</h1>
+						<p>INGENIERÍA & TALLER • GRAN TURISMO 6 (PS3)</p>
+						<h1>Concepto de Setup</h1>
 					</div>
 				</div>
 			</div>
@@ -107,26 +107,105 @@
 	</div>
 	<!-- end breadcrumb section -->
 
-    <!-- team section -->
-<div class="mt-150">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="section-title">
-                    <h3>Definicion</h3>
-                    <p>En Gran Turismo, un "setup" se refiere a la configuración específica de un automóvil de carreras para adaptarse a diferentes circuitos, condiciones climáticas y estilos de conducción. Esta configuración incluye ajustes en elementos como la suspensión, la aerodinámica, la transmisión, los neumáticos y otros componentes del automóvil.</p>
-                    <p>El objetivo de ajustar el setup es optimizar el rendimiento del automóvil en términos de velocidad, manejo, estabilidad y control. Los jugadores pueden personalizar estos ajustes según sus preferencias y estrategias para competir en las carreras de manera más efectiva y obtener mejores tiempos en las vueltas.</p>
-                    <p>En resumen, un setup en Gran Turismo es la configuración detallada y personalizada de un automóvil de carreras para mejorar su rendimiento en diferentes condiciones y circuitos de carrera dentro del juego.</p>
-                </div>
-            </div>
-            <div class="col-md-6 text-center">
-                <img src="assets/img/gtauto.webp" alt="GT Auto Setup" class="img-fluid" loading="lazy" decoding="async">
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end team section -->
-    
+    <!-- Setup Definition Section -->
+	<div class="setup-content py-5">
+		<div class="container">
+			<div class="gt-glass-card p-4 p-md-5 mb-5">
+				<div class="row align-items-center">
+					<div class="col-lg-6 mb-4 mb-lg-0">
+						<span class="badge bg-light text-primary border border-primary px-3 py-1 mb-3 text-uppercase fw-bold" style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+							<i class="fas fa-wrench me-1"></i> Optimización de Chasis
+						</span>
+						<h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; color: #0f172a; margin-bottom: 20px;">
+							¿Qué es un Setup en Gran Turismo 6?
+						</h2>
+						<p style="color: #475569; font-size: 15px; line-height: 1.7;">
+							En Gran Turismo, un <strong>"setup"</strong> se refiere a la calibración mecánica específica de un vehículo de carreras para adaptarse con precisión a cada trazado, condición de asfalto y estilo de conducción.
+						</p>
+						<p style="color: #475569; font-size: 15px; line-height: 1.7;">
+							Esta configuración incluye el equilibrio milimétrico de la amortiguación, barras estabilizadoras, reparto de frenada, caída de neumáticos (camber), relaciones de caja de cambios y paquete aerodinámico.
+						</p>
+						<p style="color: #475569; font-size: 15px; line-height: 1.7;">
+							El objetivo primordial es exprimir el máximo agarre, garantizar estabilidad en frenadas a fondo y conseguir el mejor tiempo por vuelta posible respetando los límites de rendimiento PR de la competencia.
+						</p>
+
+						<div class="d-flex flex-wrap gap-2 mt-4">
+							<a href="conceptos.html" class="btn-gt-primary">
+								<i class="fas fa-book-open"></i> Guía Completa de Reglajes
+							</a>
+							<a href="index.html#circuitos" class="btn-gt-outline">
+								<i class="fas fa-road"></i> Ver Circuitos
+							</a>
+						</div>
+					</div>
+					<div class="col-lg-6 text-center">
+						<div class="p-2 bg-white rounded-3 border" style="box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);">
+							<img src="assets/img/gtauto.webp" alt="GT Auto Setup Workshop" class="img-fluid rounded" loading="lazy" decoding="async">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Three Setup Pillars -->
+			<div class="row g-4">
+				<div class="col-md-4">
+					<div class="gt-pillar-card p-4 h-100">
+						<div class="gt-pillar-icon mb-3" style="font-size: 26px; color: #0284c7;">
+							<i class="fas fa-compress-arrows-alt"></i>
+						</div>
+						<h4 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #0f172a; font-size: 18px;">
+							Suspensión & Chasis
+						</h4>
+						<p style="color: #64748b; font-size: 14px; margin-bottom: 0;">
+							Altura de marcha, dureza de muelles, amortiguadores en compresión/extensión y estabilizadoras para mitigar el sobreviraje o subviraje.
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="gt-pillar-card p-4 h-100">
+						<div class="gt-pillar-icon mb-3" style="font-size: 26px; color: #f28123;">
+							<i class="fas fa-cogs"></i>
+						</div>
+						<h4 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #0f172a; font-size: 18px;">
+							Transmisión & Marchas
+						</h4>
+						<p style="color: #64748b; font-size: 14px; margin-bottom: 0;">
+							Relación de velocidades adaptada a las rectas más largas y tramos revirados para mantener siempre el motor en su rango óptimo de torque.
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="gt-pillar-card p-4 h-100">
+						<div class="gt-pillar-icon mb-3" style="font-size: 26px; color: #10b981;">
+							<i class="fas fa-wind"></i>
+						</div>
+						<h4 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #0f172a; font-size: 18px;">
+							Aero & Diferencial (LSD)
+						</h4>
+						<p style="color: #64748b; font-size: 14px; margin-bottom: 0;">
+							Carga aerodinámica delantera/trasera y tarado de diferencial autoblocante en aceleración y frenada para traccionar sin derrapes.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end Setup Definition Section -->
+
+	<!-- copyright -->
+	<div class="copyright py-3" style="background: #ffffff; border-top: 1px solid #e2e8f0;">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6 col-md-12">
+					<p class="mb-0 text-muted small" style="font-family: 'Space Grotesk', sans-serif;">Página creada para la comunidad de Gran Turismo 6 (PS3) por Ricardo Polanco</p>
+				</div>
+				<div class="col-lg-6 text-right col-md-12">
+					<a href="/admin" class="text-muted small" style="text-decoration: none; opacity: 0.8; font-family: 'JetBrains Mono', monospace;"><i class="fas fa-lock me-1"></i> Panel Admin</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end copyright -->
 	
 	<!-- jquery -->
 	<script src="assets/js/jquery-1.11.3.min.js"></script>
@@ -148,6 +227,8 @@
 	<script src="assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
+	<!-- tournament dynamic js -->
+	<script src="assets/js/tournament.js"></script>
 
 </body>
 </html>

@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Calendario oficial de carreras y fechas de la temporada en la GT ACADEMY.">
+	<meta name="description" content="Calendario oficial de carreras y fechas de la temporada en la GT ACADEMY para Gran Turismo 6 (PS3).">
 
 	<!-- title -->
 	<title>Calendario de la Temporada - GT ACADEMY</title>
@@ -14,6 +14,7 @@
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 	<!-- fontawesome -->
 	<link rel="stylesheet" href="assets/css/all.min.css">
 	<!-- bootstrap -->
@@ -30,9 +31,11 @@
 	<link rel="stylesheet" href="assets/css/main.css">
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
+	<!-- motorsport telemetry tournament style -->
+	<link rel="stylesheet" href="assets/css/tournament.css">
 
 </head>
-<body>
+<body class="calendario-page">
 	
 	<!--PreLoader-->
     <div class="loader">
@@ -51,7 +54,7 @@
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="index.html">
-								<img src="assets/img/logo.png" alt="">
+								<img src="assets/img/logo-dark.png" alt="GT Academy" style="max-height: 48px;">
 							</a>
 						</div>
 						<!-- logo -->
@@ -59,28 +62,24 @@
 						<!-- menu start -->
 						<nav class="main-menu">
 							<ul>
-								<li><a href="#">Eventos</a>
+								<li><a href="index.html">Inicio</a></li>
+								<li class="current-list-item"><a href="#">Eventos</a>
 									<ul class="sub-menu">
+										<li><a href="paddock.html">Paddock de Pilotos</a></li>
 										<li><a href="resultados.html">Resultados</a></li>
 										<li><a href="ranking.html">Tabla de puntos General</a></li>
-										<li><a href="paddock.html">Paddock de Pilotos</a></li>
 										<li><a href="calendario.html">Calendario de la temporada</a></li>
 									</ul>
 								</li>
+								<li><a href="index.html#circuitos">Circuitos</a></li>
 								<li><a href="#">Setup</a>
 									<ul class="sub-menu">
-										<li><a href="setup.html">concepto de Setup</a></li>
-										<li><a href="conceptos.html">Como hacer tu propio setup</a></li>
+										<li><a href="setup.html">Concepto de Setup</a></li>
+										<li><a href="conceptos.html">Cómo hacer tu propio setup</a></li>
 									</ul>
 								</li>
-								<li><a href="#">Multimedia</a>
-									<ul class="sub-menu">
-										<li><a href="galeria.html">Galeria de Fotos</a></li>
-									</ul>
-								</li>
-								<li><a href="discord.html">Unete a nuestro Discord</a></li>
-								<li>
-								</li>
+								<li><a href="galeria.html">Galería</a></li>
+								<li><a href="discord.html">Comunidad Discord</a></li>
 							</ul>
 						</nav>
 						<a class="mobile-show search-bar-icon" href="#"></a>
@@ -92,13 +91,15 @@
 		</div>
 	</div>
 	<!-- end header -->
+	
 	<!-- breadcrumb-section -->
-	<div class="breadcrumb-section breadcrumb-bg">
+	<div class="breadcrumb-section">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="breadcrumb-text">
-						<h1>Calendario de la Temporada 1</h1>
+						<p>CRONOGRAMA OFICIAL • GRAN TURISMO 6 (PS3)</p>
+						<h1>Calendario de la Temporada</h1>
 					</div>
 				</div>
 			</div>
@@ -106,119 +107,198 @@
 	</div>
 	<!-- end breadcrumb section -->
 
-    <!-- contact form -->
-    <div class="contact-from-section mt-150 mb-150">
+    <!-- Schedule Section (Light Glassmorphism WEC Table) -->
+    <div class="calendar-section py-5">
         <div class="container">
-            <div class="row">
-                <!-- Contenedor Deslizable para la Tabla -->
-                <div class="table-responsive">
-                    <table class="table">
-                    <thead>
-                        <tr>
-                            <th>CARRERA</th>
-                            <th>DIA</th>
-                            <th>HORA</th>
-                            <th>ANFITRION</th>
-                            <th>AUTO</th>
-                            <th>CIRCUITO</th>
-                            <th>VUELTAS/MINUTOS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>06</td>
-                            <td>16 DE MARZO</td>
-                            <td id="horaLocal1">5:00 PM</td>		
-                            <td>ANTONYPARDO</td>
-                            <td>FORD FOCUS ST 2013</td>
-                            <td>LAGUNA SECA</td>
-                            <td>12 VUELTAS</td>
-                        </tr>
-                        <tr>
-                            <td>07</td>
-                            <td>17 DE MARZO</td>
-                            <td id="horaLocal2">4:00 PM</td>
-                            <td>RICHPOL99</td>
-                            <td>FERRARI 250 GT P.C. 1961</td>
-                            <td>BRANDS HATCH</td>
-                            <td>15 VUELTAS</td>
-                        </tr>
-                        <tr>
-                            <td>08</td>
-                            <td>23 DE MARZO</td>
-                            <td id="horaLocal3">5:00 PM</td>
-                            <td>TEMPEST</td>
-                            <td>NISSAN FAIRLADY 370Z 2008</td>
-                            <td>NURBURGRING GP</td>
-                            <td>14 VUELTAS</td>
-                        </tr>
-                        <tr>
-                            <td>09</td>
-                            <td>24 DE MARZO</td>
-                            <td id="horaLocal4">4:00 PM</td>
-                            <td>RICHPOL99</td>
-                            <td>FORD MUSTANG BOSS 302 2013</td>
-                            <td>INDIANAPOLIS</td>
-                            <td>12 VUELTAS</td>
-							
-                        </tr>
-						<tr>
-                            <td>10</td>
-                            <td>30 DE MARZO</td>
-                            <td id="horaLocal5">5:00 PM</td>
-                            <td>ANTONYPARDO</td>
-                            <td>FERRARI F40 1992</td>
-                            <td>GRAND VALLEY SPPEDWAY</td>
-                            <td>15 VUELTAS</td>
-							
-                        </tr>
-						<tr>
-                            <td>11</td>
-                            <td>31 DE MARZO</td>
-                            <td id="horaLocal6">4:00 PM</td>
-                            <td>RICHPOL99</td>
-                            <td>NISAN GT-R NISMO 2014</td>
-                            <td>SILVERSTONE GP</td>
-                            <td>17 VUELTAS</td>
-							
-                        </tr>
-						<tr>
-                            <td>12</td>
-                            <td>06 DE ABRIL</td>
-                            <td id="horaLocal7">5:00 PM</td>
-                            <td>TEMPEST</td>
-                            <td>FERRARI ENZO 2002</td>
-                            <td>MONZA</td>
-                            <td>19 VUELTAS</td>
-							
-                        </tr>
-						<tr>
-                            <td>13</td>
-                            <td>07 DE ABRIL</td>
-                            <td id="horaLocal8">4:00 PM</td>
-                            <td>RICHPOL99</td>
-                            <td>FORD GT 2006</td>
-                            <td>DAYTONA CIRCUITO</td>
-                            <td>16 VUELTAS</td>
-							
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end contact form -->
+			<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+				<div>
+					<span class="badge bg-dark text-white px-3 py-2 text-uppercase fw-bold" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px;">
+						<i class="fas fa-calendar-alt text-warning me-1"></i> Temporada 1 Oficial
+					</span>
+					<span class="text-muted small ms-2" style="font-family: 'Space Grotesk', sans-serif;">8 Rondas Programadas &bull; Gran Turismo 6</span>
+				</div>
+				<a href="index.html#circuitos" class="btn-gt-outline" style="padding: 6px 14px; font-size: 12px;">
+					<i class="fas fa-map-marked-alt text-primary"></i> Ver Mapas de Circuitos
+				</a>
+			</div>
+
+            <!-- Contenedor Deslizable para la Tabla -->
+            <div class="gt-calendar-card">
+                <div class="table-responsive mb-0">
+                    <table class="gt-calendar-table">
+						<thead>
+							<tr>
+								<th style="width: 80px; text-align: center;">RONDA</th>
+								<th>FECHA</th>
+								<th>HORA</th>
+								<th>ANFITRIÓN</th>
+								<th>AUTO DE COMPETICIÓN</th>
+								<th>CIRCUITO</th>
+								<th style="text-align: right;">DISTANCIA</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text-center"><span class="gt-cal-round">R06</span></td>
+								<td><strong style="color: #0f172a;">16 de Marzo</strong></td>
+								<td><span class="gt-cal-time-badge"><i class="far fa-clock text-warning me-1"></i> 5:00 PM</span></td>		
+								<td><span class="gt-cal-host-badge"><i class="fas fa-user-astronaut me-1"></i> ANTONYPARDO</span></td>
+								<td>
+									<div class="gt-cal-car-tag">
+										<img src="assets/brands/ford.svg" alt="Ford" style="height: 14px;" onerror="this.style.display='none'">
+										<span>Ford Focus ST 2013</span>
+									</div>
+								</td>
+								<td>
+									<a href="index.html#circuitos" class="gt-cal-track-tag">
+										<i class="fas fa-flag-checkered"></i> Laguna Seca
+									</a>
+								</td>
+								<td class="text-end"><span class="gt-cal-laps-badge">12 Vueltas</span></td>
+							</tr>
+							<tr>
+								<td class="text-center"><span class="gt-cal-round">R07</span></td>
+								<td><strong style="color: #0f172a;">17 de Marzo</strong></td>
+								<td><span class="gt-cal-time-badge"><i class="far fa-clock text-warning me-1"></i> 4:00 PM</span></td>
+								<td><span class="gt-cal-host-badge"><i class="fas fa-user-astronaut me-1"></i> RICHPOL99</span></td>
+								<td>
+									<div class="gt-cal-car-tag">
+										<img src="assets/brands/ferrari.svg" alt="Ferrari" style="height: 14px;" onerror="this.style.display='none'">
+										<span>Ferrari 250 GT P.C. 1961</span>
+									</div>
+								</td>
+								<td>
+									<a href="index.html#circuitos" class="gt-cal-track-tag">
+										<i class="fas fa-flag-checkered"></i> Brands Hatch
+									</a>
+								</td>
+								<td class="text-end"><span class="gt-cal-laps-badge">15 Vueltas</span></td>
+							</tr>
+							<tr>
+								<td class="text-center"><span class="gt-cal-round">R08</span></td>
+								<td><strong style="color: #0f172a;">23 de Marzo</strong></td>
+								<td><span class="gt-cal-time-badge"><i class="far fa-clock text-warning me-1"></i> 5:00 PM</span></td>
+								<td><span class="gt-cal-host-badge"><i class="fas fa-user-astronaut me-1"></i> TEMPEST</span></td>
+								<td>
+									<div class="gt-cal-car-tag">
+										<img src="assets/brands/nissan.svg" alt="Nissan" style="height: 14px;" onerror="this.style.display='none'">
+										<span>Nissan Fairlady 370Z 2008</span>
+									</div>
+								</td>
+								<td>
+									<a href="index.html#circuitos" class="gt-cal-track-tag">
+										<i class="fas fa-flag-checkered"></i> Nürburgring GP
+									</a>
+								</td>
+								<td class="text-end"><span class="gt-cal-laps-badge">14 Vueltas</span></td>
+							</tr>
+							<tr>
+								<td class="text-center"><span class="gt-cal-round">R09</span></td>
+								<td><strong style="color: #0f172a;">24 de Marzo</strong></td>
+								<td><span class="gt-cal-time-badge"><i class="far fa-clock text-warning me-1"></i> 4:00 PM</span></td>
+								<td><span class="gt-cal-host-badge"><i class="fas fa-user-astronaut me-1"></i> RICHPOL99</span></td>
+								<td>
+									<div class="gt-cal-car-tag">
+										<img src="assets/brands/ford.svg" alt="Ford" style="height: 14px;" onerror="this.style.display='none'">
+										<span>Ford Mustang Boss 302 2013</span>
+									</div>
+								</td>
+								<td>
+									<a href="index.html#circuitos" class="gt-cal-track-tag">
+										<i class="fas fa-flag-checkered"></i> Indianapolis
+									</a>
+								</td>
+								<td class="text-end"><span class="gt-cal-laps-badge">12 Vueltas</span></td>
+							</tr>
+							<tr>
+								<td class="text-center"><span class="gt-cal-round">R10</span></td>
+								<td><strong style="color: #0f172a;">30 de Marzo</strong></td>
+								<td><span class="gt-cal-time-badge"><i class="far fa-clock text-warning me-1"></i> 5:00 PM</span></td>
+								<td><span class="gt-cal-host-badge"><i class="fas fa-user-astronaut me-1"></i> ANTONYPARDO</span></td>
+								<td>
+									<div class="gt-cal-car-tag">
+										<img src="assets/brands/ferrari.svg" alt="Ferrari" style="height: 14px;" onerror="this.style.display='none'">
+										<span>Ferrari F40 1992</span>
+									</div>
+								</td>
+								<td>
+									<a href="index.html#circuitos" class="gt-cal-track-tag">
+										<i class="fas fa-flag-checkered"></i> Grand Valley Speedway
+									</a>
+								</td>
+								<td class="text-end"><span class="gt-cal-laps-badge">15 Vueltas</span></td>
+							</tr>
+							<tr>
+								<td class="text-center"><span class="gt-cal-round">R11</span></td>
+								<td><strong style="color: #0f172a;">31 de Marzo</strong></td>
+								<td><span class="gt-cal-time-badge"><i class="far fa-clock text-warning me-1"></i> 4:00 PM</span></td>
+								<td><span class="gt-cal-host-badge"><i class="fas fa-user-astronaut me-1"></i> RICHPOL99</span></td>
+								<td>
+									<div class="gt-cal-car-tag">
+										<img src="assets/brands/nissan.svg" alt="Nissan" style="height: 14px;" onerror="this.style.display='none'">
+										<span>Nissan GT-R Nismo 2014</span>
+									</div>
+								</td>
+								<td>
+									<a href="index.html#circuitos" class="gt-cal-track-tag">
+										<i class="fas fa-flag-checkered"></i> Silverstone GP
+									</a>
+								</td>
+								<td class="text-end"><span class="gt-cal-laps-badge">17 Vueltas</span></td>
+							</tr>
+							<tr>
+								<td class="text-center"><span class="gt-cal-round">R12</span></td>
+								<td><strong style="color: #0f172a;">06 de Abril</strong></td>
+								<td><span class="gt-cal-time-badge"><i class="far fa-clock text-warning me-1"></i> 5:00 PM</span></td>
+								<td><span class="gt-cal-host-badge"><i class="fas fa-user-astronaut me-1"></i> TEMPEST</span></td>
+								<td>
+									<div class="gt-cal-car-tag">
+										<img src="assets/brands/ferrari.svg" alt="Ferrari" style="height: 14px;" onerror="this.style.display='none'">
+										<span>Ferrari Enzo 2002</span>
+									</div>
+								</td>
+								<td>
+									<a href="index.html#circuitos" class="gt-cal-track-tag">
+										<i class="fas fa-flag-checkered"></i> Autodromo Nazionale Monza
+									</a>
+								</td>
+								<td class="text-end"><span class="gt-cal-laps-badge">19 Vueltas</span></td>
+							</tr>
+							<tr>
+								<td class="text-center"><span class="gt-cal-round">R13</span></td>
+								<td><strong style="color: #0f172a;">07 de Abril</strong></td>
+								<td><span class="gt-cal-time-badge"><i class="far fa-clock text-warning me-1"></i> 4:00 PM</span></td>
+								<td><span class="gt-cal-host-badge"><i class="fas fa-user-astronaut me-1"></i> RICHPOL99</span></td>
+								<td>
+									<div class="gt-cal-car-tag">
+										<img src="assets/brands/ford.svg" alt="Ford" style="height: 14px;" onerror="this.style.display='none'">
+										<span>Ford GT 2006</span>
+									</div>
+								</td>
+								<td>
+									<a href="index.html#circuitos" class="gt-cal-track-tag">
+										<i class="fas fa-flag-checkered"></i> Daytona International Speedway
+									</a>
+								</td>
+								<td class="text-end"><span class="gt-cal-laps-badge">16 Vueltas</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end Schedule section -->
+
 	<!-- copyright -->
-	<div class="copyright">
+	<div class="copyright py-3" style="background: #ffffff; border-top: 1px solid #e2e8f0;">
 		<div class="container">
-			<div class="row">
+			<div class="row align-items-center">
 				<div class="col-lg-6 col-md-12">
-					<p></p>
+					<p class="mb-0 text-muted small" style="font-family: 'Space Grotesk', sans-serif;">Página creada para la comunidad de Gran Turismo 6 (PS3) por Ricardo Polanco</p>
 				</div>
 				<div class="col-lg-6 text-right col-md-12">
-					<div class="social-icons">
-					</div>
+					<a href="/admin" class="text-muted small" style="text-decoration: none; opacity: 0.8; font-family: 'JetBrains Mono', monospace;"><i class="fas fa-lock me-1"></i> Panel Admin</a>
 				</div>
 			</div>
 		</div>
@@ -245,6 +325,8 @@
 	<script src="assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
+	<!-- tournament dynamic js -->
+	<script src="assets/js/tournament.js"></script>
 
 </body>
 </html>

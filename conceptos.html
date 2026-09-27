@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Guía detallada de conceptos clave para hacer un setup en Gran Turismo: suspensión, transmisión, aerodinámica y diferenciales.">
+	<meta name="description" content="Guía detallada de conceptos clave para hacer un setup en Gran Turismo 6: suspensión, transmisión, aerodinámica y diferenciales.">
 
 	<!-- title -->
 	<title>Conceptos Clave para Setups - GT ACADEMY</title>
@@ -14,6 +14,7 @@
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 	<!-- fontawesome -->
 	<link rel="stylesheet" href="assets/css/all.min.css">
 	<!-- bootstrap -->
@@ -30,9 +31,11 @@
 	<link rel="stylesheet" href="assets/css/main.css">
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
+	<!-- motorsport telemetry tournament style -->
+	<link rel="stylesheet" href="assets/css/tournament.css">
 
 </head>
-<body>
+<body class="conceptos-page">
 	
 	<!--PreLoader-->
     <div class="loader">
@@ -51,7 +54,7 @@
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="index.html">
-								<img src="assets/img/logo.png" alt="">
+								<img src="assets/img/logo-dark.png" alt="GT Academy" style="max-height: 48px;">
 							</a>
 						</div>
 						<!-- logo -->
@@ -59,28 +62,24 @@
 						<!-- menu start -->
 						<nav class="main-menu">
 							<ul>
+								<li><a href="index.html">Inicio</a></li>
 								<li><a href="#">Eventos</a>
 									<ul class="sub-menu">
+										<li><a href="paddock.html">Paddock de Pilotos</a></li>
 										<li><a href="resultados.html">Resultados</a></li>
 										<li><a href="ranking.html">Tabla de puntos General</a></li>
-										<li><a href="paddock.html">Paddock de Pilotos</a></li>
 										<li><a href="calendario.html">Calendario de la temporada</a></li>
 									</ul>
 								</li>
-								<li><a href="#">Setup</a>
+								<li><a href="index.html#circuitos">Circuitos</a></li>
+								<li class="current-list-item"><a href="#">Setup</a>
 									<ul class="sub-menu">
-										<li><a href="setup.html">concepto de Setup</a></li>
-										<li><a href="conceptos.html">Como hacer tu propio setup</a></li>
+										<li><a href="setup.html">Concepto de Setup</a></li>
+										<li><a href="conceptos.html">Cómo hacer tu propio setup</a></li>
 									</ul>
 								</li>
-								<li><a href="#">Multimedia</a>
-									<ul class="sub-menu">
-										<li><a href="galeria.html">Galeria de Fotos</a></li>
-									</ul>
-								</li>
-								<li><a href="discord.html">Unete a nuestro Discord</a></li>
-								<li>
-								</li>
+								<li><a href="galeria.html">Galería</a></li>
+								<li><a href="discord.html">Comunidad Discord</a></li>
 							</ul>
 						</nav>
 						<a class="mobile-show search-bar-icon" href="#"></a>
@@ -94,12 +93,13 @@
 	<!-- end header -->
 	
 	<!-- breadcrumb-section -->
-	<div class="breadcrumb-section breadcrumb-bg">
+	<div class="breadcrumb-section">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="breadcrumb-text">
-						<h1>Conceptos clave para realizar un Setup</h1>
+						<p>MANUAL TÉCNICO • GRAN TURISMO 6 (PS3)</p>
+						<h1>Cómo Hacer Tu Propio Setup</h1>
 					</div>
 				</div>
 			</div>
@@ -107,144 +107,228 @@
 	</div>
 	<!-- end breadcrumb section -->
 
-    <div class="QUE_ES mt-150 mb-150">
+    <!-- Manual Content Section -->
+    <div class="conceptos-section py-5">
         <div class="container">
-                <style>
-                    /* Estilo para aumentar el tamaño de la letra del texto */
-                    .QUE_ES p {
-                        font-size: 22px; /* Tamaño de letra aumentado */
-                    }
-                </style>
-                <style>
-                    /* Estilo para centrar y aumentar el tamaño del título */
-                    .QUE_ES h3 {
-                        text-align: center; /* Centrar el texto */
-                        font-size: 30px; /* Tamaño de letra aumentado */
-                        margin-bottom: 80px;
-                    }
-                </style>
-                        <h3>AJUSTES EN LA SUSPENSION</h3>
-                        <p>En Gran Turismo 6, hacer un setup de suspensión es crucial para mejorar el manejo y el rendimiento de tu automóvil en diferentes tipos de circuitos y condiciones de pista. Aquí te explico los pasos básicos para ajustar la suspensión en este juego:</p>
-                        <p><strong>Accede al Menú de Ajustes de Coches:</strong> En el menú principal del juego, ve a la sección de ajustes de coches o tuneo. Aquí es donde podrás personalizar los ajustes de tu vehículo, incluyendo la suspensión.</p>
-                        <div class="row">
-                            <div class="col-md-3 offset-md-0"></div> <!-- Crea un espacio de 3 columnas -->
-                            <div class="col-md-6 text-center" style="margin-top: 17px; margin-bottom: 20px;"> <!-- Espacios superior e inferior -->
-                                <img src="assets/img/menu.webp" alt="Menú de ajustes de coches" loading="lazy" decoding="async" class="img-fluid">
-                            </div>
-                        </div>
-                        <p><strong>Selecciona la Opción de Suspensión:</strong> Dentro del menú de ajustes de coches, busca la opción que te permita ajustar la suspensión. Por lo general, estará etiquetada como "Suspensión".</p>
-                        <div class="row">
-                            <div class="col-md-3 offset-md-0"></div> <!-- Crea un espacio de 3 columnas -->
-                            <div class="col-md-6 text-center" style="margin-top: 17px; margin-bottom: 20px;"> <!-- Espacios superior e inferior -->
-                                <img src="assets/img/sus.webp" alt="Ajustes de suspensión" loading="lazy" decoding="async" class="img-fluid">
-                            </div>
-                        </div>
-                        <p><strong>Ajusta la Altura del Vehículo:</strong> Ajusta la Altura del Vehículo: Puedes modificar la altura del automóvil ajustando la suspensión. Reducir la altura puede mejorar la estabilidad en curvas, mientras que aumentarla puede ayudar a lidiar mejor con terrenos irregulares.</p>
-                        <div class="row">
-                            <div class="col-md-3 offset-md-0"></div> <!-- Crea un espacio de 3 columnas -->
-                            <div class="col-md-6 text-center" style="margin-top: 17px; margin-bottom: 20px;"> <!-- Espacios superior e inferior -->
-                                <img src="assets/img/altura.webp" alt="Altura del vehículo" loading="lazy" decoding="async" class="img-fluid">
-                            </div>
-                        </div>
-                        <p><strong>Ajusta la Rigidez de los Resortes:</strong> Puedes ajustar la rigidez de los resortes para controlar la forma en que el automóvil absorbe las irregularidades del terreno y el balanceo del chasis en las curvas. Aumentar la rigidez puede mejorar la respuesta de dirección, pero también puede hacer que el automóvil sea más difícil de controlar en curvas complicadas.</p>
-                        <div class="row">
-                            <div class="col-md-3 offset-md-0"></div> <!-- Crea un espacio de 3 columnas -->
-                            <div class="col-md-6 text-center" style="margin-top: 17px; margin-bottom: 20px;"> <!-- Espacios superior e inferior -->
-                                <img src="assets/img/muelles.webp" alt="Rigidez de resortes" loading="lazy" decoding="async" class="img-fluid">
-                            </div>
-                        </div>
-                        <p><strong>Configura la Compresión y Extensión de los Amortiguadores:</strong> Los amortiguadores controlan la velocidad a la que la suspensión se comprime y se extiende. Ajusta la compresión y extensión para encontrar el equilibrio adecuado entre comodidad y rendimiento. Un ajuste más firme puede mejorar la respuesta del automóvil en curvas, pero también puede hacer que el manejo sea más áspero en superficies irregulares.</p>
-                        <div class="row">
-                            <div class="col-md-3 offset-md-0"></div> <!-- Crea un espacio de 3 columnas -->
-                            <div class="col-md-6 text-center" style="margin-top: 17px; margin-bottom: 20px;"> <!-- Espacios superior e inferior -->
-                                <img src="assets/img/amo.webp" alt="Amortiguadores" loading="lazy" decoding="async" class="img-fluid">
-                            </div>
-                        </div>
-                        <p><strong>Ajusta la Barra Estabilizadora:</strong> La barra estabilizadora ayuda a reducir el balanceo del chasis en curvas. Puedes ajustar su rigidez para mejorar la estabilidad en curvas rápidas, pero ten en cuenta que un ajuste demasiado rígido puede afectar la tracción en curvas cerradas.</p>
-                        <div class="row">
-                            <div class="col-md-3 offset-md-0"></div> <!-- Crea un espacio de 3 columnas -->
-                            <div class="col-md-6 text-center" style="margin-top: 17px; margin-bottom: 20px;"> <!-- Espacios superior e inferior -->
-                                <img src="assets/img/barras.webp" alt="Barras estabilizadoras" loading="lazy" decoding="async" class="img-fluid">
-                            </div>
-                        </div>
-                        <p><strong>Ajusta el angulo de caida (camber):</strong> El ángulo de caída se refiere a la inclinación de las ruedas del automóvil, ya sea hacia adentro (negativo) o hacia afuera (positivo), en relación con la vertical cuando se ve desde el frente o la parte trasera del vehículo.
-                            Un ángulo de caída negativo (las ruedas inclinadas hacia adentro en la parte superior) puede mejorar la tracción y la estabilidad en curvas al mantener una mayor superficie de contacto de la llanta con el suelo.
-                            Por otro lado, un ángulo de caída positivo (las ruedas inclinadas hacia afuera en la parte superior) puede mejorar la respuesta de dirección y la estabilidad en línea recta, pero puede reducir la tracción en curvas. </p>
-                        <div class="row">
-                            <div class="col-md-3 offset-md-0"></div> <!-- Crea un espacio de 3 columnas -->
-                            <div class="col-md-6 text-center" style="margin-top: 17px; margin-bottom: 20px;"> <!-- Espacios superior e inferior -->
-                                <img src="assets/img/canver.webp" alt="Ángulo de caída Camber" loading="lazy" decoding="async" class="img-fluid">
-                            </div>
-                        </div>
-                        <p><strong>Ajusta el angulo de convergencia:</strong>La convergencia se refiere a la inclinación de las ruedas del automóvil en relación entre sí, ya sea hacia dentro (positiva) o hacia afuera (negativa), cuando se ve desde arriba del vehículo.
-                            Una convergencia positiva (las ruedas delanteras inclinadas hacia adentro) puede mejorar la estabilidad en línea recta y reducir el desgaste de los neumáticos en rectas, pero puede afectar la respuesta de dirección y el agarre en curvas.
-                            Por otro lado, una convergencia negativa (las ruedas delanteras inclinadas hacia afuera) puede mejorar la respuesta de dirección y el agarre en curvas, pero puede aumentar el desgaste de los neumáticos y reducir la estabilidad en línea recta.</p>
-                        <div class="row">
-                            <div class="col-md-3 offset-md-0"></div> <!-- Crea un espacio de 3 columnas -->
-                            <div class="col-md-6 text-center" style="margin-top: 17px; margin-bottom: 20px;"> <!-- Espacios superior e inferior -->
-                                <img src="assets/img/conver.webp" alt="Ángulo de convergencia Toe" loading="lazy" decoding="async" class="img-fluid">
-                            </div>
-                        </div>     
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="QUE_ES mt-150 mb-150">
-        <div class="container">
-                        <h3>AJUSTES EN LA CAJA DE CAMBIOS</h3>
-                        <p>El setup de la caja de cambios en juegos de simulación de carreras como Gran Turismo es esencial para optimizar la velocidad y el rendimiento del automóvil en diferentes situaciones de pista. Aquí te explico cómo funciona el setup de la caja de cambios</p>
-                        <p><strong>Selecciona la Opción de Caja de cambios:</strong> Dentro del menú de ajustes de coches, busca la opción que te permita ajustar la caja.</p>
-                        <div class="row">
-                            <div class="col-md-3 offset-md-0"></div> <!-- Crea un espacio de 3 columnas -->
-                            <div class="col-md-6 text-center" style="margin-top: 17px; margin-bottom: 20px;"> <!-- Espacios superior e inferior -->
-                                <img src="assets/img/caja.webp" alt="Caja de cambios" loading="lazy" decoding="async" class="img-fluid">
-                            </div>
-                        </div>
-                        <p><strong>Tipos de Transmisión:</strong> En Gran Turismo 6, puedes encontrar diferentes tipos de transmisiones, como la transmisión manual y la transmisión automática. La transmisión manual te permite cambiar manualmente las marchas, mientras que la transmisión automática lo hace de forma automática según la velocidad y la aceleración del automóvil.</p> 
-                        <p><strong>Cambios de Marcha:</strong> En la transmisión manual, puedes cambiar de marcha utilizando los botones o palancas asignados en tu controlador. Por lo general, los botones superiores (L1 y R1 o tambien hay algunos enfermos que lo hacen con la palanca en el control de PlayStation) que se utilizan para subir o bajar marchas.
-                            Al cambiar de marcha, debes tener en cuenta la relación de engranajes y las RPM del motor para lograr un cambio suave y eficiente. Cambiar demasiado temprano puede reducir la potencia y el torque, mientras que cambiar demasiado tarde puede sobrecargar el motor.</p>
-                        <p><strong>Indicadores de Cambio:</strong> Gran Turismo 6 proporciona indicadores visuales y auditivos para ayudarte a cambiar de marcha en el momento óptimo. Por lo general, hay indicadores de RPM en el cuadro de instrumentos que te muestran cuándo es el mejor momento para cambiar de marcha para optimizar la aceleración.
-                            Además, el sonido del motor también puede ser una guía para cambiar de marcha. A medida que las RPM aumentan, el sonido del motor se vuelve más agudo, indicando que es el momento de subir de marcha.</p>
-                            <p><strong>Marcha y Velocidad:</strong> Cada marcha tiene una relación de engranajes que determina la relación entre la velocidad del motor y la velocidad del automóvil. Las marchas más bajas (primera, segunda) proporcionan más torque y aceleración a bajas velocidades, mientras que las marchas más altas (quinta, sexta) son para velocidades más altas y mejoran la eficiencia del combustible.
-                                La marcha atrás (R) se utiliza para retroceder el automóvil y suele tener una relación de engranajes inversa en comparación con las marchas hacia adelante.</p>
-                                <div class="row">
-                                    <div class="col-md-3 offset-md-0"></div> <!-- Crea un espacio de 3 columnas -->
-                                    <div class="col-md-6 text-center" style="margin-top: 17px; margin-bottom: 20px;"> <!-- Espacios superior e inferior -->
-                                        <img src="assets/img/cambio.webp" alt="Relaciones de marcha" loading="lazy" decoding="async" class="img-fluid">
-                                    </div>
-                                </div>     
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="QUE_ES mt-150 mb-150">
-            <div class="container">
-                            <h3>AJUSTES EN EL DIFERENCIAL</h3>
-                            <p>Dentro de la configuración del diferencial en Gran Turismo 6, además del bloqueo del diferencial y la relación de aceleración, también puedes encontrar ajustes adicionales que influyen en el comportamiento del automóvil. Estos ajustes incluyen el torque inicial, la sensibilidad del acelerador y la sensibilidad del freno. Aquí te explico cómo cada uno de estos ajustes afecta al rendimiento del automóvil:</p>
-                            
-                            <p><strong>Torque inicial:</strong> El ajuste de torque inicial controla la cantidad de fuerza de bloqueo aplicada al diferencial al inicio de una curva o al acelerar. Un valor alto de torque inicial significa que el diferencial bloqueará más rápidamente, lo que puede mejorar la tracción y la estabilidad en curvas.
-                                Por otro lado, un valor bajo de torque inicial permite que el diferencial sea más flexible al inicio de la curva, lo que puede mejorar la respuesta del automóvil y facilitar el control en curvas cerradas.</p> 
-                            <p><strong>Sensibilidad del Acelerador:</strong> La sensibilidad del acelerador ajusta la respuesta del motor a la entrada del pedal del acelerador. Un ajuste de sensibilidad alto hace que el automóvil responda de manera más rápida y agresiva al acelerador, lo que puede mejorar la aceleración y el manejo, pero también puede hacer que el automóvil sea más difícil de controlar en situaciones de sobreviraje.
-                                Por el contrario, una sensibilidad baja del acelerador proporciona una respuesta más suave y gradual, lo que facilita el control del automóvil y la aplicación de potencia en curvas y rectas.</p>
-                            <p><strong>Sensibilidad de Freno:</strong> La sensibilidad del freno ajusta la respuesta de los frenos a la entrada del pedal del freno. Un ajuste de sensibilidad alto hace que los frenos respondan de manera más rápida y efectiva, lo que puede mejorar la capacidad de frenado del automóvil y reducir la distancia de frenado.
-                                Una sensibilidad baja del freno proporciona una respuesta más suave y progresiva, lo que facilita el control al aplicar frenos en curvas y rectas, pero puede requerir más distancia de frenado.</p>    
-                                    <div class="row">
-                                        <div class="col-md-3 offset-md-0"></div> <!-- Crea un espacio de 3 columnas -->
-                                        <div class="col-md-6 text-center" style="margin-top: 17px; margin-bottom: 20px;"> <!-- Espacios superior e inferior -->
-                                            <img src="assets/img/dife.webp" alt="Diferencial LSD" loading="lazy" decoding="async" class="img-fluid">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>     
+
+			<!-- Introducción rápida -->
+			<div class="gt-glass-card p-4 p-md-5 mb-5 text-center">
+				<div class="d-inline-flex align-items-center gap-2 mb-3">
+					<span class="badge bg-primary text-white px-3 py-1 text-uppercase fw-bold" style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+						<i class="fas fa-microchip me-1"></i> Telemetría y Puesta a Punto
+					</span>
+				</div>
+				<h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; color: #0f172a; margin-bottom: 15px;">
+					Guía Completa de Reglajes en GT6
+				</h2>
+				<p class="text-muted mx-auto" style="max-width: 800px; font-size: 15px; line-height: 1.7;">
+					En Gran Turismo 6, cada décima de segundo se gana en el taller. Conoce los tres pilares indispensables: suspensión, transmisión y diferencial de deslizamiento limitado (LSD).
+				</p>
+			</div>
+
+			<!-- CARD 1: SUSPENSIÓN -->
+			<div class="gt-glass-card p-4 p-md-5 mb-5">
+				<div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+					<div class="gt-pillar-icon" style="font-size: 28px; color: #0284c7;">
+						<i class="fas fa-compress-arrows-alt"></i>
+					</div>
+					<div>
+						<span class="text-uppercase fw-bold text-primary small font-monospace">Módulo 01</span>
+						<h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; color: #0f172a; margin: 0;">
+							Ajustes en la Suspensión
+						</h3>
+					</div>
+				</div>
+
+				<p style="color: #475569; font-size: 15px; line-height: 1.7;">
+					En Gran Turismo 6, hacer un setup de suspensión es crucial para mejorar el manejo y el rendimiento de tu automóvil en diferentes tipos de circuitos y condiciones de pista.
+				</p>
+
+				<div class="row g-4 my-2">
+					<div class="col-md-6">
+						<div class="p-3 bg-white rounded border h-100">
+							<h5 class="fw-bold text-dark mb-2"><i class="fas fa-sliders-h text-primary me-2"></i>1. Acceso al Menú de Ajustes</h5>
+							<p class="text-muted small mb-3">En el menú principal o garaje, accede a la sección de ajustes de coches o tuneo para personalizar la suspensión de tu vehículo.</p>
+							<div class="text-center p-2 bg-light rounded">
+								<img src="assets/img/menu.webp" alt="Menú de ajustes de coches" loading="lazy" decoding="async" class="img-fluid rounded border">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="p-3 bg-white rounded border h-100">
+							<h5 class="fw-bold text-dark mb-2"><i class="fas fa-cog text-primary me-2"></i>2. Menú de Suspensión</h5>
+							<p class="text-muted small mb-3">Busca la pestaña etiquetada como "Suspensión" para acceder a las opciones de altura, muelles y amortiguación.</p>
+							<div class="text-center p-2 bg-light rounded">
+								<img src="assets/img/sus.webp" alt="Ajustes de suspensión" loading="lazy" decoding="async" class="img-fluid rounded border">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row g-4 my-2">
+					<div class="col-md-6">
+						<div class="p-3 bg-white rounded border h-100">
+							<h5 class="fw-bold text-dark mb-2"><i class="fas fa-arrows-alt-v text-primary me-2"></i>3. Altura del Vehículo (Ride Height)</h5>
+							<p class="text-muted small mb-3">Reducir la altura baja el centro de gravedad y mejora la estabilidad en curva rápida, pero bajarlo demasiado puede hacer que el coche haga tope en pianos y desniveles.</p>
+							<div class="text-center p-2 bg-light rounded">
+								<img src="assets/img/altura.webp" alt="Altura del vehículo" loading="lazy" decoding="async" class="img-fluid rounded border">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="p-3 bg-white rounded border h-100">
+							<h5 class="fw-bold text-dark mb-2"><i class="fas fa-wave-square text-primary me-2"></i>4. Rigidez de Resortes (Spring Rate)</h5>
+							<p class="text-muted small mb-3">Controla la absorción de baches y el balanceo del chasis. Muelles más firmes agudizan la respuesta de dirección en pistas lisas.</p>
+							<div class="text-center p-2 bg-light rounded">
+								<img src="assets/img/muelles.webp" alt="Rigidez de resortes" loading="lazy" decoding="async" class="img-fluid rounded border">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row g-4 my-2">
+					<div class="col-md-6">
+						<div class="p-3 bg-white rounded border h-100">
+							<h5 class="fw-bold text-dark mb-2"><i class="fas fa-compress text-primary me-2"></i>5. Compresión y Extensión (Damper)</h5>
+							<p class="text-muted small mb-3">Los amortiguadores regulan la velocidad con que se contrae y estira el resorte. Ajusta compresión y extensión para equilibrar estabilidad y absorción de kerbs.</p>
+							<div class="text-center p-2 bg-light rounded">
+								<img src="assets/img/amo.webp" alt="Amortiguadores" loading="lazy" decoding="async" class="img-fluid rounded border">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="p-3 bg-white rounded border h-100">
+							<h5 class="fw-bold text-dark mb-2"><i class="fas fa-grip-lines text-primary me-2"></i>6. Barra Estabilizadora (Anti-roll Bar)</h5>
+							<p class="text-muted small mb-3">Reduce la inclinación lateral en curvas. Una barra más dura adelante induce subviraje; más dura atrás favorece la rotación y el sobreviraje.</p>
+							<div class="text-center p-2 bg-light rounded">
+								<img src="assets/img/barras.webp" alt="Barras estabilizadoras" loading="lazy" decoding="async" class="img-fluid rounded border">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row g-4 my-2">
+					<div class="col-md-6">
+						<div class="p-3 bg-white rounded border h-100">
+							<h5 class="fw-bold text-dark mb-2"><i class="fas fa-angle-double-right text-primary me-2"></i>7. Ángulo de Caída (Camber)</h5>
+							<p class="text-muted small mb-3">Un camber negativo (ruedas inclinadas hacia adentro) maximiza el parche de contacto en pleno apoyo lateral, ofreciendo mayor agarre en curvas prolongadas.</p>
+							<div class="text-center p-2 bg-light rounded">
+								<img src="assets/img/canver.webp" alt="Ángulo de caída Camber" loading="lazy" decoding="async" class="img-fluid rounded border">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="p-3 bg-white rounded border h-100">
+							<h5 class="fw-bold text-dark mb-2"><i class="fas fa-exchange-alt text-primary me-2"></i>8. Ángulo de Convergencia (Toe)</h5>
+							<p class="text-muted small mb-3">Convergencia positiva estabiliza en línea recta; convergencia negativa (toe-out) en el eje delantero agudiza la entrada a curva cerrada.</p>
+							<div class="text-center p-2 bg-light rounded">
+								<img src="assets/img/conver.webp" alt="Ángulo de convergencia Toe" loading="lazy" decoding="async" class="img-fluid rounded border">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- CARD 2: CAJA DE CAMBIOS -->
+			<div class="gt-glass-card p-4 p-md-5 mb-5">
+				<div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+					<div class="gt-pillar-icon" style="font-size: 28px; color: #f28123;">
+						<i class="fas fa-cogs"></i>
+					</div>
+					<div>
+						<span class="text-uppercase fw-bold text-warning small font-monospace">Módulo 02</span>
+						<h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; color: #0f172a; margin: 0;">
+							Ajustes en la Caja de Cambios
+						</h3>
+					</div>
+				</div>
+
+				<p style="color: #475569; font-size: 15px; line-height: 1.7;">
+					El setup de la caja de cambios es esencial para optimizar la velocidad punta y la aceleración del automóvil adaptándose a la recta principal de cada circuito sin perder tracción al salir de curvas lentas.
+				</p>
+
+				<div class="row g-4 my-2">
+					<div class="col-md-6">
+						<div class="p-3 bg-white rounded border h-100">
+							<h5 class="fw-bold text-dark mb-2"><i class="fas fa-wrench text-warning me-2"></i>Menú de Transmisión</h5>
+							<p class="text-muted small mb-3">Dentro del menú de ajustes, selecciona la caja de cambios personalizable para ajustar la relación final y cada marcha individualmente.</p>
+							<div class="text-center p-2 bg-light rounded">
+								<img src="assets/img/caja.webp" alt="Caja de cambios" loading="lazy" decoding="async" class="img-fluid rounded border">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="p-3 bg-white rounded border h-100">
+							<h5 class="fw-bold text-dark mb-2"><i class="fas fa-chart-line text-warning me-2"></i>Relación de Marchas y Velocidad</h5>
+							<p class="text-muted small mb-3">Alinea las RPM de cambio con el rango de potencia máxima. Ajusta la última marcha para alcanzar la velocidad máxima al final de la recta sin llegar al limitador antes de tiempo.</p>
+							<div class="text-center p-2 bg-light rounded">
+								<img src="assets/img/cambio.webp" alt="Relaciones de marcha" loading="lazy" decoding="async" class="img-fluid rounded border">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- CARD 3: DIFERENCIAL LSD -->
+			<div class="gt-glass-card p-4 p-md-5 mb-5">
+				<div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+					<div class="gt-pillar-icon" style="font-size: 28px; color: #10b981;">
+						<i class="fas fa-network-wired"></i>
+					</div>
+					<div>
+						<span class="text-uppercase fw-bold text-success small font-monospace">Módulo 03</span>
+						<h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; color: #0f172a; margin: 0;">
+							Ajustes en el Diferencial (LSD)
+						</h3>
+					</div>
+				</div>
+
+				<p style="color: #475569; font-size: 15px; line-height: 1.7;">
+					En Gran Turismo 6, el diferencial autoblocante personalizable te permite calibrar tres parámetros fundamentales para domar la potencia y frenada:
+				</p>
+
+				<div class="row g-4 align-items-center">
+					<div class="col-lg-7">
+						<div class="p-3 bg-white rounded border mb-3">
+							<h6 class="fw-bold text-dark mb-1"><i class="fas fa-tachometer-alt text-success me-2"></i>Torque Inicial:</h6>
+							<p class="text-muted small mb-0">Controla el nivel de precarga previa del diferencial. Un valor más alto hace que el bloqueo actúe de inmediato, dando solidez pero restando agilidad en cambios de apoyo rápidos.</p>
+						</div>
+						<div class="p-3 bg-white rounded border mb-3">
+							<h6 class="fw-bold text-dark mb-1"><i class="fas fa-bolt text-success me-2"></i>Sensibilidad del Acelerador:</h6>
+							<p class="text-muted small mb-0">Determina el grado de bloqueo al pisar el acelerador. Evita que la rueda interior patine, pero un exceso puede forzar sobreviraje de potencia o pérdida de tracción.</p>
+						</div>
+						<div class="p-3 bg-white rounded border">
+							<h6 class="fw-bold text-dark mb-1"><i class="fas fa-hand-paper text-success me-2"></i>Sensibilidad de Freno:</h6>
+							<p class="text-muted small mb-0">Bloquea ambas ruedas motrices durante deceleración intensa, garantizando estabilidad en frenadas violentas en línea recta antes de iniciar el viraje.</p>
+						</div>
+					</div>
+					<div class="col-lg-5 text-center">
+						<div class="p-2 bg-light rounded border">
+							<img src="assets/img/dife.webp" alt="Diferencial LSD" loading="lazy" decoding="async" class="img-fluid rounded">
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- end Manual Content Section -->
+
+	<!-- copyright -->
+	<div class="copyright py-3" style="background: #ffffff; border-top: 1px solid #e2e8f0;">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6 col-md-12">
+					<p class="mb-0 text-muted small" style="font-family: 'Space Grotesk', sans-serif;">Página creada para la comunidad de Gran Turismo 6 (PS3) por Ricardo Polanco</p>
+				</div>
+				<div class="col-lg-6 text-right col-md-12">
+					<a href="/admin" class="text-muted small" style="text-decoration: none; opacity: 0.8; font-family: 'JetBrains Mono', monospace;"><i class="fas fa-lock me-1"></i> Panel Admin</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end copyright -->
+	
 	<!-- jquery -->
 	<script src="assets/js/jquery-1.11.3.min.js"></script>
 	<!-- bootstrap -->
@@ -265,6 +349,8 @@
 	<script src="assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
+	<!-- tournament dynamic js -->
+	<script src="assets/js/tournament.js"></script>
 
 </body>
 </html>

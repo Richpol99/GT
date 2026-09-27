@@ -11,7 +11,6 @@
   --wec-dark-card: #1e293b;
   --wec-cyan: #0284c7;
   --wec-cyan-light: #38bdf8;
-  --wec-cyan-glow: rgba(56, 189, 248, 0.2);
   --wec-green: #22c55e;
   --wec-amber: #f59e0b;
   --wec-orange: #f28123;
@@ -25,6 +24,8 @@
   --wec-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+body,
+body.home-page,
 body.ranking-page,
 body.resultados-page,
 body.paddock-page {
@@ -38,32 +39,20 @@ body.paddock-page {
    1. HERO HEADER BLOCK (FIA WEC Official Session Header)
    -------------------------------------------------------------------------- */
 .wec-header-block {
-  background: linear-gradient(135deg, #09101f 0%, #0f172a 100%);
-  border-bottom: 3px solid var(--wec-orange);
-  padding: 45px 0 40px 0;
-  color: #ffffff;
+  background: #ffffff;
+  border-bottom: 2px solid var(--wec-border);
+  padding: 40px 0 35px 0;
+  color: var(--wec-text);
   position: relative;
-  overflow: hidden;
-}
-
-.wec-header-block::after {
-  content: "";
-  position: absolute;
-  right: -60px;
-  top: -60px;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
-  pointer-events: none;
 }
 
 .wec-header-category {
   font-family: var(--wec-mono);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--wec-cyan-light);
+  color: var(--wec-orange);
   margin-bottom: 8px;
   display: flex;
   align-items: center;
@@ -75,22 +64,14 @@ body.paddock-page {
   height: 8px;
   border-radius: 50%;
   background: var(--wec-green);
-  box-shadow: 0 0 8px var(--wec-green);
   display: inline-block;
-  animation: wecPulse 2s infinite;
-}
-
-@keyframes wecPulse {
-  0% { transform: scale(0.95); opacity: 0.8; }
-  50% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(0.95); opacity: 0.8; }
 }
 
 .wec-header-title {
   font-family: var(--wec-sans);
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--wec-text);
   margin: 0 0 10px 0;
   letter-spacing: -0.5px;
   text-transform: uppercase;
@@ -98,13 +79,13 @@ body.paddock-page {
 
 @media (max-width: 768px) {
   .wec-header-title {
-    font-size: 26px;
+    font-size: 24px;
   }
 }
 
 .wec-header-desc {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--wec-text-muted);
   max-width: 720px;
   margin: 0;
   line-height: 1.6;
@@ -1112,10 +1093,11 @@ body.paddock-page {
   position: relative;
   height: 125px;
   overflow: hidden;
-  background-color: #09101f;
+  background-color: #f1f5f9;
   display: flex;
   align-items: flex-end;
   padding: 12px 16px;
+  border-bottom: 1px solid var(--wec-border-subtle);
 }
 
 .gt6-card-machine-bg {
@@ -1125,13 +1107,13 @@ body.paddock-page {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.65;
+  opacity: 0.8;
   transition: transform 0.4s ease, opacity 0.4s ease;
 }
 
 .gt6-driver-card:hover .gt6-card-machine-bg {
   transform: scale(1.08);
-  opacity: 0.85;
+  opacity: 0.95;
 }
 
 .gt6-card-machine-overlay {
@@ -1140,7 +1122,7 @@ body.paddock-page {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to top, rgba(9, 16, 31, 0.95) 0%, rgba(9, 16, 31, 0.25) 60%, rgba(9, 16, 31, 0.6) 100%);
+  background: rgba(255, 255, 255, 0.2);
   z-index: 1;
 }
 
@@ -1149,25 +1131,30 @@ body.paddock-page {
   z-index: 2;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
 }
 
 .gt6-card-machine-info .wec-brand-badge {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
 }
 
 .gt6-machine-name {
   font-family: var(--wec-mono);
   font-size: 0.75rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #0f172a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 /* Stats 2x2 Grid */
@@ -1420,4 +1407,571 @@ body.paddock-page {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* =========================================================
+   LIGHT GLASSMORPHISM DESIGN SYSTEM & GT6 CIRCUITS SHOWCASE
+   ========================================================= */
+
+/* Frosted Glass Navigation Bar */
+.sticky-wrapper.is-sticky .top-header-area,
+.top-header-area {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 14px rgba(15, 23, 42, 0.04) !important;
+  transition: all 0.25s ease !important;
+  padding: 16px 0 !important;
+}
+
+.top-header-area .site-logo img {
+  max-height: 48px;
+  width: auto;
+}
+
+.top-header-area .main-menu ul li a {
+  color: #0f172a !important;
+  font-family: var(--wec-sans) !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  letter-spacing: 0.2px;
+  transition: color 0.15s ease;
+  padding: 10px 14px;
+}
+
+.top-header-area .main-menu ul li:hover > a,
+.top-header-area .main-menu ul li.current-list-item > a {
+  color: var(--wec-orange) !important;
+}
+
+.main-menu ul li ul.sub-menu {
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08) !important;
+  border-radius: 8px !important;
+  padding: 8px 0 !important;
+}
+
+.main-menu ul li ul.sub-menu li a {
+  color: #0f172a !important;
+  font-size: 13px !important;
+  padding: 8px 18px !important;
+  font-weight: 600 !important;
+}
+
+.main-menu ul li ul.sub-menu li a:hover {
+  color: var(--wec-orange) !important;
+  background: #f8fafc !important;
+}
+
+/* Glassmorphism Generic Card */
+.gt-glass-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gt-glass-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--wec-orange);
+  box-shadow: 0 10px 24px rgba(242, 129, 35, 0.1), 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+/* GT6 Circuits Showcase Grid & Cards */
+.gt-circuits-section {
+  padding: 80px 0 100px 0;
+  background-color: #f8fafc;
+}
+
+.gt-circuits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 22px;
+  margin-top: 35px;
+}
+
+.gt-circuit-card {
+  background: #ffffff;
+  border: 1px solid var(--wec-border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.gt-circuit-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--wec-orange);
+  box-shadow: 0 12px 24px rgba(242, 129, 35, 0.1), 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.gt-circuit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.gt-circuit-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gt-circuit-flag {
+  width: 24px;
+  height: 16px;
+  object-fit: cover;
+  border-radius: 2px;
+  border: 1px solid var(--wec-border);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+.gt-circuit-name {
+  font-family: var(--wec-sans);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--wec-text);
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.gt-circuit-location {
+  font-family: var(--wec-mono);
+  font-size: 10px;
+  color: var(--wec-text-muted);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.gt-circuit-round-badge {
+  font-family: var(--wec-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--wec-orange);
+  background: rgba(242, 129, 35, 0.08);
+  border: 1px solid rgba(242, 129, 35, 0.25);
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.gt-circuit-map-wrap {
+  background: #f8fafc;
+  border: 1px solid var(--wec-border-subtle);
+  border-radius: 8px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.gt-circuit-map-wrap img,
+.gt-circuit-map-wrap svg {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+}
+
+.gt-circuit-specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.gt-circuit-spec-cell {
+  background: #f8fafc;
+  border: 1px solid var(--wec-border-subtle);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.gt-circuit-spec-lbl {
+  font-family: var(--wec-mono);
+  font-size: 10px;
+  color: var(--wec-text-muted);
+  text-transform: uppercase;
+}
+
+.gt-circuit-spec-val {
+  font-family: var(--wec-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--wec-text);
+}
+
+/* Home Pillars */
+.gt-pillar-card {
+  background: #ffffff;
+  border: 1px solid var(--wec-border);
+  border-radius: 12px;
+  padding: 28px 24px;
+  height: 100%;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.gt-pillar-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--wec-orange);
+  box-shadow: 0 10px 24px rgba(242, 129, 35, 0.1);
+}
+
+.gt-pillar-icon {
+  font-size: 32px;
+  margin-bottom: 18px;
+  display: inline-block;
+}
+
+.gt-pillar-title {
+  font-family: var(--wec-sans);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--wec-text);
+  margin-bottom: 10px;
+}
+
+.gt-pillar-desc {
+  font-size: 14px;
+  color: var(--wec-text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Quick Stats Strip */
+.gt-stats-strip {
+  background: #ffffff;
+  border: 1px solid var(--wec-border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.gt-stat-box {
+  text-align: center;
+}
+
+.gt-stat-box .num {
+  font-family: var(--wec-mono);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--wec-text);
+}
+
+.gt-stat-box .lbl {
+  font-family: var(--wec-mono);
+  font-size: 11px;
+  color: var(--wec-text-muted);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .gt-stats-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Button Classes */
+.btn-gt-primary {
+  background: var(--wec-orange);
+  color: #ffffff !important;
+  font-family: var(--wec-sans);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 12px 26px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-gt-primary:hover {
+  background: #e07218;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(242, 129, 35, 0.3);
+}
+
+.btn-gt-secondary {
+  background: var(--wec-dark-surface);
+  color: #ffffff !important;
+  font-family: var(--wec-sans);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 12px 26px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-gt-secondary:hover {
+  background: #1e293b;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+.btn-gt-outline {
+  background: #ffffff;
+  color: var(--wec-text) !important;
+  font-family: var(--wec-sans);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 12px 26px;
+  border-radius: 6px;
+  border: 1px solid var(--wec-border);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-gt-outline:hover {
+  border-color: var(--wec-orange);
+  color: var(--wec-orange) !important;
+  background: #f8fafc;
+  transform: translateY(-2px);
+}
+
+/* Breadcrumb Section - Unified Light Frosted Glass Header */
+.breadcrumb-section {
+  background: #f8fafc !important;
+  background-image: none !important;
+  padding: 135px 0 45px 0 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  position: relative !important;
+}
+
+.breadcrumb-section:after {
+  display: none !important;
+  content: none !important;
+}
+
+.breadcrumb-text h1 {
+  color: #0f172a !important;
+  font-family: var(--wec-sans) !important;
+  font-weight: 800 !important;
+  font-size: 32px !important;
+  margin: 0 0 8px 0 !important;
+  text-transform: uppercase !important;
+  letter-spacing: -0.5px !important;
+}
+
+.breadcrumb-text p {
+  color: var(--wec-orange) !important;
+  font-family: var(--wec-mono) !important;
+  font-weight: 700 !important;
+  letter-spacing: 2px !important;
+  font-size: 11px !important;
+  margin: 0 !important;
+  text-transform: uppercase !important;
+}
+
+/* Global Copyright Light Footer */
+.copyright {
+  background-color: #ffffff !important;
+  border-top: 1px solid #e2e8f0 !important;
+  padding: 18px 0 !important;
+}
+
+.copyright p {
+  color: var(--wec-text-muted) !important;
+  font-family: var(--wec-sans) !important;
+  font-size: 13px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.copyright a {
+  color: var(--wec-text-muted) !important;
+  transition: color 0.15s ease;
+}
+
+.copyright a:hover {
+  color: var(--wec-orange) !important;
+}
+
+/* Mobile Mean Menu Light Glass Styling */
+.mean-container .mean-bar {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  padding: 10px 0 !important;
+}
+
+.mean-container a.meanmenu-reveal {
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+.mean-container a.meanmenu-reveal span {
+  background-color: #0f172a !important;
+}
+
+.mean-container .mean-nav {
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-top: 1px solid #e2e8f0 !important;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08) !important;
+  margin-top: 48px !important;
+}
+
+.mean-container .mean-nav ul li a {
+  color: #0f172a !important;
+  border-top: 1px solid #f1f5f9 !important;
+  font-family: var(--wec-sans) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+}
+
+.mean-container .mean-nav ul li a:hover {
+  color: var(--wec-orange) !important;
+  background: #f8fafc !important;
+}
+
+.mean-container .mean-nav ul li a.mean-expand {
+  background: transparent !important;
+  color: #0f172a !important;
+  border: none !important;
+}
+
+/* Calendar Table Light Glassmorphism */
+.gt-calendar-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.gt-calendar-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: var(--wec-sans);
+  margin-bottom: 0;
+}
+
+.gt-calendar-table thead {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.gt-calendar-table thead th {
+  padding: 14px 16px;
+  font-family: var(--wec-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--wec-orange);
+  white-space: nowrap;
+}
+
+.gt-calendar-table tbody tr {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  transition: background 0.15s ease;
+}
+
+.gt-calendar-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.gt-calendar-table tbody td {
+  padding: 14px 16px;
+  vertical-align: middle;
+  border-bottom: 1px solid #e2e8f0;
+  color: #0f172a;
+  font-size: 14px;
+}
+
+.gt-cal-round {
+  font-family: var(--wec-mono);
+  font-weight: 800;
+  color: var(--wec-orange);
+  font-size: 14px;
+}
+
+.gt-cal-track-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #eff6ff;
+  color: #0284c7;
+  border: 1px solid #bfdbfe;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.gt-cal-car-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.gt-cal-host-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-family: var(--wec-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.gt-cal-time-badge {
+  font-family: var(--wec-mono);
+  font-weight: 700;
+  color: #0f172a;
+  font-size: 13px;
+}
+
+.gt-cal-laps-badge {
+  font-family: var(--wec-mono);
+  font-weight: 600;
+  color: #64748b;
+  font-size: 12px;
+}
+
+
 

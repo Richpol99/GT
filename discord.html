@@ -4,16 +4,17 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Únete a la comunidad de Discord de GT ACADEMY para participar en eventos, carreras de Gran Turismo y compartir con otros pilotos.">
+	<meta name="description" content="Únete a la comunidad oficial de Discord de GT ACADEMY para participar en eventos y carreras de Gran Turismo 6 (PS3).">
 
 	<!-- title -->
-	<title>Únete a nuestro Discord - GT ACADEMY</title>
+	<title>Comunidad Discord - GT ACADEMY</title>
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 	<!-- fontawesome -->
 	<link rel="stylesheet" href="assets/css/all.min.css">
 	<!-- bootstrap -->
@@ -30,9 +31,11 @@
 	<link rel="stylesheet" href="assets/css/main.css">
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
+	<!-- motorsport telemetry tournament style -->
+	<link rel="stylesheet" href="assets/css/tournament.css">
 
 </head>
-<body>
+<body class="discord-page">
 	
 	<!--PreLoader-->
     <div class="loader">
@@ -51,7 +54,7 @@
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="index.html">
-								<img src="assets/img/logo.png" alt="">
+								<img src="assets/img/logo-dark.png" alt="GT Academy" style="max-height: 48px;">
 							</a>
 						</div>
 						<!-- logo -->
@@ -59,28 +62,24 @@
 						<!-- menu start -->
 						<nav class="main-menu">
 							<ul>
+								<li><a href="index.html">Inicio</a></li>
 								<li><a href="#">Eventos</a>
 									<ul class="sub-menu">
+										<li><a href="paddock.html">Paddock de Pilotos</a></li>
 										<li><a href="resultados.html">Resultados</a></li>
 										<li><a href="ranking.html">Tabla de puntos General</a></li>
-										<li><a href="paddock.html">Paddock de Pilotos</a></li>
 										<li><a href="calendario.html">Calendario de la temporada</a></li>
 									</ul>
 								</li>
+								<li><a href="index.html#circuitos">Circuitos</a></li>
 								<li><a href="#">Setup</a>
 									<ul class="sub-menu">
-										<li><a href="setup.html">concepto de Setup</a></li>
-										<li><a href="conceptos.html">Como hacer tu propio setup</a></li>
+										<li><a href="setup.html">Concepto de Setup</a></li>
+										<li><a href="conceptos.html">Cómo hacer tu propio setup</a></li>
 									</ul>
 								</li>
-								<li><a href="#">Multimedia</a>
-									<ul class="sub-menu">
-										<li><a href="galeria.html">Galeria de Fotos</a></li>
-									</ul>
-								</li>
-								<li><a href="discord.html">Unete a nuestro Discord</a></li>
-								<li>
-								</li>
+								<li><a href="galeria.html">Galería</a></li>
+								<li class="current-list-item"><a href="discord.html">Comunidad Discord</a></li>
 							</ul>
 						</nav>
 						<a class="mobile-show search-bar-icon" href="#"></a>
@@ -94,43 +93,113 @@
 	<!-- end header -->
 
     <!-- breadcrumb-section -->
-<div class="breadcrumb-section breadcrumb-bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2 text-center">
-                <div class="breadcrumb-text">
-                    <p></p>
-                    <h1>UNETE AL SERVIDOR DE DISCORD DE GT ONLINE COMUNNITY</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>	
-<!-- end breadcrumb section -->
+	<div class="breadcrumb-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>COMUNIDAD OFICIAL • GRAN TURISMO 6 (PS3)</p>
+						<h1>Únete a Nuestro Discord</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	<!-- end breadcrumb section -->
 
-<div class="container">	
-    <div class="row">
-        <div class="col-lg-6 col-md-12">
-            <div class="abt-text mt-3"> <!-- Agrega clase mt-3 para espacio adicional -->
-                <h2>GT <span class="orange-text">ONLINE COMMUNITY</span></h2>
-                <p>Un lugar donde compartimos Fotografias, Videos, Configuraciones para los autos, tambien tenemos a una comunidad grande de latinos y sobre todo ¡nuca faltara alguien para jugar contigo!</p>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-            <!-- Dividir el espacio en dos columnas -->
-            <div class="row">
-                <div class="col-6">
-                    <!-- Enlace con la imagen dentro -->
-                    <a href="https://discord.gg/M5yWb7ku">
-                    <!-- Imagen PNG con clase my-3 para margen vertical -->
-                    <img src="assets/img/qr.png" alt="Código QR" class="img-fluid my-5" style="max-width: 350px;">
-                </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+	<div class="discord-content py-5">
+		<div class="container">	
+			<div class="gt-glass-card p-4 p-md-5">
+				<div class="row align-items-center">
+					<div class="col-lg-7 mb-4 mb-lg-0">
+						<span class="badge bg-primary text-white px-3 py-1 mb-3 text-uppercase fw-bold" style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+							<i class="fab fa-discord me-1"></i> GT Online Community
+						</span>
+						<h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; color: #0f172a; margin-bottom: 20px;">
+							El Punto de Encuentro para Pilotos de GT6
+						</h2>
+						<p style="color: #475569; font-size: 15px; line-height: 1.7;">
+							Un espacio creado por y para la comunidad hispana y latinoamericana de Gran Turismo 6. Aquí compartimos fotografías, videos, configuraciones de reglajes (setups), repeticiones de carrera y organizamos salas privadas de entrenamiento cada semana.
+						</p>
+
+						<div class="row g-3 my-3">
+							<div class="col-sm-6">
+								<div class="d-flex align-items-start gap-2">
+									<i class="fas fa-check-circle text-success mt-1"></i>
+									<div>
+										<strong style="color: #0f172a; font-size: 14px;">Salas Semanales</strong>
+										<p class="text-muted small mb-0">Carreras oficiales y lobbies libres</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="d-flex align-items-start gap-2">
+									<i class="fas fa-check-circle text-success mt-1"></i>
+									<div>
+										<strong style="color: #0f172a; font-size: 14px;">Soporte de Setups</strong>
+										<p class="text-muted small mb-0">Taller y ayuda técnica entre pilotos</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="d-flex align-items-start gap-2">
+									<i class="fas fa-check-circle text-success mt-1"></i>
+									<div>
+										<strong style="color: #0f172a; font-size: 14px;">Palmarés & Ranking</strong>
+										<p class="text-muted small mb-0">Seguimiento de tiempos y puntos</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="d-flex align-items-start gap-2">
+									<i class="fas fa-check-circle text-success mt-1"></i>
+									<div>
+										<strong style="color: #0f172a; font-size: 14px;">Parrilla Abierta</strong>
+										<p class="text-muted small mb-0">Siempre habrá alguien con quien correr</p>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="d-flex flex-wrap gap-2 mt-4">
+							<a href="https://discord.gg/M5yWb7ku" target="_blank" rel="noopener noreferrer" class="btn-gt-primary" style="background: #5865F2;">
+								<i class="fab fa-discord"></i> Entrar al Servidor Discord
+							</a>
+							<a href="paddock.html" class="btn-gt-outline">
+								<i class="fas fa-users"></i> Explorar el Paddock
+							</a>
+						</div>
+					</div>
+					<div class="col-lg-5 text-center">
+						<div class="p-4 bg-white rounded-3 border d-inline-block" style="box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06); max-width: 340px;">
+							<a href="https://discord.gg/M5yWb7ku" target="_blank" rel="noopener noreferrer">
+								<img src="assets/img/qr.png" alt="Código QR Servidor Discord GT Academy" class="img-fluid rounded mb-3" style="max-height: 240px;">
+							</a>
+							<div class="fw-bold text-dark small" style="font-family: 'Space Grotesk', sans-serif;">
+								<i class="fas fa-qrcode text-primary me-1"></i> Escanea el QR para unirte
+							</div>
+							<span class="text-muted small" style="font-size: 12px;">o haz clic directo en la imagen</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
     
+	<!-- copyright -->
+	<div class="copyright py-3" style="background: #ffffff; border-top: 1px solid #e2e8f0;">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6 col-md-12">
+					<p class="mb-0 text-muted small" style="font-family: 'Space Grotesk', sans-serif;">Página creada para la comunidad de Gran Turismo 6 (PS3) por Ricardo Polanco</p>
+				</div>
+				<div class="col-lg-6 text-right col-md-12">
+					<a href="/admin" class="text-muted small" style="text-decoration: none; opacity: 0.8; font-family: 'JetBrains Mono', monospace;"><i class="fas fa-lock me-1"></i> Panel Admin</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end copyright -->
 	
 	<!-- jquery -->
 	<script src="assets/js/jquery-1.11.3.min.js"></script>
@@ -152,6 +221,8 @@
 	<script src="assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
+	<!-- tournament dynamic js -->
+	<script src="assets/js/tournament.js"></script>
 
 </body>
 </html>

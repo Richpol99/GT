@@ -5,76 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso Administrativo - GT ACADEMY</title>
     <link rel="shortcut icon" type="image/png" href="../assets/img/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/all.min.css">
     <style>
         body {
-            background-color: #0b0e14;
-            color: #f8fafc;
-            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            font-family: 'Space Grotesk', -apple-system, sans-serif;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-image: radial-gradient(circle at 50% 20%, #1e293b 0%, #0b0e14 70%);
         }
         .login-card {
-            background: #141a24;
-            border: 1px solid #1e293b;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid #cbd5e1;
             border-top: 4px solid #f28123;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
             width: 100%;
             max-width: 420px;
             padding: 35px;
         }
         .login-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         .login-header img {
-            max-height: 60px;
+            max-height: 52px;
             margin-bottom: 15px;
         }
         .login-header h2 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #fff;
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
             margin: 0;
+            letter-spacing: -0.5px;
         }
         .login-header p {
-            color: #94a3b8;
+            color: #64748b;
             font-size: 13px;
             margin-top: 5px;
         }
         .form-control {
-            background-color: #0b0e14;
-            border: 1px solid #334155;
-            color: #fff;
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
             border-radius: 6px;
             padding: 12px;
+            font-size: 14px;
         }
         .form-control:focus {
-            background-color: #0b0e14;
+            background-color: #ffffff;
             border-color: #f28123;
-            color: #fff;
-            box-shadow: 0 0 0 0.2rem rgba(242, 129, 35, 0.25);
+            color: #0f172a;
+            box-shadow: 0 0 0 0.2rem rgba(242, 129, 35, 0.2);
         }
         .btn-gt {
             background-color: #f28123;
             color: #fff;
-            font-weight: 600;
+            font-weight: 700;
             border: none;
             padding: 12px;
             border-radius: 6px;
             width: 100%;
             transition: all 0.2s ease;
+            font-size: 14px;
+            letter-spacing: 0.5px;
         }
         .btn-gt:hover {
             background-color: #d96f18;
             color: #fff;
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(242, 129, 35, 0.3);
         }
         .alert {
             display: none;
@@ -88,28 +94,28 @@
 <div class="login-card">
     <div class="login-header">
         <a href="../index.html">
-            <img src="../assets/img/logo.png" alt="GT Academy">
+            <img src="../assets/img/logo-dark.png" alt="GT Academy">
         </a>
         <h2>PANEL DE CONTROL</h2>
-        <p>Gestión de Carreras y Puntuaciones</p>
+        <p>Gestión de Carreras y Puntuaciones WEC</p>
     </div>
 
     <div id="alertBox" class="alert alert-danger" role="alert"></div>
 
     <form id="loginForm">
         <div class="form-group mb-3">
-            <label class="form-label text-muted small font-weight-bold">USUARIO</label>
+            <label class="form-label text-muted small fw-bold">USUARIO</label>
             <input type="text" id="username" class="form-control" placeholder="admin" required autocomplete="username">
         </div>
         <div class="form-group mb-4">
-            <label class="form-label text-muted small font-weight-bold">CONTRASEÑA</label>
+            <label class="form-label text-muted small fw-bold">CONTRASEÑA</label>
             <input type="password" id="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
         </div>
         <button type="submit" id="loginBtn" class="btn btn-gt">INICIAR SESIÓN</button>
     </form>
 
     <div class="text-center mt-4">
-        <a href="../index.html" class="text-muted small text-decoration-none"><i class="fas fa-arrow-left"></i> Volver a la web pública</a>
+        <a href="../index.html" class="text-muted small text-decoration-none"><i class="fas fa-arrow-left me-1"></i> Volver a la web pública</a>
     </div>
 </div>
 
