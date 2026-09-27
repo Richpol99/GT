@@ -2044,7 +2044,7 @@ body.paddock-page {
 
 .hero-car-isolated-img {
   width: 100%;
-  max-width: 680px;
+  max-width: 580px;
   height: auto;
   display: block;
   object-fit: contain;
@@ -2497,8 +2497,8 @@ body.paddock-page {
     justify-content: flex-start;
   }
   .hero-car-isolated-img {
-    width: 120%;
-    max-width: 520px;
+    width: 105%;
+    max-width: 442px;
     margin-left: -20px;
   }
   .hero-ferrari-headline {
@@ -2510,7 +2510,7 @@ body.paddock-page {
 @media (min-width: 1200px) {
   .hero-car-isolated-img {
     margin-left: -65px;
-    max-width: 730px;
+    max-width: 620px;
   }
 }
 
