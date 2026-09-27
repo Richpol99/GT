@@ -2013,14 +2013,17 @@ body.paddock-page {
 
 /* Glassmorphism Car Stage (Left Column) */
 .hero-car-glass-stage {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 28px;
-  padding: 24px 28px 20px 28px;
+  padding: 24px 20px;
   box-shadow: 0 20px 45px -15px rgba(15, 23, 42, 0.06);
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -2029,60 +2032,19 @@ body.paddock-page {
   box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.09);
 }
 
-/* Stage Header Bar */
-.hero-stage-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-  margin-bottom: 18px;
-}
-
-.hero-stage-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.hero-stage-brand img {
-  height: 20px;
-  width: auto;
-}
-
-.hero-stage-car-name {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  color: #0f172a;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.hero-stage-badge {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 700;
-  color: #f28123;
-  background: rgba(242, 129, 35, 0.1);
-  border: 1px solid rgba(242, 129, 35, 0.25);
-  padding: 4px 10px;
-  border-radius: 9999px;
-  letter-spacing: 0.5px;
-}
-
 /* Car Display with Perspective Shadow */
 .hero-car-display {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 0 16px 0;
+  width: 100%;
+  padding: 0;
 }
 
 .hero-car-isolated-img {
   width: 100%;
-  max-width: 530px;
+  max-width: 550px;
   height: auto;
   display: block;
   object-fit: contain;
