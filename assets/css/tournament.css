@@ -1,0 +1,442 @@
+/* GT Academy - Modern Motorsport UI Theme */
+
+:root {
+  --gt-orange: #f28123;
+  --gt-orange-glow: rgba(242, 129, 35, 0.35);
+  --gt-gold: #fbbf24;
+  --gt-gold-glow: rgba(251, 191, 36, 0.4);
+  --gt-silver: #cbd5e1;
+  --gt-silver-glow: rgba(203, 213, 225, 0.25);
+  --gt-bronze: #f97316;
+  --gt-bronze-glow: rgba(249, 115, 22, 0.3);
+  --gt-bg-card: #121721;
+  --gt-bg-card-alt: #0e121a;
+  --gt-border: #1e293b;
+  --gt-border-hover: #334155;
+  --gt-text-light: #f8fafc;
+  --gt-text-muted: #94a3b8;
+}
+
+/* Container de controles */
+.gt-toolbar {
+  background: linear-gradient(135deg, rgba(18, 23, 33, 0.95), rgba(11, 14, 20, 0.95));
+  border: 1px solid var(--gt-border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+}
+
+.gt-search-input {
+  background: #090c10 !important;
+  border: 1px solid var(--gt-border) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  padding: 12px 18px !important;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.gt-search-input:focus {
+  border-color: var(--gt-orange) !important;
+  box-shadow: 0 0 0 3px var(--gt-orange-glow) !important;
+}
+
+.gt-season-select {
+  background: #090c10 !important;
+  border: 1px solid var(--gt-border) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  padding: 10px 16px !important;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.gt-season-select:focus {
+  border-color: var(--gt-orange) !important;
+}
+
+/* Píldoras de filtrado por Ronda */
+.gt-pills-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.gt-pill-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--gt-border);
+  color: var(--gt-text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.gt-pill-btn:hover {
+  background: rgba(242, 129, 35, 0.15);
+  border-color: var(--gt-orange);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.gt-pill-btn.active {
+  background: linear-gradient(135deg, #f28123 0%, #d96f18 100%);
+  border-color: #f28123;
+  color: #fff;
+  box-shadow: 0 4px 15px var(--gt-orange-glow);
+}
+
+/* Tarjeta Principal de Carrera */
+.gt-race-card {
+  background: linear-gradient(180deg, #131824 0%, #0b0e14 100%);
+  border: 1px solid var(--gt-border);
+  border-radius: 16px;
+  margin-bottom: 45px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.2s ease;
+}
+
+.gt-race-card:hover {
+  border-color: rgba(242, 129, 35, 0.4);
+}
+
+/* Cabecera de la Carrera */
+.gt-race-header {
+  background: linear-gradient(90deg, #171e2e 0%, #10141f 100%);
+  border-bottom: 1px solid var(--gt-border);
+  padding: 20px 28px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.gt-race-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gt-race-badge-round {
+  display: inline-block;
+  background: linear-gradient(135deg, #f28123, #ea580c);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.gt-race-title {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.gt-race-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.gt-meta-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--gt-border);
+  color: var(--gt-text-muted);
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gt-meta-pill.highlight {
+  background: rgba(242, 129, 35, 0.12);
+  border-color: rgba(242, 129, 35, 0.3);
+  color: #ff9d47;
+  font-weight: 600;
+}
+
+/* PODIO TOP 3 VISUAL */
+.gt-podium-section {
+  padding: 28px 24px 15px 24px;
+  background: radial-gradient(circle at 50% 0%, rgba(30, 41, 59, 0.5) 0%, transparent 70%);
+}
+
+.gt-podium-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1fr;
+  gap: 16px;
+  align-items: end;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .gt-podium-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.gt-podium-card {
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gt-podium-card:hover {
+  transform: translateY(-4px);
+}
+
+/* P1: Oro (Ganador) */
+.gt-podium-p1 {
+  background: linear-gradient(180deg, rgba(251, 191, 36, 0.15) 0%, rgba(18, 23, 33, 0.95) 100%);
+  border: 2px solid var(--gt-gold);
+  box-shadow: 0 8px 30px var(--gt-gold-glow);
+  order: 2;
+  padding: 26px 18px;
+}
+
+@media (max-width: 768px) {
+  .gt-podium-p1 {
+    order: 1;
+  }
+}
+
+/* P2: Plata (2º Lugar) */
+.gt-podium-p2 {
+  background: linear-gradient(180deg, rgba(203, 213, 225, 0.1) 0%, rgba(18, 23, 33, 0.95) 100%);
+  border: 1px solid var(--gt-silver);
+  box-shadow: 0 6px 20px var(--gt-silver-glow);
+  order: 1;
+}
+
+@media (max-width: 768px) {
+  .gt-podium-p2 {
+    order: 2;
+  }
+}
+
+/* P3: Bronce (3º Lugar) */
+.gt-podium-p3 {
+  background: linear-gradient(180deg, rgba(249, 115, 22, 0.1) 0%, rgba(18, 23, 33, 0.95) 100%);
+  border: 1px solid var(--gt-bronze);
+  box-shadow: 0 6px 20px var(--gt-bronze-glow);
+  order: 3;
+}
+
+.gt-podium-rank-badge {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.gt-podium-p1 .gt-podium-rank-badge { color: var(--gt-gold); }
+.gt-podium-p2 .gt-podium-rank-badge { color: var(--gt-silver); }
+.gt-podium-p3 .gt-podium-rank-badge { color: var(--gt-bronze); }
+
+.gt-podium-driver-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.gt-podium-points {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-top: 6px;
+}
+
+.gt-podium-p1 .gt-podium-points {
+  background: rgba(251, 191, 36, 0.2);
+  color: var(--gt-gold);
+  border: 1px solid var(--gt-gold);
+}
+
+.gt-podium-p2 .gt-podium-points {
+  background: rgba(203, 213, 225, 0.15);
+  color: var(--gt-silver);
+  border: 1px solid var(--gt-silver);
+}
+
+.gt-podium-p3 .gt-podium-points {
+  background: rgba(249, 115, 22, 0.2);
+  color: var(--gt-bronze);
+  border: 1px solid var(--gt-bronze);
+}
+
+.gt-podium-time {
+  font-size: 12px;
+  color: var(--gt-text-muted);
+  margin-top: 6px;
+  font-family: monospace;
+}
+
+/* LISTA DE FILAS TIPO CARDS (AERODINÁMICAS) */
+.gt-results-list {
+  padding: 15px 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gt-driver-row {
+  display: grid;
+  grid-template-columns: 55px 1.5fr 1fr 140px 100px;
+  align-items: center;
+  background: #0f141f;
+  border: 1px solid var(--gt-border);
+  border-left: 4px solid #334155;
+  border-radius: 8px;
+  padding: 12px 18px;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.gt-driver-row:hover {
+  background: #151b2a;
+  border-color: #3b4b66;
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Bordes laterales por posición */
+.gt-driver-row.pos-1 { border-left-color: var(--gt-gold); background: linear-gradient(90deg, rgba(251,191,36,0.06), #0f141f 40%); }
+.gt-driver-row.pos-2 { border-left-color: var(--gt-silver); background: linear-gradient(90deg, rgba(203,213,225,0.05), #0f141f 40%); }
+.gt-driver-row.pos-3 { border-left-color: var(--gt-bronze); background: linear-gradient(90deg, rgba(249,115,22,0.05), #0f141f 40%); }
+.gt-driver-row.pos-top10 { border-left-color: rgba(242, 129, 35, 0.6); }
+
+/* Posición */
+.gt-pos-badge {
+  font-size: 16px;
+  font-weight: 800;
+  text-align: center;
+  color: var(--gt-text-muted);
+}
+
+.gt-driver-row.pos-1 .gt-pos-badge { color: var(--gt-gold); font-size: 18px; }
+.gt-driver-row.pos-2 .gt-pos-badge { color: var(--gt-silver); font-size: 18px; }
+.gt-driver-row.pos-3 .gt-pos-badge { color: var(--gt-bronze); font-size: 18px; }
+
+/* Identidad Piloto */
+.gt-driver-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gt-flag-img {
+  width: 28px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.gt-driver-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.3px;
+}
+
+.gt-badge-tag {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.gt-tag-pole {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+}
+
+.gt-tag-fastest {
+  background: rgba(168, 85, 247, 0.2);
+  border: 1px solid #a855f7;
+  color: #d8b4fe;
+}
+
+/* Auto / Categoría */
+.gt-car-info {
+  color: var(--gt-text-muted);
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tiempo / Notas */
+.gt-time-info {
+  font-size: 13px;
+  font-family: monospace;
+  color: #94a3b8;
+  text-align: center;
+}
+
+/* Puntos */
+.gt-points-info {
+  text-align: right;
+}
+
+.gt-pts-badge {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(242, 129, 35, 0.15);
+  border: 1px solid rgba(242, 129, 35, 0.4);
+  color: var(--gt-orange);
+}
+
+.gt-driver-row.pos-1 .gt-pts-badge {
+  background: rgba(251, 191, 36, 0.2);
+  border-color: var(--gt-gold);
+  color: var(--gt-gold);
+}
+
+/* Responsividad en móvil */
+@media (max-width: 768px) {
+  .gt-driver-row {
+    grid-template-columns: 40px 1fr 80px;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  .gt-car-info, .gt-time-info {
+    display: none;
+  }
+  .gt-race-title {
+    font-size: 18px;
+  }
+}
