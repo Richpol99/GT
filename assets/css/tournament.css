@@ -785,3 +785,132 @@ body.resultados-page {
   color: #94a3b8;
   margin-bottom: 16px;
 }
+
+/* --------------------------------------------------------------------------
+   8. GT6 MACHINE SPOTLIGHT & CAR THUMBNAILS
+   -------------------------------------------------------------------------- */
+.wec-machine-card {
+  background: #ffffff;
+  border: 1px solid var(--wec-border);
+  border-radius: 8px;
+  padding: 18px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+  position: relative;
+  overflow: hidden;
+  border-left: 5px solid var(--wec-cyan);
+}
+
+.wec-machine-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.wec-machine-info {
+  flex: 1;
+}
+
+.wec-machine-badge {
+  font-family: var(--wec-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--wec-cyan);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(2, 132, 199, 0.08);
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.wec-machine-title {
+  font-family: var(--wec-sans);
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.3px;
+  text-transform: uppercase;
+}
+
+.wec-machine-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: #64748b;
+  font-family: var(--wec-mono);
+}
+
+.wec-machine-image-wrap {
+  flex: 0 0 auto;
+  max-width: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wec-machine-image {
+  max-height: 110px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.18));
+  transition: transform 0.3s ease;
+}
+
+.wec-machine-card:hover .wec-machine-image {
+  transform: scale(1.06);
+}
+
+/* Mini GT6 Car Photo Thumbnails in Tables & Rows */
+.wec-car-photo-thumb {
+  width: 46px;
+  height: 28px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--wec-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  background: #f8fafc;
+}
+
+.wec-row:hover .wec-car-photo-thumb {
+  transform: scale(1.12);
+  border-color: var(--wec-cyan);
+}
+
+/* In Round Strip */
+.wec-round-car-img {
+  width: 34px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.wec-round-tile.active .wec-round-car-img {
+  border-color: var(--wec-cyan);
+}
+
+@media (max-width: 768px) {
+  .wec-machine-card-content {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+  .wec-machine-image-wrap {
+    width: 100%;
+    text-align: center;
+  }
+  .wec-machine-image {
+    max-height: 100px;
+  }
+}

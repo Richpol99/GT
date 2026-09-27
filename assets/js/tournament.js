@@ -139,6 +139,33 @@ function getCarBrandBadge(carString) {
     return `<img src="assets/brands/default-car.svg" alt="Car" class="wec-brand-logo">`;
 }
 
+// -----------------------------------------------------------
+// HELPERS GRAN TURISMO 6 CAR IMAGES
+// -----------------------------------------------------------
+const carImagesMap = [
+    { match: ['ford gt', 'gt 2006', 'gt 06', 'ford gt 2006'], file: 'ford_gt_2006.jpg' },
+    { match: ['enzo', 'ferrari enzo', 'enzo ferrari'], file: 'ferrari_enzo_2002.jpg' },
+    { match: ['gt-r nismo', 'gtr nismo', 'nismo 2014', 'gt-r 2014', 'r35'], file: 'nissan_gtr_nismo_2014.jpg' },
+    { match: ['f40', 'ferrari f40'], file: 'ferrari_f40_1992.jpg' },
+    { match: ['mustang', 'boss 302', 'mustang boss'], file: 'ford_mustang_boss_302_2013.jpg' },
+    { match: ['fairlady', 'fayrlady', 'z34', '370z'], file: 'nissan_fairlady_z_z34_2008.jpg' },
+    { match: ['250 gt', '250gt', 'passo corto'], file: 'ferrari_250_gt_1961.jpg' },
+    { match: ['focus st', 'focus 2013'], file: 'ford_focus_st_2013.jpg' }
+];
+
+function getCarImageUrl(carString) {
+    if (!carString) return 'assets/cars/default.jpg';
+    const clean = carString.toLowerCase();
+    for (const c of carImagesMap) {
+        for (const pattern of c.match) {
+            if (clean.includes(pattern)) {
+                return `assets/cars/${c.file}`;
+            }
+        }
+    }
+    return 'assets/cars/default.jpg';
+}
+
 // =======================================================
 // RENDERIZADOR FIA WEC: TABLA DE CLASIFICACIÓN GENERAL
 // =======================================================
@@ -304,10 +331,11 @@ async function renderWECStandingsTable(container, seasonId, seasons) {
                         </div>
                     </td>
 
-                    <!-- 3. Auto / Categoría -->
+                    <!-- 3. Auto / Categoría con Logo y Foto GT6 -->
                     <td class="wec-cell-car d-none d-md-table-cell">
                         <span class="wec-cell-car-inner">
                             ${getCarBrandBadge(driverCar)}
+                            <img src="${getCarImageUrl(driverCar)}" alt="${driverCar}" class="wec-car-photo-thumb" onerror="this.style.display='none'">
                             <span>${driverCar}</span>
                         </span>
                     </td>
@@ -564,6 +592,7 @@ async function setupResultadosPage(seasons, activeSeason) {
                 </div>
                 <div class="wec-round-title-text" title="${race.title || 'Ronda ' + race.round_number}">${race.title || 'Ronda ' + race.round_number}</div>
                 <div class="wec-round-car-text" title="${race.car}">
+                    <img src="${getCarImageUrl(race.car)}" class="wec-round-car-img" alt="${race.car}" onerror="this.style.display='none'">
                     ${getCarBrandBadge(race.car)}
                     <span>${race.car}</span>
                 </div>
@@ -590,12 +619,30 @@ async function setupResultadosPage(seasons, activeSeason) {
 
         contentArea.innerHTML = `
             <div class="container my-4">
+                <!-- Tarjeta Destacada de Auto Oficial Gran Turismo 6 -->
+                <div class="wec-machine-card">
+                    <div class="wec-machine-card-content">
+                        <div class="wec-machine-info">
+                            <div class="wec-machine-badge">
+                                ${getCarBrandBadge(race.car)}
+                                <span>VEHÍCULO OFICIAL GRAN TURISMO 6</span>
+                            </div>
+                            <h2 class="wec-machine-title">${race.car}</h2>
+                            <div class="wec-machine-meta">
+                                <span><i class="fas fa-flag-checkered text-warning me-1"></i> Ronda ${race.round_number}: ${race.title || 'Gran Premio'}</span>
+                                <span><i class="fas fa-map-marker-alt text-danger me-1"></i> ${race.track || 'Circuito Oficial'}</span>
+                                <span><i class="fas fa-users text-primary me-1"></i> ${results.length} Pilotos en parrilla</span>
+                            </div>
+                        </div>
+                        <div class="wec-machine-image-wrap">
+                            <img src="${getCarImageUrl(race.car)}" alt="${race.car}" class="wec-machine-image" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-                    <div class="text-muted small d-flex align-items-center gap-2">
-                        ${getCarBrandBadge(race.car)}
-                        <span>
-                            <strong class="text-dark">${race.title || 'Ronda ' + race.round_number}</strong> &bull; <span class="font-monospace">${race.car} &bull; ${results.length} Pilotos</span>
-                        </span>
+                    <div class="text-muted small">
+                        <i class="fas fa-list-ol text-warning me-1"></i> <strong>Resultados Oficiales &bull; Ronda ${race.round_number}</strong>
                     </div>
                     <div>
                         <input type="text" id="wecRaceSearch" class="wec-search-box" placeholder="Buscar piloto o país...">
@@ -656,9 +703,10 @@ async function setupResultadosPage(seasons, activeSeason) {
                         </div>
                     </div>
 
-                    <!-- 3. Auto / Vehículo con Logo Real de Marca -->
+                    <!-- 3. Auto / Vehículo con Logo Real de Marca y Foto GT6 -->
                     <div class="wec-car-col">
                         ${getCarBrandBadge(race.car)}
+                        <img src="${getCarImageUrl(race.car)}" alt="${race.car}" class="wec-car-photo-thumb" onerror="this.style.display='none'">
                         <span>${race.car}</span>
                     </div>
 
