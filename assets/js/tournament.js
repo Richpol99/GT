@@ -77,6 +77,68 @@ function getCategoryBadge(pos, rank) {
     return '<span class="wec-badge wec-badge-rank">GT-CUP</span>';
 }
 
+// -----------------------------------------------------------
+// HELPERS CAR BRAND LOGOS PACK
+// -----------------------------------------------------------
+const carBrandsList = [
+    { key: 'ford', name: 'Ford', match: ['ford'] },
+    { key: 'ferrari', name: 'Ferrari', match: ['ferrari'] },
+    { key: 'nissan', name: 'Nissan', match: ['nissan', 'nisan', 'nismo'] },
+    { key: 'porsche', name: 'Porsche', match: ['porsche'] },
+    { key: 'toyota', name: 'Toyota', match: ['toyota', 'gazoo', 'supra', 'yaris', 'celica'] },
+    { key: 'honda', name: 'Honda', match: ['honda', 'mugen', 'nsx', 'civic', 's2000'] },
+    { key: 'bmw', name: 'BMW', match: ['bmw'] },
+    { key: 'mercedes-benz', name: 'Mercedes-Benz', match: ['mercedes', 'benz', 'amg'] },
+    { key: 'audi', name: 'Audi', match: ['audi'] },
+    { key: 'chevrolet', name: 'Chevrolet', match: ['chevrolet', 'chevy', 'corvette', 'camaro'] },
+    { key: 'lamborghini', name: 'Lamborghini', match: ['lamborghini', 'lambo'] },
+    { key: 'aston-martin', name: 'Aston Martin', match: ['aston', 'martin', 'aston-martin'] },
+    { key: 'mclaren', name: 'McLaren', match: ['mclaren'] },
+    { key: 'subaru', name: 'Subaru', match: ['subaru', 'sti', 'impreza', 'brz'] },
+    { key: 'mazda', name: 'Mazda', match: ['mazda', 'miata', 'rx7', 'rx-7', 'rx8', 'rx-8'] },
+    { key: 'mitsubishi', name: 'Mitsubishi', match: ['mitsubishi', 'lancer', 'evo'] },
+    { key: 'dodge', name: 'Dodge', match: ['dodge', 'viper', 'charger', 'challenger', 'hellcat'] },
+    { key: 'alfa-romeo', name: 'Alfa Romeo', match: ['alfa', 'romeo', 'alfa-romeo', 'alfaromeo'] },
+    { key: 'renault', name: 'Renault', match: ['renault', 'megane', 'clio'] },
+    { key: 'peugeot', name: 'Peugeot', match: ['peugeot'] },
+    { key: 'volkswagen', name: 'Volkswagen', match: ['volkswagen', 'vw', 'golf', 'scirocco', 'beetle'] },
+    { key: 'alpine', name: 'Alpine', match: ['alpine'] },
+    { key: 'bugatti', name: 'Bugatti', match: ['bugatti', 'veyron', 'chiron'] },
+    { key: 'lexus', name: 'Lexus', match: ['lexus'] },
+    { key: 'jaguar', name: 'Jaguar', match: ['jaguar'] },
+    { key: 'genesis', name: 'Genesis', match: ['genesis'] },
+    { key: 'suzuki', name: 'Suzuki', match: ['suzuki', 'swift'] },
+    { key: 'hyundai', name: 'Hyundai', match: ['hyundai'] },
+    { key: 'tesla', name: 'Tesla', match: ['tesla'] },
+    { key: 'lotus', name: 'Lotus', match: ['lotus', 'elise', 'exige', 'evora'] },
+    { key: 'maserati', name: 'Maserati', match: ['maserati'] },
+    { key: 'acura', name: 'Acura', match: ['acura'] },
+    { key: 'infiniti', name: 'Infiniti', match: ['infiniti'] },
+    { key: 'cadillac', name: 'Cadillac', match: ['cadillac'] },
+    { key: 'bentley', name: 'Bentley', match: ['bentley'] },
+    { key: 'mini', name: 'MINI', match: ['mini', 'cooper'] },
+    { key: 'volvo', name: 'Volvo', match: ['volvo'] },
+    { key: 'fiat', name: 'Fiat', match: ['fiat', 'abarth'] }
+];
+
+function getCarBrandBadge(carString) {
+    if (!carString) {
+        return `<img src="assets/brands/default-car.svg" alt="Car" class="wec-brand-logo" onerror="this.style.display='none'">`;
+    }
+    const lower = carString.toLowerCase();
+    
+    for (const b of carBrandsList) {
+        for (const pattern of b.match) {
+            const regex = new RegExp('(?:^|[\\\\s-_.,(/])' + pattern + '(?:$|[\\\\s-_.,)/])', 'i');
+            if (regex.test(lower) || lower.startsWith(pattern)) {
+                return `<img src="assets/brands/${b.key}.svg" alt="${b.name}" title="${b.name}" class="wec-brand-logo" onerror="this.onerror=null;this.src='assets/brands/default-car.svg'">`;
+            }
+        }
+    }
+    
+    return `<img src="assets/brands/default-car.svg" alt="Car" class="wec-brand-logo">`;
+}
+
 // =======================================================
 // RENDERIZADOR FIA WEC: TABLA DE CLASIFICACIÓN GENERAL
 // =======================================================
@@ -244,7 +306,10 @@ async function renderWECStandingsTable(container, seasonId, seasons) {
 
                     <!-- 3. Auto / Categoría -->
                     <td class="wec-cell-car d-none d-md-table-cell">
-                        <i class="fas fa-car-side text-muted me-1"></i> ${driverCar}
+                        <span class="wec-cell-car-inner">
+                            ${getCarBrandBadge(driverCar)}
+                            <span>${driverCar}</span>
+                        </span>
                     </td>
 
                     <!-- 4. Desglose de Rondas -->
@@ -496,7 +561,10 @@ async function setupResultadosPage(seasons, activeSeason) {
                     <img src="assets/country/${flagCountry}.png" alt="${flagCountry}" class="wec-round-flag" onerror="this.src='assets/country/pdi.png'">
                 </div>
                 <div class="wec-round-title-text" title="${race.title || 'Ronda ' + race.round_number}">${race.title || 'Ronda ' + race.round_number}</div>
-                <div class="wec-round-car-text" title="${race.car}">${race.car}</div>
+                <div class="wec-round-car-text" title="${race.car}">
+                    ${getCarBrandBadge(race.car)}
+                    <span>${race.car}</span>
+                </div>
             `;
 
             tile.addEventListener('click', () => {
@@ -521,8 +589,11 @@ async function setupResultadosPage(seasons, activeSeason) {
         contentArea.innerHTML = `
             <div class="container my-4">
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-                    <div class="text-muted small">
-                        <i class="fas fa-flag-checkered text-warning me-1"></i> <strong class="text-dark">${race.title || 'Ronda ' + race.round_number}</strong> &bull; <span class="font-monospace">${race.car} &bull; ${results.length} Pilotos</span>
+                    <div class="text-muted small d-flex align-items-center gap-2">
+                        ${getCarBrandBadge(race.car)}
+                        <span>
+                            <strong class="text-dark">${race.title || 'Ronda ' + race.round_number}</strong> &bull; <span class="font-monospace">${race.car} &bull; ${results.length} Pilotos</span>
+                        </span>
                     </div>
                     <div>
                         <input type="text" id="wecRaceSearch" class="wec-search-box" placeholder="Buscar piloto o país...">
@@ -583,9 +654,9 @@ async function setupResultadosPage(seasons, activeSeason) {
                         </div>
                     </div>
 
-                    <!-- 3. Auto / Vehículo -->
+                    <!-- 3. Auto / Vehículo con Logo Real de Marca -->
                     <div class="wec-car-col">
-                        <i class="fas fa-car-side"></i>
+                        ${getCarBrandBadge(race.car)}
                         <span>${race.car}</span>
                     </div>
 
