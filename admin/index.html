@@ -316,8 +316,8 @@
     <div class="modal-dialog">
         <div class="modal-content bg-dark text-light border-secondary">
             <div class="modal-header border-secondary">
-                <h5 class="modal-title" id="driverModalTitle"><i class="fas fa-user me-2"></i> Piloto</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <h5 class="modal-title text-warning" id="driverModalTitle"><i class="fas fa-user-plus me-2"></i> Piloto</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" style="background:none;border:none;font-size:26px;color:#fff;cursor:pointer;line-height:1;" aria-label="Cerrar">&times;</button>
             </div>
             <form id="saveDriverForm">
                 <div class="modal-body">
@@ -342,7 +342,7 @@
                     </div>
                 </div>
                 <div class="modal-footer border-secondary">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-gt">Guardar Piloto</button>
                 </div>
             </form>
@@ -353,6 +353,7 @@
 <!-- Datalist para autocompletar pilotos -->
 <datalist id="driversDatalist"></datalist>
 
+<script src="../assets/js/jquery-1.11.3.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="admin.js"></script>
 </body>

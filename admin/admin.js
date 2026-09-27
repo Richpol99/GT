@@ -40,7 +40,67 @@ document.addEventListener('DOMContentLoaded', async () => {
     const driversDatalist = document.getElementById('driversDatalist');
     const modalDriverCountry = document.getElementById('modalDriverCountry');
     const addDriverModalEl = document.getElementById('addDriverModal');
-    const addDriverModal = new bootstrap.Modal(addDriverModalEl);
+    
+    // Vanilla Modal Controller (sin dependencias externas)
+    const addDriverModal = {
+        show: () => {
+            if (!addDriverModalEl) return;
+            addDriverModalEl.classList.add('show');
+            addDriverModalEl.style.display = 'block';
+            addDriverModalEl.removeAttribute('aria-hidden');
+            addDriverModalEl.setAttribute('aria-modal', 'true');
+            let backdrop = document.querySelector('.modal-backdrop');
+            if (!backdrop) {
+                backdrop = document.createElement('div');
+                backdrop.className = 'modal-backdrop fade show';
+                document.body.appendChild(backdrop);
+                document.body.classList.add('modal-open');
+            }
+        },
+        hide: () => {
+            if (!addDriverModalEl) return;
+            addDriverModalEl.classList.remove('show');
+            addDriverModalEl.style.display = 'none';
+            addDriverModalEl.setAttribute('aria-hidden', 'true');
+            addDriverModalEl.removeAttribute('aria-modal');
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.remove();
+            document.body.classList.remove('modal-open');
+        }
+    };
+
+    // Cerrar modal al hacer clic en cerrar o fondo
+    document.querySelectorAll('[data-bs-dismiss="modal"], [data-dismiss="modal"]').forEach(btn => {
+        btn.addEventListener('click', () => addDriverModal.hide());
+    });
+    if (addDriverModalEl) {
+        addDriverModalEl.addEventListener('click', (e) => {
+            if (e.target === addDriverModalEl) addDriverModal.hide();
+        });
+    }
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') addDriverModal.hide();
+    });
+
+    // Vanilla Tab Controller (sin dependencias de Bootstrap JS)
+    document.querySelectorAll('#adminTabs .nav-link').forEach(tabBtn => {
+        tabBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelectorAll('#adminTabs .nav-link').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('#adminTabsContent .tab-pane').forEach(pane => {
+                pane.classList.remove('show', 'active');
+            });
+            tabBtn.classList.add('active');
+            const targetSelector = tabBtn.getAttribute('data-bs-target') || tabBtn.getAttribute('data-target') || tabBtn.getAttribute('href');
+            if (targetSelector) {
+                const targetPane = document.querySelector(targetSelector);
+                if (targetPane) {
+                    targetPane.classList.add('show', 'active');
+                }
+            }
+        });
+    });
+
     const saveDriverForm = document.getElementById('saveDriverForm');
     const btnOpenAddDriver = document.getElementById('btnOpenAddDriver');
     const createSeasonForm = document.getElementById('createSeasonForm');
@@ -79,78 +139,90 @@ document.addEventListener('DOMContentLoaded', async () => {
     // CARGAR DATOS INICIALES
     // ==========================================
     async function loadSeasons() {
-        const resp = await fetch('/api/seasons');
-        allSeasonsCache = await resp.json();
-        
-        seasonFilterRaces.innerHTML = '';
-        formSeasonId.innerHTML = '';
-        seasonsTbody.innerHTML = '';
+        try {
+            const resp = await fetch('/api/seasons');
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            allSeasonsCache = await resp.json();
+            
+            seasonFilterRaces.innerHTML = '';
+            formSeasonId.innerHTML = '';
+            seasonsTbody.innerHTML = '';
 
-        let activeSeasonId = null;
+            let activeSeasonId = null;
 
-        allSeasonsCache.forEach(s => {
-            if (s.is_active) activeSeasonId = s.id;
+            allSeasonsCache.forEach(s => {
+                if (s.is_active) activeSeasonId = s.id;
 
-            // Filtro de carreras
-            const opt1 = document.createElement('option');
-            opt1.value = s.id;
-            opt1.innerText = `${s.name} ${s.is_active ? '(Activa)' : ''}`;
-            seasonFilterRaces.appendChild(opt1);
+                // Filtro de carreras
+                const opt1 = document.createElement('option');
+                opt1.value = s.id;
+                opt1.innerText = `${s.name} ${s.is_active ? '(Activa)' : ''}`;
+                seasonFilterRaces.appendChild(opt1);
 
-            // Formulario nueva carrera
-            const opt2 = document.createElement('option');
-            opt2.value = s.id;
-            opt2.innerText = s.name;
-            formSeasonId.appendChild(opt2);
+                // Formulario nueva carrera
+                const opt2 = document.createElement('option');
+                opt2.value = s.id;
+                opt2.innerText = s.name;
+                formSeasonId.appendChild(opt2);
 
-            // Tabla pestaña temporadas
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${s.id}</td>
-                <td class="fw-bold">${s.name}</td>
-                <td>
-                    ${s.is_active ? '<span class="badge bg-success">ACTIVA</span>' : '<span class="badge bg-secondary">ARCHIVADA</span>'}
-                </td>
-                <td>
-                    ${!s.is_active ? `<button class="btn btn-sm btn-outline-warning btn-activate-season" data-id="${s.id}">Activar</button>` : '<span class="text-muted small">Temporada en curso</span>'}
-                </td>
-            `;
-            seasonsTbody.appendChild(tr);
-        });
-
-        if (activeSeasonId) {
-            seasonFilterRaces.value = activeSeasonId;
-            formSeasonId.value = activeSeasonId;
-        }
-
-        // Eventos activar temporada
-        document.querySelectorAll('.btn-activate-season').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                const id = e.target.dataset.id;
-                await fetch(`/api/admin/seasons/${id}/activate`, { method: 'PUT' });
-                showToast('Temporada activada');
-                await loadSeasons();
-                await loadRaces(seasonFilterRaces.value);
+                // Tabla pestaña temporadas
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${s.id}</td>
+                    <td class="fw-bold">${s.name}</td>
+                    <td>
+                        ${s.is_active ? '<span class="badge bg-success">ACTIVA</span>' : '<span class="badge bg-secondary">ARCHIVADA</span>'}
+                    </td>
+                    <td>
+                        ${!s.is_active ? `<button class="btn btn-sm btn-outline-warning btn-activate-season" data-id="${s.id}">Activar</button>` : '<span class="text-muted small">Temporada en curso</span>'}
+                    </td>
+                `;
+                seasonsTbody.appendChild(tr);
             });
-        });
 
-        await loadRaces(seasonFilterRaces.value);
+            if (activeSeasonId) {
+                seasonFilterRaces.value = activeSeasonId;
+                formSeasonId.value = activeSeasonId;
+            }
+
+            // Eventos activar temporada
+            document.querySelectorAll('.btn-activate-season').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const id = e.target.dataset.id;
+                    await fetch(`/api/admin/seasons/${id}/activate`, { method: 'PUT' });
+                    showToast('Temporada activada');
+                    await loadSeasons();
+                    await loadRaces(seasonFilterRaces.value);
+                });
+            });
+
+            await loadRaces(seasonFilterRaces.value);
+        } catch (err) {
+            console.error('Error cargando temporadas:', err);
+            racesListContainer.innerHTML = `<div class="alert alert-danger py-3">Error al cargar temporadas: ${err.message}</div>`;
+        }
     }
 
     async function loadDrivers() {
-        const resp = await fetch('/api/drivers');
-        allDriversCache = await resp.json();
+        try {
+            const resp = await fetch('/api/drivers');
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            allDriversCache = await resp.json();
 
-        // Actualizar datalist
-        driversDatalist.innerHTML = '';
-        allDriversCache.forEach(d => {
-            const opt = document.createElement('option');
-            opt.value = d.psn_id;
-            opt.dataset.country = d.country;
-            driversDatalist.appendChild(opt);
-        });
+            // Actualizar datalist
+            driversDatalist.innerHTML = '';
+            allDriversCache.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = d.psn_id;
+                opt.dataset.country = d.country;
+                driversDatalist.appendChild(opt);
+            });
 
-        renderDriversTable(allDriversCache);
+            renderDriversTable(allDriversCache);
+        } catch (err) {
+            console.error('Error cargando pilotos:', err);
+            driversTbody.innerHTML = `<tr><td colspan="4" class="text-center text-danger py-4">Error cargando pilotos: ${err.message}</td></tr>`;
+        }
     }
 
     function renderDriversTable(drivers) {
@@ -211,61 +283,70 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     async function loadRaces(seasonId) {
-        if (!seasonId) return;
-        racesListContainer.innerHTML = '<p class="text-muted">Cargando carreras...</p>';
-        const resp = await fetch(`/api/seasons/${seasonId}/races`);
-        const races = await resp.json();
-
-        if (races.length === 0) {
-            racesListContainer.innerHTML = '<div class="alert alert-dark text-center py-4">No hay carreras registradas en esta temporada todavía. ¡Haz clic en "Registrar Nueva Carrera" para comenzar!</div>';
+        if (!seasonId) {
+            racesListContainer.innerHTML = '<div class="alert alert-dark text-center py-4 text-muted">Selecciona una temporada para ver sus carreras.</div>';
             return;
         }
+        racesListContainer.innerHTML = '<p class="text-muted"><i class="fas fa-spinner fa-spin me-2"></i> Cargando carreras...</p>';
+        try {
+            const resp = await fetch(`/api/seasons/${seasonId}/races`);
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const races = await resp.json();
 
-        racesListContainer.innerHTML = '';
-        races.forEach(r => {
-            const card = document.createElement('div');
-            card.className = 'border border-secondary rounded p-3 mb-3 bg-black';
-            
-            let resultsHtml = '';
-            r.results.slice(0, 5).forEach(res => {
-                resultsHtml += `
-                    <span class="badge bg-secondary me-2 mb-1">
-                        #${res.position} ${res.psn_id} (+${res.points} pts)
-                    </span>
-                `;
-            });
-            if (r.results.length > 5) {
-                resultsHtml += `<span class="badge bg-dark text-muted">+${r.results.length - 5} más</span>`;
+            if (!races || races.length === 0) {
+                racesListContainer.innerHTML = '<div class="alert alert-dark text-center py-4 text-muted"><i class="fas fa-flag-checkered me-2 text-warning"></i> No hay carreras registradas en esta temporada todavía. ¡Haz clic en "Registrar Nueva Carrera" para comenzar!</div>';
+                return;
             }
 
-            card.innerHTML = `
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <h6 class="text-warning mb-1">${r.title} <span class="badge bg-secondary ms-2">${r.car}</span></h6>
-                        <div class="small text-muted mb-2">Ronda ${r.round_number} &bull; ${r.results.length} pilotos participantes</div>
-                        <div>${resultsHtml}</div>
-                    </div>
-                    <div>
-                        <button class="btn btn-outline-danger btn-sm btn-delete-race" data-id="${r.id}"><i class="fas fa-trash"></i> Eliminar</button>
-                    </div>
-                </div>
-            `;
-            racesListContainer.appendChild(card);
-        });
-
-        // Eventos eliminar carrera
-        document.querySelectorAll('.btn-delete-race').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                const id = e.target.closest('button').dataset.id;
-                if (confirm('¿Estás seguro de que deseas eliminar esta carrera? Los puntos de la tabla general se recalcularán automáticamente.')) {
-                    const delResp = await fetch(`/api/admin/races/${id}`, { method: 'DELETE' });
-                    if (delResp.ok) {
-                        showToast('Carrera eliminada y tabla recalculada');
-                        loadRaces(seasonFilterRaces.value);
-                    }
+            racesListContainer.innerHTML = '';
+            races.forEach(r => {
+                const card = document.createElement('div');
+                card.className = 'border border-secondary rounded p-3 mb-3 bg-black';
+                
+                let resultsHtml = '';
+                (r.results || []).slice(0, 5).forEach(res => {
+                    resultsHtml += `
+                        <span class="badge bg-secondary me-2 mb-1">
+                            #${res.position} ${res.psn_id} (+${res.points} pts)
+                        </span>
+                    `;
+                });
+                if (r.results && r.results.length > 5) {
+                    resultsHtml += `<span class="badge bg-dark text-muted">+${r.results.length - 5} más</span>`;
                 }
+
+                card.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="text-warning mb-1">${r.title} <span class="badge bg-secondary ms-2">${r.car}</span></h6>
+                            <div class="small text-muted mb-2">Ronda ${r.round_number} &bull; ${(r.results || []).length} pilotos participantes</div>
+                            <div>${resultsHtml}</div>
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-danger btn-sm btn-delete-race" data-id="${r.id}"><i class="fas fa-trash"></i> Eliminar</button>
+                        </div>
+                    </div>
+                `;
+                racesListContainer.appendChild(card);
             });
-        });
+
+            // Eventos eliminar carrera
+            document.querySelectorAll('.btn-delete-race').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const id = e.target.closest('button').dataset.id;
+                    if (confirm('¿Estás seguro de que deseas eliminar esta carrera? Los puntos de la tabla general se recalcularán automáticamente.')) {
+                        const delResp = await fetch(`/api/admin/races/${id}`, { method: 'DELETE' });
+                        if (delResp.ok) {
+                            showToast('Carrera eliminada y tabla recalculada');
+                            loadRaces(seasonFilterRaces.value);
+                        }
+                    }
+                });
+            });
+        } catch (err) {
+            console.error('Error cargando carreras:', err);
+            racesListContainer.innerHTML = `<div class="alert alert-danger py-3">Error al cargar carreras: ${err.message}</div>`;
+        }
     }
 
     // Formulario de nueva carrera
