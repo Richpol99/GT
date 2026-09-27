@@ -68,7 +68,7 @@ async function setupRankingPage(seasons, activeSeason) {
         <div class="row align-items-center">
             <div class="col-md-6 mb-3 mb-md-0">
                 <div class="input-group">
-                    <span class="input-group-text" style="border-right: none; background: #090c10 !important; border-color: #1e293b !important; color: #f28123;"><i class="fas fa-search"></i></span>
+                    <span class="input-group-text" style="border-right: none; background: #f8fafc !important; border-color: #e2e8f0 !important; color: #f28123;"><i class="fas fa-search"></i></span>
                     <input type="text" id="rankingSearch" class="form-control gt-search-input" placeholder="Buscar piloto o país en tiempo real..." style="border-left: none;">
                 </div>
             </div>
@@ -117,7 +117,7 @@ async function setupRankingPage(seasons, activeSeason) {
             const tr = document.createElement('tr');
             
             // Icono de medalla para top 3
-            let posDisplay = `<span class="badge rounded-pill bg-dark text-light border border-secondary px-2 py-1">#${item.position}</span>`;
+            let posDisplay = `<span class="badge rounded-pill bg-light text-dark border px-2 py-1">#${item.position}</span>`;
             let rowStyle = '';
             if (item.position === 1) {
                 posDisplay = '<span class="badge rounded-pill px-3 py-1" style="background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; font-weight: 800; font-size: 14px;">🥇 1</span>';
@@ -134,7 +134,7 @@ async function setupRankingPage(seasons, activeSeason) {
 
             tr.innerHTML = `
                 <td class="text-center fw-bold align-middle">${posDisplay}</td>
-                <td class="text-center fw-bold text-light align-middle" style="font-size: 15px;">${item.psn_id}</td>
+                <td class="text-center fw-bold text-dark align-middle" style="font-size: 15px;">${item.psn_id}</td>
                 <td class="text-center align-middle">
                     <img src="assets/country/${item.country}.png" alt="${item.country}" class="gt-flag-img" loading="lazy" decoding="async" onerror="this.src='assets/country/pdi.png'">
                     <span class="ms-1 small text-muted text-uppercase">${item.country}</span>
@@ -187,7 +187,7 @@ async function setupResultadosPage(seasons, activeSeason) {
             <div class="row align-items-center">
                 <div class="col-md-7 mb-3 mb-md-0">
                     <div class="input-group">
-                        <span class="input-group-text" style="border-right: none; background: #090c10 !important; border-color: #1e293b !important; color: #f28123;"><i class="fas fa-search"></i></span>
+                        <span class="input-group-text" style="border-right: none; background: #f8fafc !important; border-color: #e2e8f0 !important; color: #f28123;"><i class="fas fa-search"></i></span>
                         <input type="text" id="raceFilterInput" class="form-control gt-search-input" placeholder="Buscar piloto o país en todas las carreras..." style="border-left: none;">
                     </div>
                 </div>
@@ -276,7 +276,7 @@ async function setupResultadosPage(seasons, activeSeason) {
                 <div class="container text-center py-5">
                     <div class="gt-race-card p-5 text-center">
                         <i class="fas fa-flag-checkered fa-3x text-warning mb-3"></i>
-                        <h4 class="text-light">No hay carreras registradas en esta temporada todavía.</h4>
+                        <h4 class="text-dark">No hay carreras registradas en esta temporada todavía.</h4>
                         <p class="text-muted small mb-0">Las nuevas carreras registradas desde el panel administrativo aparecerán aquí.</p>
                     </div>
                 </div>
@@ -458,7 +458,7 @@ async function setupRangosPage() {
                         rankMap[matchedRank].forEach(d => {
                             const tr = document.createElement('tr');
                             tr.innerHTML = `
-                                <td class="text-center text-light fw-bold">${d.psn_id}</td>
+                                <td class="text-center text-dark fw-bold">${d.psn_id}</td>
                                 <td class="text-center">
                                     <img src="assets/country/${d.country}.png" alt="${d.country}" style="width: 27px; height: 20px;" loading="lazy" decoding="async" onerror="this.src='assets/country/pdi.png'">
                                 </td>
