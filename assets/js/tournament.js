@@ -148,17 +148,11 @@ async function renderWECStandingsTable(container, seasonId, seasons) {
 
         container.innerHTML = `
             <div class="container my-4">
-                <!-- Barra de Telemetría Superior WEC -->
-                <div class="wec-telemetry-bar">
-                    <div class="wec-telemetry-bar-left">
-                        <span class="wec-telemetry-tag">[TIMING &amp; SCORING]</span>
-                        <span>DRIVERS CHAMPIONSHIP CLASSIFICATION</span>
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                    <div class="text-muted small">
+                        <i class="fas fa-trophy text-warning me-1"></i> <strong class="text-dark">Clasificación General</strong> &bull; <span class="font-monospace">${races.length} Rondas &bull; ${standings.length} Pilotos</span>
                     </div>
-                    <div class="wec-telemetry-status-ok">
-                        <span class="dot"></span> STATUS: OFFICIAL TIMING &bull; DRY
-                    </div>
-                    <div class="d-flex align-items-center gap-3">
-                        <span class="d-none d-md-inline text-muted font-monospace">ROUNDS: ${races.length} &bull; DRIVERS: ${standings.length}</span>
+                    <div>
                         <input type="text" id="wecStandingsSearch" class="wec-search-box" placeholder="Buscar piloto o país...">
                     </div>
                 </div>
@@ -526,17 +520,11 @@ async function setupResultadosPage(seasons, activeSeason) {
 
         contentArea.innerHTML = `
             <div class="container my-4">
-                <!-- Barra de Telemetría WEC Le Mans -->
-                <div class="wec-telemetry-bar">
-                    <div class="wec-telemetry-bar-left">
-                        <span class="wec-telemetry-tag">[LIVE TIMING]</span>
-                        <span>ROUND ${String(race.round_number).padStart(2, '0')} &mdash; ${race.title ? race.title.toUpperCase() : 'GT CUP'}</span>
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                    <div class="text-muted small">
+                        <i class="fas fa-flag-checkered text-warning me-1"></i> <strong class="text-dark">${race.title || 'Ronda ' + race.round_number}</strong> &bull; <span class="font-monospace">${race.car} &bull; ${results.length} Pilotos</span>
                     </div>
-                    <div class="wec-telemetry-status-ok">
-                        <span class="dot"></span> STATUS: TRACK CLEAR &bull; DRY
-                    </div>
-                    <div class="d-flex align-items-center gap-3">
-                        <span class="d-none d-md-inline text-muted font-monospace">CIRCUIT: ${race.track ? race.track.toUpperCase() : 'OFFICIAL'} &bull; ENTRANTS: ${results.length}</span>
+                    <div>
                         <input type="text" id="wecRaceSearch" class="wec-search-box" placeholder="Buscar piloto o país...">
                     </div>
                 </div>
