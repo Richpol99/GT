@@ -166,258 +166,471 @@ async function setupRankingPage(seasons, activeSeason) {
 }
 
 // -----------------------------------------------------------
-// RESULTADOS DE CARRERAS (DISEÑO MODERNO GT ESPORTS / F1)
+// 2. RESULTADOS DE CARRERAS (DISEÑO INSPIRADO EN FIA FORMULA E)
 // -----------------------------------------------------------
 async function setupResultadosPage(seasons, activeSeason) {
     const mainSection = document.querySelector('.resultados');
     if (!mainSection) return;
 
-    // Crear barra de control
-    const controlsContainer = document.createElement('div');
-    controlsContainer.className = 'container mb-5';
-    
+    let currentSeasonId = activeSeason.id;
+    let currentTab = 'races'; // 'races' | 'standings'
+    let cachedRaces = [];
+    let cachedStandings = [];
+    let activeRaceIndex = 0;
+
+    // Generar opciones de temporada
     let seasonOptions = '';
     seasons.forEach(s => {
-        const sel = s.id === activeSeason.id ? 'selected' : '';
+        const sel = s.id === currentSeasonId ? 'selected' : '';
         seasonOptions += `<option value="${s.id}" ${sel}>${s.name} ${s.is_active ? '(Activa)' : ''}</option>`;
     });
 
-    controlsContainer.innerHTML = `
-        <div class="gt-toolbar">
-            <div class="row align-items-center">
-                <div class="col-md-7 mb-3 mb-md-0">
-                    <div class="input-group">
-                        <span class="input-group-text" style="border-right: none; background: #f8fafc !important; border-color: #e2e8f0 !important; color: #f28123;"><i class="fas fa-search"></i></span>
-                        <input type="text" id="raceFilterInput" class="form-control gt-search-input" placeholder="Buscar piloto o país en todas las carreras..." style="border-left: none;">
-                    </div>
+    // 1. Estructura base Formula E: Hero Header + Filter Bar + Round Ribbon + Content
+    mainSection.innerHTML = `
+        <!-- 1. Hero Header Block -->
+        <div class="fe-header-block">
+            <div class="container">
+                <span class="fe-header-category">STANDINGS &bull; GT ACADEMY</span>
+                <h1 class="fe-header-title">RESULTS &amp; STANDINGS</h1>
+                <p class="fe-header-desc">Resultados oficiales de carreras, clasificación de pilotos y estadísticas en tiempo real de los torneos oficiales de GT Academy.</p>
+            </div>
+        </div>
+
+        <!-- 2. Filter & Navigation Bar -->
+        <div class="fe-filter-bar">
+            <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div class="fe-nav-tabs">
+                    <button class="fe-nav-tab active" data-tab="races">
+                        <i class="fas fa-flag-checkered me-1"></i> Race Results
+                    </button>
+                    <button class="fe-nav-tab" data-tab="standings">
+                        <i class="fas fa-trophy me-1"></i> Drivers Standings
+                    </button>
                 </div>
-                <div class="col-md-5 text-md-end d-flex align-items-center justify-content-md-end">
-                    <label class="me-2 text-muted fw-bold small text-uppercase mb-0">Temporada:</label>
-                    <select id="seasonSelectResultados" class="form-select gt-season-select" style="max-width: 220px;">
+                <div class="d-flex align-items-center gap-2">
+                    <label class="text-muted fw-bold small text-uppercase mb-0 d-none d-sm-inline">Temporada:</label>
+                    <select id="seasonSelectResultados" class="form-select fe-season-dropdown">
                         ${seasonOptions}
                     </select>
                 </div>
             </div>
-            <div id="racePillsContainer" class="gt-pills-bar"></div>
         </div>
+
+        <!-- 3. Horizontal Round Ribbon (Race Results Only) -->
+        <div class="fe-round-strip-wrapper" id="feRoundStripWrapper">
+            <div class="container">
+                <div class="fe-round-strip" id="feRoundStrip"></div>
+            </div>
+        </div>
+
+        <!-- 4. Dynamic Content Area -->
+        <div id="feDynamicContent"></div>
     `;
 
-    // Contenedor dinámico de carreras
-    const racesDisplay = document.createElement('div');
-    racesDisplay.id = 'dynamicRacesContainer';
+    const roundStripWrapper = document.getElementById('feRoundStripWrapper');
+    const roundStrip = document.getElementById('feRoundStrip');
+    const contentArea = document.getElementById('feDynamicContent');
+    const navTabs = document.querySelectorAll('.fe-nav-tab');
+    const seasonSelect = document.getElementById('seasonSelectResultados');
 
-    // Limpiar contenido estático viejo de resultados y adjuntar los dinámicos
-    mainSection.innerHTML = '';
-    mainSection.appendChild(controlsContainer);
-    mainSection.appendChild(racesDisplay);
+    // Helper: Iniciales de piloto para el avatar
+    function getInitials(name) {
+        if (!name) return 'GT';
+        const clean = name.replace(/[^a-zA-Z0-9]/g, '');
+        return clean.substring(0, 2).toUpperCase() || 'GT';
+    }
 
-    let currentRaces = [];
+    // Tab switcher
+    navTabs.forEach(tabBtn => {
+        tabBtn.addEventListener('click', () => {
+            const targetTab = tabBtn.getAttribute('data-tab');
+            if (targetTab === currentTab) return;
 
+            navTabs.forEach(b => b.classList.remove('active'));
+            tabBtn.classList.add('active');
+            currentTab = targetTab;
+
+            if (currentTab === 'races') {
+                roundStripWrapper.style.display = 'block';
+                if (cachedRaces.length > 0) {
+                    renderRoundStrip(cachedRaces);
+                    renderRaceView(cachedRaces[activeRaceIndex]);
+                } else {
+                    loadRaces(currentSeasonId);
+                }
+            } else {
+                roundStripWrapper.style.display = 'none';
+                loadStandings(currentSeasonId);
+            }
+        });
+    });
+
+    // Cambio de temporada
+    seasonSelect.addEventListener('change', (e) => {
+        currentSeasonId = parseInt(e.target.value, 10);
+        activeRaceIndex = 0;
+        if (currentTab === 'races') {
+            loadRaces(currentSeasonId);
+        } else {
+            loadStandings(currentSeasonId);
+        }
+    });
+
+    // =======================================================
+    // CARGAR CARRERAS (RACE RESULTS)
+    // =======================================================
     async function loadRaces(seasonId) {
-        racesDisplay.innerHTML = `
+        contentArea.innerHTML = `
             <div class="container text-center py-5">
-                <div class="gt-race-card p-5 text-center">
+                <div class="fe-empty-state">
                     <i class="fas fa-spinner fa-spin fa-2x text-warning mb-3"></i>
                     <p class="text-muted mb-0">Cargando resultados de la temporada...</p>
                 </div>
             </div>
         `;
+        roundStrip.innerHTML = '';
+
         try {
             const resp = await fetch(`/api/seasons/${seasonId}/races`);
-            currentRaces = await resp.json();
-            renderPills(currentRaces);
-            renderRaces(currentRaces);
-        } catch (e) {
-            racesDisplay.innerHTML = `
-                <div class="container text-center py-5">
-                    <div class="gt-race-card p-5 text-center text-danger">
-                        <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
-                        <p class="mb-0">Error al cargar carreras desde la base de datos.</p>
-                    </div>
-                </div>
-            `;
-        }
-    }
+            cachedRaces = await resp.json();
 
-    function renderPills(races) {
-        const pillsBox = document.getElementById('racePillsContainer');
-        pillsBox.innerHTML = '';
-        if (races.length <= 1) return;
-
-        const allBtn = document.createElement('button');
-        allBtn.className = 'gt-pill-btn active';
-        allBtn.innerHTML = '<i class="fas fa-layer-group me-1"></i> Ver Todas';
-        allBtn.addEventListener('click', () => {
-            pillsBox.querySelectorAll('.gt-pill-btn').forEach(b => b.classList.remove('active'));
-            allBtn.classList.add('active');
-            renderRaces(currentRaces);
-        });
-        pillsBox.appendChild(allBtn);
-
-        races.forEach(r => {
-            const btn = document.createElement('button');
-            btn.className = 'gt-pill-btn';
-            btn.innerHTML = `<i class="fas fa-flag me-1"></i> Ronda ${r.round_number}`;
-            btn.addEventListener('click', () => {
-                pillsBox.querySelectorAll('.gt-pill-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                renderRaces([r]);
-            });
-            pillsBox.appendChild(btn);
-        });
-    }
-
-    function renderRaces(races) {
-        racesDisplay.innerHTML = '';
-        const searchQ = document.getElementById('raceFilterInput') ? document.getElementById('raceFilterInput').value.toLowerCase().trim() : '';
-
-        if (races.length === 0) {
-            racesDisplay.innerHTML = `
-                <div class="container text-center py-5">
-                    <div class="gt-race-card p-5 text-center">
-                        <i class="fas fa-flag-checkered fa-3x text-warning mb-3"></i>
-                        <h4 class="text-dark">No hay carreras registradas en esta temporada todavía.</h4>
-                        <p class="text-muted small mb-0">Las nuevas carreras registradas desde el panel administrativo aparecerán aquí.</p>
-                    </div>
-                </div>
-            `;
-            return;
-        }
-
-        races.forEach(race => {
-            let filteredResults = race.results || [];
-            if (searchQ) {
-                filteredResults = filteredResults.filter(res => 
-                    res.psn_id.toLowerCase().includes(searchQ) || (res.country && res.country.toLowerCase().includes(searchQ))
-                );
-            }
-
-            if (searchQ && filteredResults.length === 0) return;
-
-            // 1. Podio Visual Top 3
-            let podiumHtml = '';
-            const top3 = (race.results || []).slice(0, 3);
-            if (!searchQ && top3.length >= 2) {
-                const p1 = top3[0];
-                const p2 = top3[1];
-                const p3 = top3[2];
-
-                podiumHtml = `
-                    <div class="gt-podium-section">
-                        <div class="gt-podium-grid">
-                            <!-- P2 (Plata) -->
-                            <div class="gt-podium-card gt-podium-p2">
-                                <div class="gt-podium-rank-badge">🥈 2º Lugar</div>
-                                <div class="gt-podium-driver-name">
-                                    <img src="assets/country/${p2.country || 'pdi'}.png" alt="${p2.country}" class="gt-flag-img" onerror="this.src='assets/country/pdi.png'">
-                                    <span>${p2.psn_id}</span>
-                                </div>
-                                <div class="gt-podium-points">+${p2.points} PTS</div>
-                                ${p2.notes ? `<div class="gt-podium-time">${p2.notes}</div>` : ''}
-                            </div>
-
-                            <!-- P1 (Oro - Ganador) -->
-                            <div class="gt-podium-card gt-podium-p1">
-                                <div class="gt-podium-rank-badge">🏆 GANADOR &bull; 1º LUGAR</div>
-                                <div class="gt-podium-driver-name" style="font-size: 20px;">
-                                    <img src="assets/country/${p1.country || 'pdi'}.png" alt="${p1.country}" class="gt-flag-img" style="width: 32px; height: 23px;" onerror="this.src='assets/country/pdi.png'">
-                                    <span>${p1.psn_id}</span>
-                                </div>
-                                <div class="gt-podium-points" style="font-size: 15px;">+${p1.points} PTS</div>
-                                ${p1.notes ? `<div class="gt-podium-time" style="font-weight: 700; color: #fbbf24;">${p1.notes}</div>` : ''}
-                            </div>
-
-                            <!-- P3 (Bronce) -->
-                            ${p3 ? `
-                            <div class="gt-podium-card gt-podium-p3">
-                                <div class="gt-podium-rank-badge">🥉 3º Lugar</div>
-                                <div class="gt-podium-driver-name">
-                                    <img src="assets/country/${p3.country || 'pdi'}.png" alt="${p3.country}" class="gt-flag-img" onerror="this.src='assets/country/pdi.png'">
-                                    <span>${p3.psn_id}</span>
-                                </div>
-                                <div class="gt-podium-points">+${p3.points} PTS</div>
-                                ${p3.notes ? `<div class="gt-podium-time">${p3.notes}</div>` : ''}
-                            </div>
-                            ` : '<div></div>'}
+            if (cachedRaces.length === 0) {
+                roundStripWrapper.style.display = 'none';
+                contentArea.innerHTML = `
+                    <div class="container text-center py-5">
+                        <div class="fe-empty-state">
+                            <i class="fas fa-flag-checkered fe-empty-icon"></i>
+                            <h4 class="text-dark fw-bold">No hay carreras registradas en esta temporada</h4>
+                            <p class="text-muted small mb-0">Las carreras agregadas desde el panel administrativo aparecerán aquí.</p>
                         </div>
                     </div>
                 `;
+                return;
             }
 
-            // 2. Filas Aerodinámicas tipo Cards
-            let rowsHtml = '';
-            filteredResults.forEach(res => {
-                let posClass = 'pos-other';
-                if (res.position === 1) posClass = 'pos-1';
-                else if (res.position === 2) posClass = 'pos-2';
-                else if (res.position === 3) posClass = 'pos-3';
-                else if (res.position <= 10) posClass = 'pos-top10';
+            roundStripWrapper.style.display = 'block';
+            if (activeRaceIndex >= cachedRaces.length) {
+                activeRaceIndex = 0;
+            }
+            renderRoundStrip(cachedRaces);
+            renderRaceView(cachedRaces[activeRaceIndex]);
+        } catch (e) {
+            contentArea.innerHTML = `
+                <div class="container text-center py-5">
+                    <div class="fe-empty-state text-danger">
+                        <i class="fas fa-exclamation-triangle fe-empty-icon text-danger"></i>
+                        <h4 class="fw-bold">Error de conexión</h4>
+                        <p class="text-muted small mb-0">No se pudieron obtener las carreras desde el servidor.</p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    // Renderizar cinta horizontal de rondas
+    function renderRoundStrip(races) {
+        roundStrip.innerHTML = '';
+        races.forEach((race, idx) => {
+            const winner = (race.results && race.results[0]) ? race.results[0] : null;
+            const flagCountry = (winner && winner.country) ? winner.country : 'pdi';
+            const isActive = idx === activeRaceIndex;
+
+            const tile = document.createElement('div');
+            tile.className = `fe-round-tile ${isActive ? 'active' : ''}`;
+            tile.innerHTML = `
+                <div class="fe-round-tile-top">
+                    <img src="assets/country/${flagCountry}.png" alt="${flagCountry}" class="fe-round-flag" onerror="this.src='assets/country/pdi.png'">
+                    <span class="fe-round-num">RD ${String(race.round_number).padStart(2, '0')}</span>
+                </div>
+                <div class="fe-round-title-text" title="${race.title || 'Ronda ' + race.round_number}">${race.title || 'Ronda ' + race.round_number}</div>
+                <div class="fe-round-car-text" title="${race.car}">${race.car}</div>
+            `;
+
+            tile.addEventListener('click', () => {
+                activeRaceIndex = idx;
+                roundStrip.querySelectorAll('.fe-round-tile').forEach(t => t.classList.remove('active'));
+                tile.classList.add('active');
+                renderRaceView(race);
+            });
+
+            roundStrip.appendChild(tile);
+        });
+    }
+
+    // Renderizar la vista de la carrera activa
+    function renderRaceView(race) {
+        if (!race) return;
+
+        let results = race.results || [];
+
+        contentArea.innerHTML = `
+            <!-- Overview de la sesión -->
+            <div class="fe-session-header">
+                <div class="container">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <span class="badge bg-dark text-white text-uppercase px-2 py-1" style="font-size: 11px; letter-spacing: 1px;">RONDA ${String(race.round_number).padStart(2, '0')}</span>
+                            </div>
+                            <h2 class="fe-session-title">${race.title || 'Ronda ' + race.round_number}</h2>
+                            <div class="fe-session-meta">
+                                <span class="fe-meta-tag highlight"><i class="fas fa-car-side"></i> ${race.car}</span>
+                                <span class="fe-meta-tag"><i class="fas fa-map-marker-alt"></i> ${race.track || 'Circuito Oficial'}</span>
+                                <span class="fe-meta-tag"><i class="fas fa-users"></i> ${results.length} Pilotos</span>
+                                ${race.race_date ? `<span class="fe-meta-tag"><i class="far fa-calendar-alt"></i> ${race.race_date}</span>` : ''}
+                            </div>
+                        </div>
+                        <div>
+                            <input type="text" id="feRaceSearch" class="form-control fe-search-box" placeholder="Buscar piloto o país...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla Flotante Formula E -->
+            <div class="container fe-table-container">
+                <div class="table-responsive">
+                    <table class="fe-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 70px; text-align: center;">POS</th>
+                                <th>PILOTO</th>
+                                <th class="fe-hide-mobile">AUTO</th>
+                                <th class="fe-hide-mobile">TIEMPO / DETALLES</th>
+                                <th style="text-align: right; width: 120px;">PUNTOS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="feRaceTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
+        const tbody = document.getElementById('feRaceTableBody');
+        const searchInput = document.getElementById('feRaceSearch');
+
+        function renderRows(items) {
+            tbody.innerHTML = '';
+            if (items.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-muted">
+                            <i class="fas fa-info-circle me-1"></i> No se encontraron pilotos para esta búsqueda.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            items.forEach(res => {
+                let posClass = 'other';
+                if (res.position === 1) posClass = 'p1';
+                else if (res.position === 2) posClass = 'p2';
+                else if (res.position === 3) posClass = 'p3';
+                else if (res.position <= 10) posClass = 'top10';
 
                 let badgesHtml = '';
-                if (res.is_pole) badgesHtml += `<span class="gt-badge-tag gt-tag-pole me-1">🚩 POLE</span>`;
-                if (res.is_fastest_lap) badgesHtml += `<span class="gt-badge-tag gt-tag-fastest">⚡ V. RÁPIDA</span>`;
+                if (res.is_pole) badgesHtml += `<span class="fe-tag fe-tag-pole me-1">POLE</span>`;
+                if (res.is_fastest_lap) badgesHtml += `<span class="fe-tag fe-tag-fastest">FL</span>`;
 
-                rowsHtml += `
-                    <div class="gt-driver-row ${posClass}">
-                        <div class="gt-pos-badge">#${res.position}</div>
-                        <div class="gt-driver-info">
-                            <img src="assets/country/${res.country || 'pdi'}.png" alt="${res.country}" class="gt-flag-img" onerror="this.src='assets/country/pdi.png'">
-                            <span class="gt-driver-name">${res.psn_id}</span>
-                            ${badgesHtml}
+                const tr = document.createElement('tr');
+                tr.className = `fe-row ${posClass}`;
+                tr.innerHTML = `
+                    <td class="text-center">
+                        <div class="fe-pos-num">${res.position}</div>
+                    </td>
+                    <td>
+                        <div class="fe-driver-cell">
+                            <div class="fe-driver-avatar">${getInitials(res.psn_id)}</div>
+                            <div class="fe-driver-details">
+                                <div class="fe-driver-name">${res.psn_id}</div>
+                                <div class="fe-driver-sub">
+                                    <img src="assets/country/${res.country || 'pdi'}.png" alt="${res.country}" class="fe-round-flag" style="width: 18px; height: 12px;" onerror="this.src='assets/country/pdi.png'">
+                                    <span class="text-uppercase">${res.country || 'PDI'}</span>
+                                    ${badgesHtml}
+                                </div>
+                            </div>
                         </div>
-                        <div class="gt-car-info">
-                            <i class="fas fa-car-side me-1 text-muted"></i> ${race.car}
-                        </div>
-                        <div class="gt-time-info">
-                            ${res.notes ? `<i class="far fa-clock me-1"></i> ${res.notes}` : '<span class="text-muted">—</span>'}
-                        </div>
-                        <div class="gt-points-info">
-                            <span class="gt-pts-badge">+${res.points} PTS</span>
-                        </div>
-                    </div>
+                    </td>
+                    <td class="fe-car-cell">${race.car}</td>
+                    <td class="fe-time-cell">
+                        ${res.notes ? res.notes : '<span class="text-muted">—</span>'}
+                    </td>
+                    <td class="fe-points-cell">
+                        <span class="fe-points-badge">+${res.points} PTS</span>
+                    </td>
                 `;
+                tbody.appendChild(tr);
             });
+        }
 
-            // Envoltorio de la carrera
-            const raceCard = document.createElement('div');
-            raceCard.className = 'container';
-            raceCard.innerHTML = `
-                <div class="gt-race-card">
-                    <!-- Cabecera Carrera -->
-                    <div class="gt-race-header">
-                        <div class="gt-race-title-group">
-                            <span class="gt-race-badge-round">RONDA ${String(race.round_number).padStart(2, '0')}</span>
-                            <h3 class="gt-race-title">${race.title}</h3>
-                        </div>
-                        <div class="gt-race-meta">
-                            <span class="gt-meta-pill highlight"><i class="fas fa-car"></i> ${race.car}</span>
-                            <span class="gt-meta-pill"><i class="fas fa-map-marker-alt"></i> ${race.track || 'Circuito Oficial'}</span>
-                            <span class="gt-meta-pill"><i class="fas fa-users"></i> ${race.results ? race.results.length : 0} Pilotos</span>
-                        </div>
-                    </div>
+        renderRows(results);
 
-                    <!-- Podio Visual Top 3 -->
-                    ${podiumHtml}
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const q = e.target.value.toLowerCase().trim();
+                const filtered = results.filter(r => 
+                    r.psn_id.toLowerCase().includes(q) || (r.country && r.country.toLowerCase().includes(q))
+                );
+                renderRows(filtered);
+            });
+        }
+    }
 
-                    <!-- Lista Completa de Clasificación -->
-                    <div class="gt-results-list">
-                        ${rowsHtml}
+    // =======================================================
+    // CARGAR CLASIFICACIÓN GENERAL (DRIVERS STANDINGS)
+    // =======================================================
+    async function loadStandings(seasonId) {
+        contentArea.innerHTML = `
+            <div class="container text-center py-5">
+                <div class="fe-empty-state">
+                    <i class="fas fa-spinner fa-spin fa-2x text-warning mb-3"></i>
+                    <p class="text-muted mb-0">Cargando clasificación de pilotos...</p>
+                </div>
+            </div>
+        `;
+
+        try {
+            const resp = await fetch(`/api/seasons/${seasonId}/standings`);
+            cachedStandings = await resp.json();
+            renderStandingsView(cachedStandings);
+        } catch (e) {
+            contentArea.innerHTML = `
+                <div class="container text-center py-5">
+                    <div class="fe-empty-state text-danger">
+                        <i class="fas fa-exclamation-triangle fe-empty-icon text-danger"></i>
+                        <h4 class="fw-bold">Error de conexión</h4>
+                        <p class="text-muted small mb-0">No se pudo cargar la tabla de clasificación.</p>
                     </div>
                 </div>
             `;
-            racesDisplay.appendChild(raceCard);
-        });
+        }
     }
 
-    document.getElementById('raceFilterInput').addEventListener('input', () => {
-        renderRaces(currentRaces);
-    });
+    // Renderizar la vista de clasificación
+    function renderStandingsView(standings) {
+        contentArea.innerHTML = `
+            <div class="fe-session-header">
+                <div class="container">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <span class="badge bg-warning text-dark text-uppercase px-2 py-1" style="font-size: 11px; letter-spacing: 1px; font-weight: 800;">CAMPEONATO GENERAL</span>
+                            </div>
+                            <h2 class="fe-session-title">DRIVERS STANDINGS</h2>
+                            <div class="fe-session-meta">
+                                <span class="fe-meta-tag highlight"><i class="fas fa-trophy"></i> Temporada Oficial</span>
+                                <span class="fe-meta-tag"><i class="fas fa-users"></i> ${standings.length} Pilotos con puntos</span>
+                            </div>
+                        </div>
+                        <div>
+                            <input type="text" id="feStandingsSearch" class="form-control fe-search-box" placeholder="Buscar piloto o país...">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    document.getElementById('seasonSelectResultados').addEventListener('change', (e) => {
-        loadRaces(e.target.value);
-    });
+            <div class="container fe-table-container">
+                <div class="table-responsive">
+                    <table class="fe-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 70px; text-align: center;">POS</th>
+                                <th>PILOTO</th>
+                                <th class="text-center">PAÍS</th>
+                                <th class="text-center fe-hide-mobile">CARRERAS</th>
+                                <th class="text-center fe-hide-mobile">VICTORIAS</th>
+                                <th class="text-center fe-hide-mobile">PODIOS</th>
+                                <th style="text-align: right; width: 130px;">TOTAL PTS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="feStandingsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        `;
 
-    loadRaces(activeSeason.id);
+        const tbody = document.getElementById('feStandingsTableBody');
+        const searchInput = document.getElementById('feStandingsSearch');
+
+        function renderRows(items) {
+            tbody.innerHTML = '';
+            if (items.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-5 text-muted">
+                            <i class="fas fa-info-circle me-1"></i> No hay pilotos registrados con puntos aún.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            items.forEach(item => {
+                let posClass = 'other';
+                if (item.position === 1) posClass = 'p1';
+                else if (item.position === 2) posClass = 'p2';
+                else if (item.position === 3) posClass = 'p3';
+                else if (item.position <= 10) posClass = 'top10';
+
+                let rankBadge = '';
+                if (item.rank) {
+                    rankBadge = `<span class="fe-rank-badge fe-rank-${item.rank}">${item.rank}</span>`;
+                }
+
+                const tr = document.createElement('tr');
+                tr.className = `fe-row ${posClass}`;
+                tr.innerHTML = `
+                    <td class="text-center">
+                        <div class="fe-pos-num">${item.position}</div>
+                    </td>
+                    <td>
+                        <div class="fe-driver-cell">
+                            <div class="fe-driver-avatar">${getInitials(item.psn_id)}</div>
+                            <div class="fe-driver-details">
+                                <div class="fe-driver-name">${item.psn_id}</div>
+                                <div class="fe-driver-sub">
+                                    ${rankBadge}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-inline-flex align-items-center gap-1">
+                            <img src="assets/country/${item.country || 'pdi'}.png" alt="${item.country}" class="fe-round-flag" style="width: 20px; height: 13px;" onerror="this.src='assets/country/pdi.png'">
+                            <span class="small text-uppercase fw-bold text-muted">${item.country || 'PDI'}</span>
+                        </div>
+                    </td>
+                    <td class="fe-stat-cell fe-hide-mobile">${item.races_completed || 0}</td>
+                    <td class="fe-stat-cell fe-hide-mobile ${item.wins > 0 ? 'fe-stat-win' : ''}">
+                        ${item.wins > 0 ? `<i class="fas fa-trophy me-1 text-warning"></i>${item.wins}` : '0'}
+                    </td>
+                    <td class="fe-stat-cell fe-hide-mobile">
+                        ${item.podiums > 0 ? `<i class="fas fa-medal me-1 text-warning"></i>${item.podiums}` : '0'}
+                    </td>
+                    <td class="fe-points-cell">
+                        <span class="fe-points-badge">${item.total_points} PTS</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        renderRows(standings);
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const q = e.target.value.toLowerCase().trim();
+                const filtered = standings.filter(s => 
+                    s.psn_id.toLowerCase().includes(q) || (s.country && s.country.toLowerCase().includes(q))
+                );
+                renderRows(filtered);
+            });
+        }
+    }
+
+    // Carga inicial
+    loadRaces(currentSeasonId);
 }
 
 // -----------------------------------------------------------
