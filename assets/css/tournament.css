@@ -2023,7 +2023,7 @@ body.paddock-page {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   transition: transform 0.3s ease;
 }
 
@@ -2036,7 +2036,7 @@ body.paddock-page {
 .hero-car-display {
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   padding: 0;
@@ -2044,11 +2044,12 @@ body.paddock-page {
 
 .hero-car-isolated-img {
   width: 100%;
-  max-width: 550px;
+  max-width: 635px;
   height: auto;
   display: block;
   object-fit: contain;
   filter: drop-shadow(0 20px 28px rgba(15, 23, 42, 0.14));
+  transform-origin: left center;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
 }
 
@@ -2489,6 +2490,10 @@ body.paddock-page {
   }
   .gt-pill-mobile-btn {
     display: inline-flex;
+  }
+  .hero-car-glass-stage,
+  .hero-car-display {
+    justify-content: center;
   }
   .hero-ferrari-headline {
     text-align: center;
