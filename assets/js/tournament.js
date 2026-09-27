@@ -125,12 +125,12 @@ function getCarBrandBadge(carString) {
     if (!carString) {
         return `<img src="assets/brands/default-car.svg" alt="Car" class="wec-brand-logo" onerror="this.style.display='none'">`;
     }
-    const lower = carString.toLowerCase();
+    const clean = carString.toLowerCase().replace(/[^a-z0-9]/g, ' ');
+    const words = clean.split(/\s+/).filter(Boolean);
     
     for (const b of carBrandsList) {
         for (const pattern of b.match) {
-            const regex = new RegExp('(?:^|[\\\\s-_.,(/])' + pattern + '(?:$|[\\\\s-_.,)/])', 'i');
-            if (regex.test(lower) || lower.startsWith(pattern)) {
+            if (words.includes(pattern) || clean.includes(pattern)) {
                 return `<img src="assets/brands/${b.key}.svg" alt="${b.name}" title="${b.name}" class="wec-brand-logo" onerror="this.onerror=null;this.src='assets/brands/default-car.svg'">`;
             }
         }
@@ -337,6 +337,7 @@ async function renderWECStandingsTable(container, seasonId, seasons) {
         }
 
     } catch (e) {
+        console.error('Error al cargar la clasificación:', e);
         container.innerHTML = `
             <div class="container text-center py-5">
                 <div class="wec-empty-state text-danger">
@@ -533,6 +534,7 @@ async function setupResultadosPage(seasons, activeSeason) {
             renderRoundStrip(cachedRaces);
             renderRaceView(cachedRaces[activeRaceIndex]);
         } catch (e) {
+            console.error('Error cargando carreras:', e);
             contentArea.innerHTML = `
                 <div class="container text-center py-5">
                     <div class="wec-empty-state text-danger">
