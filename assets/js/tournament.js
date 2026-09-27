@@ -1,5 +1,36 @@
 // GT Academy - FIA WEC / Le Mans Telemetry Frontend Integration
 document.addEventListener('DOMContentLoaded', async () => {
+    // Global Pill Navbar Mobile Menu Toggle
+    const pillMobileBtn = document.getElementById('gtPillMobileBtn');
+    const pillMobileMenu = document.getElementById('gtPillMobileMenu');
+    if (pillMobileBtn && pillMobileMenu) {
+        pillMobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            pillMobileMenu.classList.toggle('open');
+            const icon = pillMobileBtn.querySelector('i');
+            if (icon) {
+                if (pillMobileMenu.classList.contains('open')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!pillMobileMenu.contains(e.target) && !pillMobileBtn.contains(e.target)) {
+                pillMobileMenu.classList.remove('open');
+                const icon = pillMobileBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+    }
+
     const isPaddockPage = window.location.pathname.includes('paddock') || !!document.getElementById('paddock-grid');
     const isRankingPage = window.location.pathname.includes('ranking') || !!document.querySelector('.ranking-content');
     const isResultadosPage = window.location.pathname.includes('resultados') || !!document.querySelector('.resultados-page');

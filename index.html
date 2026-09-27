@@ -45,103 +45,142 @@
     </div>
     <!--PreLoader Ends-->
 	
-	<!-- header -->
-	<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-							<a href="index.html">
-								<img src="assets/img/logo-dark.png" alt="GT Academy" style="max-height: 48px;">
-							</a>
-						</div>
-						<!-- logo -->
+	<!-- Floating Pill Navbar (Light Glassmorphism) -->
+	<nav class="gt-pill-navbar" id="gtPillNavbar">
+		<div class="gt-pill-container">
+			<!-- Logo Brand -->
+			<a href="index.html" class="gt-pill-brand">
+				<img src="assets/img/logo-dark.png" alt="GT Academy" class="gt-pill-logo">
+			</a>
 
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-								<li class="current-list-item"><a href="index.html">Inicio</a></li>
-								<li><a href="#">Eventos</a>
-									<ul class="sub-menu">
-										<li><a href="paddock.html">Paddock de Pilotos</a></li>
-										<li><a href="resultados.html">Resultados</a></li>
-										<li><a href="ranking.html">Tabla de puntos General</a></li>
-										<li><a href="calendario.html">Calendario de la temporada</a></li>
-									</ul>
-								</li>
-								<li><a href="#circuitos">Circuitos</a></li>
-								<li><a href="#">Setup</a>
-									<ul class="sub-menu">
-										<li><a href="setup.html">Concepto de Setup</a></li>
-										<li><a href="conceptos.html">Cómo hacer tu propio setup</a></li>
-									</ul>
-								</li>
-								<li><a href="galeria.html">Galería</a></li>
-								<li><a href="discord.html">Comunidad Discord</a></li>
-							</ul>
-						</nav>
-						<a class="mobile-show search-bar-icon" href="#"></a>
-						<div class="mobile-menu"></div>
-						<!-- menu end -->
+			<!-- Desktop Navigation Links -->
+			<div class="gt-pill-menu">
+				<a href="index.html" class="gt-pill-item current">
+					<i class="fas fa-home"></i> Inicio
+				</a>
+				
+				<div class="gt-pill-dropdown">
+					<button type="button" class="gt-pill-item gt-pill-dropbtn">
+						<i class="fas fa-trophy"></i> Eventos <i class="fas fa-chevron-down gt-pill-chevron"></i>
+					</button>
+					<div class="gt-pill-dropdown-content">
+						<a href="paddock.html"><i class="fas fa-users text-primary me-2"></i> Paddock de Pilotos</a>
+						<a href="resultados.html"><i class="fas fa-flag-checkered text-warning me-2"></i> Resultados de Carreras</a>
+						<a href="ranking.html"><i class="fas fa-list-ol text-success me-2"></i> Clasificación General</a>
+						<a href="calendario.html"><i class="fas fa-calendar-alt text-info me-2"></i> Calendario de la temporada</a>
 					</div>
 				</div>
+
+				<a href="index.html#circuitos" class="gt-pill-item">
+					<i class="fas fa-road"></i> Circuitos
+				</a>
+
+				<div class="gt-pill-dropdown">
+					<button type="button" class="gt-pill-item gt-pill-dropbtn">
+						<i class="fas fa-wrench"></i> Setup <i class="fas fa-chevron-down gt-pill-chevron"></i>
+					</button>
+					<div class="gt-pill-dropdown-content">
+						<a href="setup.html"><i class="fas fa-cogs text-secondary me-2"></i> Concepto de Setup</a>
+						<a href="conceptos.html"><i class="fas fa-sliders-h text-primary me-2"></i> Cómo hacer tu propio setup</a>
+					</div>
+				</div>
+
+				<a href="galeria.html" class="gt-pill-item">
+					<i class="fas fa-images"></i> Galería
+				</a>
+			</div>
+
+			<!-- Right Side CTA / Actions -->
+			<div class="gt-pill-actions">
+				<a href="discord.html" class="gt-pill-btn-discord">
+					<i class="fab fa-discord"></i> <span>Discord</span>
+				</a>
+				<button type="button" class="gt-pill-mobile-btn" id="gtPillMobileBtn" aria-label="Abrir menú">
+					<i class="fas fa-bars"></i>
+				</button>
 			</div>
 		</div>
-	</div>
-	<!-- end header -->
 
-	<!-- HERO AREA (Light Glassmorphism Motorsport Hero) -->
-	<section class="hero-area" style="padding-top: 170px; padding-bottom: 90px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; position: relative;">
+		<!-- Mobile Dropdown Menu -->
+		<div class="gt-pill-mobile-menu" id="gtPillMobileMenu">
+			<a href="index.html" class="gt-mobile-item current"><i class="fas fa-home me-2"></i> Inicio</a>
+			<div class="gt-mobile-group-title">Eventos</div>
+			<a href="paddock.html" class="gt-mobile-subitem"><i class="fas fa-users text-primary me-2"></i> Paddock de Pilotos</a>
+			<a href="resultados.html" class="gt-mobile-subitem"><i class="fas fa-flag-checkered text-warning me-2"></i> Resultados de Carreras</a>
+			<a href="ranking.html" class="gt-mobile-subitem"><i class="fas fa-list-ol text-success me-2"></i> Clasificación General</a>
+			<a href="calendario.html" class="gt-mobile-subitem"><i class="fas fa-calendar-alt text-info me-2"></i> Calendario de la temporada</a>
+			<a href="index.html#circuitos" class="gt-mobile-item"><i class="fas fa-road me-2"></i> Circuitos</a>
+			<div class="gt-mobile-group-title">Setup</div>
+			<a href="setup.html" class="gt-mobile-subitem"><i class="fas fa-cogs text-secondary me-2"></i> Concepto de Setup</a>
+			<a href="conceptos.html" class="gt-mobile-subitem"><i class="fas fa-sliders-h text-primary me-2"></i> Cómo hacer tu propio setup</a>
+			<a href="galeria.html" class="gt-mobile-item"><i class="fas fa-images me-2"></i> Galería</a>
+			<a href="discord.html" class="gt-mobile-item"><i class="fab fa-discord text-primary me-2"></i> Comunidad Discord</a>
+		</div>
+	</nav>
+	<!-- End Floating Pill Navbar -->
+
+	<!-- HERO AREA (Ferrari Pininfarina + Hood Car Spotlight) -->
+	<section class="hero-area" style="padding-top: 130px; padding-bottom: 70px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; position: relative;">
 		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-8 offset-lg-2 text-center">
-					<div class="gt-glass-card p-4 p-md-5" style="background: rgba(255, 255, 255, 0.95); border: 1px solid #cbd5e1; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);">
-						<div class="d-inline-flex align-items-center gap-2 mb-3" style="background: rgba(242, 129, 35, 0.08); border: 1px solid rgba(242, 129, 35, 0.25); padding: 5px 14px; border-radius: 20px;">
-							<span style="width: 8px; height: 8px; border-radius: 50%; background: #16a34a; display: inline-block;"></span>
-							<span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #f28123; letter-spacing: 1.5px; text-transform: uppercase;">LIGA OFICIAL • GRAN TURISMO 6 (PS3)</span>
-						</div>
-						<h1 style="font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; font-weight: 800; color: #0f172a; margin-bottom: 16px; letter-spacing: -0.5px; text-transform: uppercase;">
-							GT ACADEMY LEAGUE
-						</h1>
-						<p style="font-size: 1.05rem; color: #64748b; line-height: 1.6; max-width: 680px; margin: 0 auto 28px auto;">
-							El campeonato de simracing definitivo en PlayStation 3. Parrilla unificada en sala privada online, balance estricto por Puntos de Rendimiento (PR), telemetría milimétrica en tiempo real y el espíritu de competición pura en cada circuito.
-						</p>
-						<div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
-							<a href="paddock.html" class="btn-gt-primary">
-								<i class="fas fa-users"></i> Explorar Paddock de Pilotos
-							</a>
-							<a href="ranking.html" class="btn-gt-secondary">
-								<i class="fas fa-trophy"></i> Clasificación General
-							</a>
-							<a href="#circuitos" class="btn-gt-outline">
-								<i class="fas fa-road"></i> Ver Circuitos
-							</a>
+			<div class="row align-items-center g-4 g-lg-5">
+				<!-- Left Column: Auto desde vista del capó -->
+				<div class="col-lg-6">
+					<div class="hero-hood-car-card">
+						<img src="assets/img/hero_car_hood.jpg" alt="Auto de competición GT6 desde vista del capó" class="hero-hood-car-img" loading="eager">
+						<div class="hero-car-footer">
+							<div class="d-flex align-items-center gap-2">
+								<img src="assets/brands/ferrari.svg" alt="Ferrari" style="height: 18px;" onerror="this.style.display='none'">
+								<span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #0f172a;">GT6 MOTORSPORT • VISTA DEL CAPÓ</span>
+							</div>
+							<span class="badge bg-danger text-white font-monospace" style="font-size: 10px; letter-spacing: 0.5px;">PARIDAD PR 550</span>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<!-- Quick Stats Strip -->
-			<div class="row mt-5">
-				<div class="col-lg-10 offset-lg-1">
-					<div class="gt-stats-strip">
-						<div class="gt-stat-box">
-							<div class="num" style="color: #f28123;">37</div>
-							<div class="lbl">Pilotos Registrados</div>
+				<!-- Right Column: Mensaje con Fuente Ferrari Pininfarina -->
+				<div class="col-lg-6">
+					<div class="d-inline-flex align-items-center gap-2 mb-3" style="background: rgba(242, 129, 35, 0.08); border: 1px solid rgba(242, 129, 35, 0.25); padding: 5px 14px; border-radius: 20px;">
+						<span style="width: 8px; height: 8px; border-radius: 50%; background: #16a34a; display: inline-block;"></span>
+						<span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #f28123; letter-spacing: 1.5px; text-transform: uppercase;">CAMPEONATO OFICIAL • GRAN TURISMO 6 (PS3)</span>
+					</div>
+
+					<h1 class="hero-ferrari-headline mb-3">
+						<span class="d-block font-ferrari text-dark" style="font-size: clamp(1.8rem, 3.2vw, 2.7rem); line-height: 1.2;">Bienvenido a la</span>
+						<span class="d-block font-ferrari" style="font-size: clamp(2.3rem, 4.4vw, 3.8rem); color: #f28123; line-height: 1.1; letter-spacing: 1px;">GT ACADEMY</span>
+					</h1>
+
+					<p style="font-size: 1.05rem; color: #64748b; line-height: 1.7; margin-bottom: 24px;">
+						El campeonato definitivo de simracing en PlayStation 3. Parrilla unificada en sala privada online, balance de rendimiento estricto por PR, telemetría FIA WEC y la búsqueda de los pilotos más veloces y técnicos de la comunidad.
+					</p>
+
+					<div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+						<a href="paddock.html" class="btn-gt-primary">
+							<i class="fas fa-users"></i> Explorar Paddock
+						</a>
+						<a href="#circuitos" class="btn-gt-outline">
+							<i class="fas fa-road"></i> Ver Circuitos GT6
+						</a>
+						<a href="discord.html" class="btn-gt-secondary">
+							<i class="fab fa-discord"></i> Discord
+						</a>
+					</div>
+
+					<div class="d-flex flex-wrap gap-4 pt-3 border-top" style="border-color: #e2e8f0 !important;">
+						<div class="d-flex align-items-center gap-2">
+							<i class="fas fa-users text-primary"></i>
+							<span class="small font-monospace" style="color: #334155;"><strong>37</strong> Pilotos</span>
 						</div>
-						<div class="gt-stat-box">
-							<div class="num" style="color: #0284c7;">14</div>
-							<div class="lbl">Rondas Oficiales</div>
+						<div class="d-flex align-items-center gap-2">
+							<i class="fas fa-map-marker-alt text-danger"></i>
+							<span class="small font-monospace" style="color: #334155;"><strong>8</strong> Circuitos</span>
 						</div>
-						<div class="gt-stat-box">
-							<div class="num" style="color: #16a34a;">10</div>
-							<div class="lbl">Circuitos de GT6</div>
+						<div class="d-flex align-items-center gap-2">
+							<i class="fas fa-flag-checkered text-warning"></i>
+							<span class="small font-monospace" style="color: #334155;"><strong>14</strong> Rondas</span>
 						</div>
-						<div class="gt-stat-box">
-							<div class="num" style="color: #0f172a;">PS3</div>
-							<div class="lbl">Salas Online Privadas</div>
+						<div class="d-flex align-items-center gap-2">
+							<i class="fas fa-gamepad text-success"></i>
+							<span class="small font-monospace" style="color: #334155;">PS3 Online</span>
 						</div>
 					</div>
 				</div>

@@ -45,52 +45,79 @@
     </div>
     <!--PreLoader Ends-->
 	
-	<!-- header -->
-	<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-							<a href="index.html">
-								<img src="assets/img/logo-dark.png" alt="GT Academy" style="max-height: 48px;">
-							</a>
-						</div>
-						<!-- logo -->
+	<!-- Floating Pill Navbar (Light Glassmorphism) -->
+	<nav class="gt-pill-navbar" id="gtPillNavbar">
+		<div class="gt-pill-container">
+			<!-- Logo Brand -->
+			<a href="index.html" class="gt-pill-brand">
+				<img src="assets/img/logo-dark.png" alt="GT Academy" class="gt-pill-logo">
+			</a>
 
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-								<li><a href="index.html">Inicio</a></li>
-								<li class="current-list-item"><a href="#">Eventos</a>
-									<ul class="sub-menu">
-										<li><a href="paddock.html">Paddock de Pilotos</a></li>
-										<li><a href="resultados.html">Resultados</a></li>
-										<li><a href="ranking.html">Tabla de puntos General</a></li>
-										<li><a href="calendario.html">Calendario de la temporada</a></li>
-									</ul>
-								</li>
-								<li><a href="index.html#circuitos">Circuitos</a></li>
-								<li><a href="#">Setup</a>
-									<ul class="sub-menu">
-										<li><a href="setup.html">Concepto de Setup</a></li>
-										<li><a href="conceptos.html">Cómo hacer tu propio setup</a></li>
-									</ul>
-								</li>
-								<li><a href="galeria.html">Galería</a></li>
-								<li><a href="discord.html">Comunidad Discord</a></li>
-							</ul>
-						</nav>
-						<a class="mobile-show search-bar-icon" href="#"></a>
-						<div class="mobile-menu"></div>
-						<!-- menu end -->
+			<!-- Desktop Navigation Links -->
+			<div class="gt-pill-menu">
+				<a href="index.html" class="gt-pill-item">
+					<i class="fas fa-home"></i> Inicio
+				</a>
+				
+				<div class="gt-pill-dropdown">
+					<button type="button" class="gt-pill-item current gt-pill-dropbtn">
+						<i class="fas fa-trophy"></i> Eventos <i class="fas fa-chevron-down gt-pill-chevron"></i>
+					</button>
+					<div class="gt-pill-dropdown-content">
+						<a href="paddock.html"><i class="fas fa-users text-primary me-2"></i> Paddock de Pilotos</a>
+						<a href="resultados.html"><i class="fas fa-flag-checkered text-warning me-2"></i> Resultados de Carreras</a>
+						<a href="ranking.html" class="fw-bold text-warning"><i class="fas fa-list-ol text-success me-2"></i> Clasificación General</a>
+						<a href="calendario.html"><i class="fas fa-calendar-alt text-info me-2"></i> Calendario de la temporada</a>
 					</div>
 				</div>
+
+				<a href="index.html#circuitos" class="gt-pill-item">
+					<i class="fas fa-road"></i> Circuitos
+				</a>
+
+				<div class="gt-pill-dropdown">
+					<button type="button" class="gt-pill-item gt-pill-dropbtn">
+						<i class="fas fa-wrench"></i> Setup <i class="fas fa-chevron-down gt-pill-chevron"></i>
+					</button>
+					<div class="gt-pill-dropdown-content">
+						<a href="setup.html"><i class="fas fa-cogs text-secondary me-2"></i> Concepto de Setup</a>
+						<a href="conceptos.html"><i class="fas fa-sliders-h text-primary me-2"></i> Cómo hacer tu propio setup</a>
+					</div>
+				</div>
+
+				<a href="galeria.html" class="gt-pill-item">
+					<i class="fas fa-images"></i> Galería
+				</a>
+			</div>
+
+			<!-- Right Side CTA / Actions -->
+			<div class="gt-pill-actions">
+				<a href="discord.html" class="gt-pill-btn-discord">
+					<i class="fab fa-discord"></i> <span>Discord</span>
+				</a>
+				<button type="button" class="gt-pill-mobile-btn" id="gtPillMobileBtn" aria-label="Abrir menú">
+					<i class="fas fa-bars"></i>
+				</button>
 			</div>
 		</div>
-	</div>
-	<!-- end header -->
+
+		<!-- Mobile Dropdown Menu -->
+		<div class="gt-pill-mobile-menu" id="gtPillMobileMenu">
+			<a href="index.html" class="gt-mobile-item"><i class="fas fa-home me-2"></i> Inicio</a>
+			<div class="gt-mobile-group-title">Eventos</div>
+			<a href="paddock.html" class="gt-mobile-subitem"><i class="fas fa-users text-primary me-2"></i> Paddock de Pilotos</a>
+			<a href="resultados.html" class="gt-mobile-subitem"><i class="fas fa-flag-checkered text-warning me-2"></i> Resultados de Carreras</a>
+			<a href="ranking.html" class="gt-mobile-subitem current"><i class="fas fa-list-ol text-success me-2"></i> Clasificación General</a>
+			<a href="calendario.html" class="gt-mobile-subitem"><i class="fas fa-calendar-alt text-info me-2"></i> Calendario de la temporada</a>
+			<a href="index.html#circuitos" class="gt-mobile-item"><i class="fas fa-road me-2"></i> Circuitos</a>
+			<div class="gt-mobile-group-title">Setup</div>
+			<a href="setup.html" class="gt-mobile-subitem"><i class="fas fa-cogs text-secondary me-2"></i> Concepto de Setup</a>
+			<a href="conceptos.html" class="gt-mobile-subitem"><i class="fas fa-sliders-h text-primary me-2"></i> Cómo hacer tu propio setup</a>
+			<a href="galeria.html" class="gt-mobile-item"><i class="fas fa-images me-2"></i> Galería</a>
+			<a href="discord.html" class="gt-mobile-item"><i class="fab fa-discord text-primary me-2"></i> Comunidad Discord</a>
+		</div>
+	</nav>
+	<!-- End Floating Pill Navbar -->
 	
 	<!-- breadcrumb-section -->
 	<div class="breadcrumb-section">
