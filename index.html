@@ -119,31 +119,148 @@
 	</nav>
 	<!-- End Floating Pill Navbar -->
 
-	<!-- HERO AREA (FIA WEC Light Glassmorphism + Ford GT LM Showcase) -->
-	<section class="hero-area-wec">
-		<div class="container">
-			<div class="row align-items-center g-4 g-lg-5">
-				<!-- Left Column: Auto recortado (agrandado 15% y alineado a la izquierda) -->
-				<div class="col-lg-7">
-					<div class="hero-car-glass-stage">
-						<!-- Isolated Car Stage with Depth Shadow -->
-						<div class="hero-car-display">
-							<img src="assets/img/hero_car_hood.png" alt="Nissan GT-R Nismo GT Academy 2015 - Gran Turismo 6" class="hero-car-isolated-img" loading="eager">
+	<!-- APPLE SCROLLYTELLING HERO SHOWCASE -->
+	<section class="apple-scrolly-track" id="heroTrack">
+		<div class="apple-scrolly-sticky">
+			<div class="container h-100 d-flex flex-column justify-content-center position-relative">
+				<div class="row align-items-center g-4 g-lg-5">
+					<!-- Left Column: Nissan GT-R Nismo (fijo, estático, con sombra profunda) -->
+					<div class="col-lg-6">
+						<div class="hero-car-glass-stage">
+							<div class="hero-car-display">
+								<img src="assets/img/hero_car_hood.png" alt="Nissan GT-R Nismo GT Academy 2015" class="hero-car-isolated-img" loading="eager">
+							</div>
+						</div>
+					</div>
+
+					<!-- Right Column: Capítulos Dinámicos de Contenido estilo Apple -->
+					<div class="col-lg-6">
+						<div class="apple-chapters-container">
+							<!-- Capítulo 01: Bienvenida Oficial -->
+							<div class="apple-chapter-step is-active" data-step="0">
+								<div class="apple-chapter-tag">
+									<i class="fas fa-trophy"></i>
+									<span>OFICIAL GRAN TURISMO 6 • PS3</span>
+								</div>
+								<h1 class="hero-ferrari-headline mb-3">
+									<span class="hero-headline-lead">BIENVENIDO A LA</span>
+									<span class="hero-headline-main">GT ACADEMY</span>
+								</h1>
+								<p class="apple-chapter-desc">
+									El campeonato definitivo de simracing en PlayStation 3. Competencia en salas privadas online con paridad técnica estricta y espíritu FIA World Endurance Championship.
+								</p>
+								<div class="apple-chapter-meta">
+									<span class="apple-meta-badge"><i class="fas fa-signal text-success me-1"></i> Salas Privadas</span>
+									<span class="apple-meta-badge"><i class="fas fa-balance-scale text-primary me-1"></i> Balance PR 550</span>
+									<span class="apple-meta-badge"><i class="fas fa-gamepad text-warning me-1"></i> PS3 Online</span>
+								</div>
+							</div>
+
+							<!-- Capítulo 02: Filosofía & Paridad Técnica -->
+							<div class="apple-chapter-step" data-step="1">
+								<div class="apple-chapter-tag">
+									<i class="fas fa-sliders-h"></i>
+									<span>REGLAMENTO TÉCNICO</span>
+								</div>
+								<h2 class="apple-chapter-title mb-3">
+									<span class="apple-title-lead">PARIDAD TÉCNICA</span>
+									<span class="apple-title-main">PR 550 & SIN AYUDAS</span>
+								</h2>
+								<p class="apple-chapter-desc">
+									Sin categorías artificiales ni ventajas mecánicas. Todos los pilotos compiten bajo idéntico balance de rendimiento con compuestos de competición (TCS=0, solo ABS=1 permitido).
+								</p>
+								<div class="apple-feature-grid">
+									<div class="apple-feature-pill">
+										<i class="fas fa-shield-alt text-primary"></i>
+										<div>
+											<strong>Fair Play Estricto</strong>
+											<small>Escrutinio post-carrera</small>
+										</div>
+									</div>
+									<div class="apple-feature-pill">
+										<i class="fas fa-stopwatch text-warning"></i>
+										<div>
+											<strong>Telemetría WEC</strong>
+											<small>Vueltas rápidas milimétricas</small>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Capítulo 03: Circuitos Oficiales -->
+							<div class="apple-chapter-step" data-step="2">
+								<div class="apple-chapter-tag">
+									<i class="fas fa-road"></i>
+									<span>CALENDARIO DE TEMPORADA</span>
+								</div>
+								<h2 class="apple-chapter-title mb-3">
+									<span class="apple-title-lead">8 TRAZADOS</span>
+									<span class="apple-title-main">CIRCUITOS DE LEYENDA</span>
+								</h2>
+								<p class="apple-chapter-desc">
+									De las bajadas del Sacacorchos en Laguna Seca a los 20 kilómetros del Infierno Verde en Nürburgring. 14 rondas oficiales de máxima exigencia.
+								</p>
+								<div class="apple-tracks-strip">
+									<span class="apple-track-badge"><i class="fas fa-flag text-danger me-1"></i> Suzuka</span>
+									<span class="apple-track-badge"><i class="fas fa-flag text-warning me-1"></i> Spa</span>
+									<span class="apple-track-badge"><i class="fas fa-flag text-dark me-1"></i> Nürburgring 24h</span>
+									<span class="apple-track-badge"><i class="fas fa-flag text-primary me-1"></i> Silverstone</span>
+									<span class="apple-track-badge"><i class="fas fa-flag text-success me-1"></i> Bathurst</span>
+									<span class="apple-track-badge"><i class="fas fa-flag text-info me-1"></i> Monza</span>
+								</div>
+							</div>
+
+							<!-- Capítulo 04: Paddock & Comunidad -->
+							<div class="apple-chapter-step" data-step="3">
+								<div class="apple-chapter-tag">
+									<i class="fas fa-flag-checkered"></i>
+									<span>ÚNETE A LA GRILLA</span>
+								</div>
+								<h2 class="apple-chapter-title mb-3">
+									<span class="apple-title-lead">PREPARA TU AUTO</span>
+									<span class="apple-title-main">ENTRA A PISTA</span>
+								</h2>
+								<p class="apple-chapter-desc">
+									Conoce las fichas oficiales de los pilotos rivales, analiza los tiempos de clasificación y únete a nuestra sala de Discord oficial para coordinar entrenamientos.
+								</p>
+								<div class="apple-actions-group">
+									<a href="paddock.html" class="hero-btn-primary">
+										<i class="fas fa-users me-1"></i> Paddock de Pilotos
+									</a>
+									<a href="discord.html" class="hero-btn-secondary">
+										<i class="fab fa-discord text-primary me-1"></i> Comunidad Discord
+									</a>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 
-				<!-- Right Column: Solo texto Bienvenido a la GT Academy -->
-				<div class="col-lg-5">
-					<h1 class="hero-ferrari-headline mb-0">
-						<span class="hero-headline-lead">BIENVENIDO A LA</span>
-						<span class="hero-headline-main">GT ACADEMY</span>
-					</h1>
+				<!-- Apple-Style Bottom Scrollytelling Progress Navigation -->
+				<div class="apple-scrolly-controls">
+					<div class="apple-progress-indicators">
+						<button class="apple-indicator is-active" data-target="0" type="button">
+							<span class="apple-indicator-bar"></span>
+							<span class="apple-indicator-label">01 Inicio</span>
+						</button>
+						<button class="apple-indicator" data-target="1" type="button">
+							<span class="apple-indicator-bar"></span>
+							<span class="apple-indicator-label">02 Filosofía</span>
+						</button>
+						<button class="apple-indicator" data-target="2" type="button">
+							<span class="apple-indicator-bar"></span>
+							<span class="apple-indicator-label">03 Circuitos</span>
+						</button>
+						<button class="apple-indicator" data-target="3" type="button">
+							<span class="apple-indicator-bar"></span>
+							<span class="apple-indicator-label">04 Comunidad</span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- END HERO AREA -->
+	<!-- END APPLE SCROLLYTELLING SHOWCASE -->
 
 	<!-- PILARES DEL CAMPEONATO -->
 	<section class="py-5" style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">

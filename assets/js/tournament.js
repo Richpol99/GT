@@ -31,6 +31,79 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // Apple Scrollytelling Showcase (index.html)
+    initAppleScrollytelling();
+
+    function initAppleScrollytelling() {
+        const track = document.getElementById('heroTrack');
+        if (!track) return;
+
+        const steps = track.querySelectorAll('.apple-chapter-step');
+        const indicators = track.querySelectorAll('.apple-indicator');
+        if (!steps.length) return;
+
+        let currentStepIndex = 0;
+        let isTicking = false;
+
+        function updateScrollytelling() {
+            const rect = track.getBoundingClientRect();
+            const trackHeight = track.offsetHeight - window.innerHeight;
+            if (trackHeight <= 0) return;
+
+            // Progress from 0 to 1
+            const progress = Math.max(0, Math.min(1, -rect.top / trackHeight));
+            
+            // 4 steps -> determine active step
+            const stepIndex = Math.min(steps.length - 1, Math.floor(progress * steps.length));
+
+            if (stepIndex !== currentStepIndex) {
+                currentStepIndex = stepIndex;
+                steps.forEach((step, idx) => {
+                    if (idx === stepIndex) {
+                        step.classList.add('is-active');
+                    } else {
+                        step.classList.remove('is-active');
+                    }
+                });
+
+                indicators.forEach((ind, idx) => {
+                    if (idx === stepIndex) {
+                        ind.classList.add('is-active');
+                    } else {
+                        ind.classList.remove('is-active');
+                    }
+                });
+            }
+            isTicking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!isTicking) {
+                window.requestAnimationFrame(updateScrollytelling);
+                isTicking = true;
+            }
+        }, { passive: true });
+
+        // Click on progress indicators to jump smoothly to that chapter
+        indicators.forEach((indicator, idx) => {
+            indicator.addEventListener('click', (e) => {
+                e.preventDefault();
+                const trackTop = track.getBoundingClientRect().top + window.pageYOffset;
+                const trackHeight = track.offsetHeight - window.innerHeight;
+                // Target position in the center of each step's scroll segment
+                const targetProgress = (idx + 0.5) / steps.length;
+                const targetScrollY = trackTop + (trackHeight * targetProgress);
+                window.scrollTo({
+                    top: targetScrollY,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Run once on initial render
+        updateScrollytelling();
+    }
+
     const isPaddockPage = window.location.pathname.includes('paddock') || !!document.getElementById('paddock-grid');
     const isRankingPage = window.location.pathname.includes('ranking') || !!document.querySelector('.ranking-content');
     const isResultadosPage = window.location.pathname.includes('resultados') || !!document.querySelector('.resultados-page');
