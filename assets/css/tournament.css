@@ -2044,13 +2044,13 @@ body.paddock-page {
 
 .hero-car-isolated-img {
   width: 100%;
-  max-width: 580px;
+  max-width: 440px;
   height: auto;
   display: block;
   object-fit: contain;
   filter: drop-shadow(0 25px 35px rgba(15, 23, 42, 0.22));
   transform-origin: left center;
-  margin-left: -40px;
+  margin-left: -25px;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
 }
 
@@ -2498,7 +2498,7 @@ body.paddock-page {
   }
   .hero-car-isolated-img {
     width: 105%;
-    max-width: 442px;
+    max-width: 300px;
     margin-left: -20px;
   }
   .hero-ferrari-headline {
@@ -2509,8 +2509,8 @@ body.paddock-page {
 
 @media (min-width: 1200px) {
   .hero-car-isolated-img {
-    margin-left: -65px;
-    max-width: 620px;
+    margin-left: -35px;
+    max-width: 480px;
   }
 }
 
