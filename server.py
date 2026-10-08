@@ -1,6 +1,7 @@
 import os
 import sys
 import secrets
+import urllib.request
 from functools import wraps
 from flask import Flask, request, jsonify, send_from_directory, session, redirect
 from flask_cors import CORS
@@ -15,6 +16,9 @@ app.secret_key = os.environ.get('SECRET_KEY', secrets.token_hex(32))
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 CORS(app, supports_credentials=True)
+
+CAR_CACHE_DIR = os.path.join(BASE_DIR, 'assets', 'cars', 'cache')
+os.makedirs(CAR_CACHE_DIR, exist_ok=True)
 
 # Auth decorator
 def admin_required(f):
@@ -49,14 +53,27 @@ def admin_assets(filename):
 def redirect_rangos():
     return redirect('/paddock.html', code=302)
 
+@app.route('/circuitos')
+@app.route('/circuitos/')
+@app.route('/circuitos.html')
+def serve_circuitos():
+    return send_from_directory(BASE_DIR, 'circuitos.html')
+
+@app.route('/garaje')
+@app.route('/garaje/')
+@app.route('/garaje.html')
+def serve_garaje():
+    return send_from_directory(BASE_DIR, 'garaje.html')
+
 @app.route('/<path:filename>')
 def serve_file(filename):
-    file_path = os.path.join(BASE_DIR, filename)
+    clean_name = filename.strip('/')
+    file_path = os.path.join(BASE_DIR, clean_name)
     if os.path.exists(file_path) and os.path.isfile(file_path):
-        return send_from_directory(BASE_DIR, filename)
+        return send_from_directory(BASE_DIR, clean_name)
     # If ends without .html, check if .html exists
-    if os.path.exists(file_path + '.html'):
-        return send_from_directory(BASE_DIR, filename + '.html')
+    if os.path.exists(file_path + '.html') and os.path.isfile(file_path + '.html'):
+        return send_from_directory(BASE_DIR, clean_name + '.html')
     return send_from_directory(BASE_DIR, '404.html'), 404
 
 # ==========================================
@@ -136,6 +153,154 @@ def get_driver_profile(psn_id):
         driver_data['history'] = [dict(row) for row in cursor.fetchall()]
         conn.close()
         return jsonify(driver_data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# ==========================================
+# API DE AUTOS GRAN TURISMO 6
+# ==========================================
+
+@app.route('/api/cars', methods=['GET'])
+def api_get_cars():
+    try:
+        search = request.args.get('search')
+        manufacturer = request.args.get('manufacturer')
+        drivetrain = request.args.get('drivetrain')
+        category = request.args.get('category')
+        sort_by = request.args.get('sort_by', 'pp_desc')
+        page = request.args.get('page', 1, type=int)
+        limit = request.args.get('limit', 24, type=int)
+
+        data = db.get_cars(
+            search=search,
+            manufacturer=manufacturer,
+            drivetrain=drivetrain,
+            category=category,
+            sort_by=sort_by,
+            page=page,
+            limit=limit
+        )
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cars/<int:car_id>', methods=['GET'])
+def api_get_car_detail(car_id):
+    try:
+        car = db.get_car_by_id(car_id)
+        if not car:
+            return jsonify({'error': 'Auto no encontrado'}), 404
+        return jsonify(car)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/car-image/<int:car_id>', methods=['GET'])
+def api_get_car_image(car_id):
+    """
+    Reverse proxy and disk cache for Gran Turismo 6 car images.
+    Eliminates Wikia hotlinking referer blocks, serves local assets,
+    and caches downloaded images locally.
+    """
+    try:
+        car = db.get_car_by_id(car_id)
+        if not car:
+            return send_from_directory(os.path.join(BASE_DIR, 'assets', 'cars'), 'default.jpg')
+
+        # 1. Check if local dedicated image is registered and present on disk
+        if car.get('local_image'):
+            local_rel = car['local_image'].replace('assets/cars/', '').lstrip('/')
+            local_full = os.path.join(BASE_DIR, 'assets', 'cars', local_rel)
+            if os.path.exists(local_full):
+                return send_from_directory(os.path.join(BASE_DIR, 'assets', 'cars'), local_rel)
+
+        # 2. Check disk cache
+        for ext in ['webp', 'jpg', 'png', 'jpeg']:
+            cached_filename = f"{car_id}.{ext}"
+            cache_path = os.path.join(CAR_CACHE_DIR, cached_filename)
+            if os.path.exists(cache_path) and os.path.getsize(cache_path) > 500:
+                mimetype = 'image/webp' if ext == 'webp' else ('image/jpeg' if ext in ['jpg', 'jpeg'] else 'image/png')
+                return send_from_directory(CAR_CACHE_DIR, cached_filename, mimetype=mimetype)
+
+        # 3. Check if image_url exists
+        image_url = car.get('image_url')
+        if not image_url:
+            return send_from_directory(os.path.join(BASE_DIR, 'assets', 'cars'), 'default.jpg')
+
+        # 4. Fetch from remote CDN without Referer header (to prevent 404 hotlink block)
+        req = urllib.request.Request(
+            image_url,
+            headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'
+            }
+        )
+        with urllib.request.urlopen(req, timeout=8) as response:
+            content = response.read()
+            content_type = response.headers.get_content_type() or 'image/webp'
+            if len(content) > 500:
+                ext = 'webp'
+                if 'jpeg' in content_type or 'jpg' in content_type:
+                    ext = 'jpg'
+                elif 'png' in content_type:
+                    ext = 'png'
+
+                cached_filename = f"{car_id}.{ext}"
+                cache_path = os.path.join(CAR_CACHE_DIR, cached_filename)
+                with open(cache_path, 'wb') as f:
+                    f.write(content)
+                return send_from_directory(CAR_CACHE_DIR, cached_filename, mimetype=content_type)
+
+        return send_from_directory(os.path.join(BASE_DIR, 'assets', 'cars'), 'default.jpg')
+    except Exception as e:
+        app.logger.warning(f"Error serving car image {car_id}: {e}")
+        return send_from_directory(os.path.join(BASE_DIR, 'assets', 'cars'), 'default.jpg')
+
+@app.route('/api/cars/manufacturers', methods=['GET'])
+def api_get_manufacturers():
+    try:
+        manufacturers = db.get_car_manufacturers()
+        return jsonify(manufacturers)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/cars/stats', methods=['GET'])
+def api_get_cars_stats():
+    try:
+        stats = db.get_cars_stats()
+        return jsonify(stats)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# ==========================================
+# API DE CIRCUITOS GRAN TURISMO 6
+# ==========================================
+
+@app.route('/api/tracks', methods=['GET'])
+def api_get_tracks():
+    try:
+        search = request.args.get('search')
+        category = request.args.get('category')
+        sort_by = request.args.get('sort_by', 'name_asc')
+        tracks = db.get_tracks(search=search, category=category, sort_by=sort_by)
+        return jsonify(tracks)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/tracks/<int:track_id>', methods=['GET'])
+def api_get_track_detail(track_id):
+    try:
+        track = db.get_track_by_id(track_id)
+        if not track:
+            return jsonify({'error': 'Circuito no encontrado'}), 404
+        return jsonify(track)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/tracks/stats', methods=['GET'])
+def api_get_tracks_stats():
+    try:
+        stats = db.get_tracks_stats()
+        return jsonify(stats)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -288,4 +453,4 @@ if __name__ == '__main__':
     db.init_db()
     port = int(os.environ.get('PORT', 3000))
     print(f"Servidor GT Academy iniciado en http://0.0.0.0:{port}")
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=False, threaded=True)

@@ -12,9 +12,9 @@
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
 	<!-- google font -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
 	<!-- fontawesome -->
 	<link rel="stylesheet" href="assets/css/all.min.css">
 	<!-- bootstrap -->
@@ -71,8 +71,12 @@
 					</div>
 				</div>
 
-				<a href="index.html#circuitos" class="gt-pill-item">
+				<a href="circuitos.html" class="gt-pill-item">
 					<i class="fas fa-road"></i> Circuitos
+				</a>
+
+				<a href="garaje.html" class="gt-pill-item">
+					<i class="fas fa-warehouse"></i> Garaje
 				</a>
 
 				<div class="gt-pill-dropdown">
@@ -109,7 +113,8 @@
 			<a href="resultados.html" class="gt-mobile-subitem"><i class="fas fa-flag-checkered text-warning me-2"></i> Resultados de Carreras</a>
 			<a href="ranking.html" class="gt-mobile-subitem"><i class="fas fa-list-ol text-success me-2"></i> Clasificación General</a>
 			<a href="calendario.html" class="gt-mobile-subitem"><i class="fas fa-calendar-alt text-info me-2"></i> Calendario de la temporada</a>
-			<a href="index.html#circuitos" class="gt-mobile-item"><i class="fas fa-road me-2"></i> Circuitos</a>
+			<a href="circuitos.html" class="gt-mobile-item"><i class="fas fa-road me-2"></i> Circuitos Oficiales GT6</a>
+			<a href="garaje.html" class="gt-mobile-item"><i class="fas fa-warehouse me-2"></i> Garaje Oficial GT6</a>
 			<div class="gt-mobile-group-title">Setup</div>
 			<a href="setup.html" class="gt-mobile-subitem"><i class="fas fa-cogs text-secondary me-2"></i> Concepto de Setup</a>
 			<a href="conceptos.html" class="gt-mobile-subitem"><i class="fas fa-sliders-h text-primary me-2"></i> Cómo hacer tu propio setup</a>
@@ -119,513 +124,299 @@
 	</nav>
 	<!-- End Floating Pill Navbar -->
 
-	<!-- APPLE SCROLLYTELLING HERO SHOWCASE -->
+	<!-- APPLE ZERO-SCROLL HERO SHOWCASE (SINGLE VIEWPORT 100VH) -->
 	<section class="apple-scrolly-track" id="heroTrack">
+		<!-- Modern Geometric Plexus Constellation Network Canvas -->
+		<canvas id="gtGlobalParticlesCanvas" class="gt-global-particles-canvas" aria-hidden="true"></canvas>
+
 		<div class="apple-scrolly-sticky">
 			<div class="container h-100 d-flex flex-column justify-content-center position-relative">
-				<div class="row align-items-center g-4 g-lg-5">
-					<!-- Left Column: Nissan GT-R Nismo (fijo, estático, con sombra profunda) -->
-					<div class="col-lg-6">
-						<div class="hero-car-glass-stage">
-							<div class="hero-car-display">
-								<img src="assets/img/hero_car_hood.png" alt="Nissan GT-R Nismo GT Academy 2015" class="hero-car-isolated-img" loading="eager">
-							</div>
-						</div>
-					</div>
+				<div class="apple-chapters-container">
 
-					<!-- Right Column: Capítulos Dinámicos de Contenido estilo Apple -->
-					<div class="col-lg-6">
-						<div class="apple-chapters-container">
-							<!-- Capítulo 01: Bienvenida Oficial -->
-							<div class="apple-chapter-step is-active" data-step="0">
-								<div class="apple-chapter-tag">
-									<i class="fas fa-trophy"></i>
-									<span>OFICIAL GRAN TURISMO 6 • PS3</span>
-								</div>
-								<h1 class="hero-ferrari-headline mb-3">
-									<span class="hero-headline-lead">BIENVENIDO A LA</span>
-									<span class="hero-headline-main">GT ACADEMY</span>
-								</h1>
-								<p class="apple-chapter-desc">
-									El campeonato definitivo de simracing en PlayStation 3. Competencia en salas privadas online con paridad técnica estricta y espíritu FIA World Endurance Championship.
-								</p>
-								<div class="apple-chapter-meta">
-									<span class="apple-meta-badge"><i class="fas fa-signal text-success me-1"></i> Salas Privadas</span>
-									<span class="apple-meta-badge"><i class="fas fa-balance-scale text-primary me-1"></i> Balance PR 550</span>
-									<span class="apple-meta-badge"><i class="fas fa-gamepad text-warning me-1"></i> PS3 Online</span>
-								</div>
-							</div>
-
-							<!-- Capítulo 02: Filosofía & Paridad Técnica -->
-							<div class="apple-chapter-step" data-step="1">
-								<div class="apple-chapter-tag">
-									<i class="fas fa-sliders-h"></i>
-									<span>REGLAMENTO TÉCNICO</span>
-								</div>
-								<h2 class="apple-chapter-title mb-3">
-									<span class="apple-title-lead">PARIDAD TÉCNICA</span>
-									<span class="apple-title-main">PR 550 & SIN AYUDAS</span>
-								</h2>
-								<p class="apple-chapter-desc">
-									Sin categorías artificiales ni ventajas mecánicas. Todos los pilotos compiten bajo idéntico balance de rendimiento con compuestos de competición (TCS=0, solo ABS=1 permitido).
-								</p>
-								<div class="apple-feature-grid">
-									<div class="apple-feature-pill">
-										<i class="fas fa-shield-alt text-primary"></i>
-										<div>
-											<strong>Fair Play Estricto</strong>
-											<small>Escrutinio post-carrera</small>
-										</div>
-									</div>
-									<div class="apple-feature-pill">
-										<i class="fas fa-stopwatch text-warning"></i>
-										<div>
-											<strong>Telemetría WEC</strong>
-											<small>Vueltas rápidas milimétricas</small>
-										</div>
+					<!-- Capítulo 01: Inicio (SOLO EL AUTO Y BIENVENIDO A LA GT ACADEMY) -->
+					<div class="apple-chapter-step is-active" data-step="0">
+						<div class="row align-items-center g-4 g-lg-5">
+							<!-- Columna Izquierda: Auto Dibujado en CAD (Limpio, sin marcos ni elementos extras) -->
+							<div class="col-lg-6 text-center text-lg-start">
+								<div class="sketch-stage-wrapper" id="sketchStageWrapper">
+									<div class="sketch-stage-board" id="sketchStageBoard">
+										<!-- Auto Dibujado en CAD (WebP transparente de alta resolución) -->
+										<picture>
+											<source srcset="assets/img/hero_car_sketch_transparent.webp" type="image/webp">
+											<img src="assets/img/hero_car_sketch_transparent.png" 
+												 alt="Nissan GT-R Nismo GT Academy 2015 CAD" 
+												 class="sketch-car-img" 
+												 id="sketchCarImg"
+												 loading="eager"
+												 width="1376" 
+												 height="768">
+										</picture>
 									</div>
 								</div>
 							</div>
 
-							<!-- Capítulo 03: Circuitos Oficiales -->
-							<div class="apple-chapter-step" data-step="2">
-								<div class="apple-chapter-tag">
-									<i class="fas fa-road"></i>
-									<span>CALENDARIO DE TEMPORADA</span>
-								</div>
-								<h2 class="apple-chapter-title mb-3">
-									<span class="apple-title-lead">8 TRAZADOS</span>
-									<span class="apple-title-main">CIRCUITOS DE LEYENDA</span>
-								</h2>
-								<p class="apple-chapter-desc">
-									De las bajadas del Sacacorchos en Laguna Seca a los 20 kilómetros del Infierno Verde en Nürburgring. 14 rondas oficiales de máxima exigencia.
-								</p>
-								<div class="apple-tracks-strip">
-									<span class="apple-track-badge"><i class="fas fa-flag text-danger me-1"></i> Suzuka</span>
-									<span class="apple-track-badge"><i class="fas fa-flag text-warning me-1"></i> Spa</span>
-									<span class="apple-track-badge"><i class="fas fa-flag text-dark me-1"></i> Nürburgring 24h</span>
-									<span class="apple-track-badge"><i class="fas fa-flag text-primary me-1"></i> Silverstone</span>
-									<span class="apple-track-badge"><i class="fas fa-flag text-success me-1"></i> Bathurst</span>
-									<span class="apple-track-badge"><i class="fas fa-flag text-info me-1"></i> Monza</span>
-								</div>
-							</div>
-
-							<!-- Capítulo 04: Paddock & Comunidad -->
-							<div class="apple-chapter-step" data-step="3">
-								<div class="apple-chapter-tag">
-									<i class="fas fa-flag-checkered"></i>
-									<span>ÚNETE A LA GRILLA</span>
-								</div>
-								<h2 class="apple-chapter-title mb-3">
-									<span class="apple-title-lead">PREPARA TU AUTO</span>
-									<span class="apple-title-main">ENTRA A PISTA</span>
-								</h2>
-								<p class="apple-chapter-desc">
-									Conoce las fichas oficiales de los pilotos rivales, analiza los tiempos de clasificación y únete a nuestra sala de Discord oficial para coordinar entrenamientos.
-								</p>
-								<div class="apple-actions-group">
-									<a href="paddock.html" class="hero-btn-primary">
-										<i class="fas fa-users me-1"></i> Paddock de Pilotos
-									</a>
-									<a href="discord.html" class="hero-btn-secondary">
-										<i class="fab fa-discord text-primary me-1"></i> Comunidad Discord
-									</a>
+							<!-- Columna Derecha: Bienvenido a la GT Academy (Limpio, sin badges ni eyebrows) -->
+							<div class="col-lg-6">
+								<div class="apple-welcome-content">
+									<h1 class="hero-ferrari-headline mb-4">
+										<span class="hero-headline-lead">BIENVENIDO A LA</span>
+										<span class="hero-headline-main">GT ACADEMY</span>
+									</h1>
+									<p class="apple-clean-lead mb-4">
+										El campeonato oficial de simracing en Gran Turismo 6 (PS3). Salas privadas online, estricta paridad técnica PR 550 y espíritu FIA World Endurance Championship.
+									</p>
+									<div class="apple-actions-group">
+										<a href="paddock.html" class="hero-btn-primary">
+											<i class="fas fa-flag-checkered me-2"></i> Paddock de Pilotos
+										</a>
+										<a href="discord.html" class="hero-btn-secondary">
+											<i class="fab fa-discord text-primary me-2"></i> Servidor Discord
+										</a>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+
+					<!-- Capítulo 02: Filosofía & Paridad Técnica (SIN AUTO - ANCHO COMPLETO EDITORIAL) -->
+					<div class="apple-chapter-step" data-step="1">
+						<div class="apple-clean-stage text-center">
+							<h2 class="apple-clean-headline mb-3">
+								<span class="apple-headline-sub">REGLAMENTO Y FILOSOFÍA</span>
+								<span class="apple-headline-title">PARIDAD TÉCNICA PR 550</span>
+							</h2>
+							<p class="apple-clean-lead mx-auto mb-5">
+								Sin ventajas mecánicas ni categorías artificiales. En pista solo compite la destreza de tus manos bajo idénticas condiciones de simulación.
+							</p>
+
+							<div class="apple-clean-grid-3 mb-5">
+								<div class="apple-clean-col">
+									<div class="apple-col-num">01</div>
+									<h3 class="apple-col-title">Parrilla Abierta</h3>
+									<p class="apple-col-desc">Sin divisiones de bronce o plata. Tu reputación y respeto se forjan curva a curva con podios y constancia.</p>
+								</div>
+								<div class="apple-clean-col">
+									<div class="apple-col-num">02</div>
+									<h3 class="apple-col-title">Sin Ayudas</h3>
+									<p class="apple-col-desc">Límite estricto de 550 Puntos de Rendimiento, neumáticos de competición y prohibición de asistencias (TCS=0, solo ABS=1).</p>
+								</div>
+								<div class="apple-clean-col">
+									<div class="apple-col-num">03</div>
+									<h3 class="apple-col-title">Telemetría WEC</h3>
+									<p class="apple-col-desc">Diferencias en milésimas de segundo, cronometraje oficial en vivo y palmarés histórico actualizado en base de datos.</p>
+								</div>
+							</div>
+
+							<div class="apple-actions-group justify-content-center">
+								<a href="setup.html" class="hero-btn-secondary">
+									<i class="fas fa-wrench me-2"></i> Guía de Setup
+								</a>
+								<a href="conceptos.html" class="hero-btn-primary">
+									<i class="fas fa-sliders-h me-2"></i> Cómo Crear tu Setup
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<!-- Capítulo 03: Circuitos de la Temporada (SIN AUTO - GRID LIMPIO 4X2) -->
+					<div class="apple-chapter-step" data-step="2">
+						<div class="apple-clean-stage text-center">
+							<h2 class="apple-clean-headline mb-3">
+								<span class="apple-headline-sub">CALENDARIO OFICIAL GT6</span>
+								<span class="apple-headline-title">CIRCUITOS DE LEYENDA</span>
+							</h2>
+							<p class="apple-clean-lead mx-auto mb-4">
+								14 rondas de competición en los trazados más exigentes del mundo y los circuitos clásicos de Gran Turismo.
+							</p>
+
+							<div class="apple-circuits-strip mb-4">
+								<div class="apple-circuit-pill">
+									<div class="apple-circuit-info">
+										<span class="apple-circuit-name">Laguna Seca</span>
+										<span class="apple-circuit-meta">
+											<img src="assets/country/usa.svg" alt="USA" title="Estados Unidos" class="apple-circuit-flag" width="11" height="8" loading="lazy">
+											<span>3.60 km</span>
+										</span>
+									</div>
+									<div class="apple-circuit-map" aria-hidden="true">
+										<img src="assets/tracks/laguna_seca.svg" alt="Trazado Laguna Seca" loading="lazy">
+									</div>
+								</div>
+								<div class="apple-circuit-pill">
+									<div class="apple-circuit-info">
+										<span class="apple-circuit-name">Brands Hatch</span>
+										<span class="apple-circuit-meta">
+											<img src="assets/country/uk.svg" alt="UK" title="Reino Unido" class="apple-circuit-flag" width="11" height="8" loading="lazy">
+											<span>3.91 km</span>
+										</span>
+									</div>
+									<div class="apple-circuit-map" aria-hidden="true">
+										<img src="assets/tracks/brands_hatch.svg" alt="Trazado Brands Hatch" loading="lazy">
+									</div>
+								</div>
+								<div class="apple-circuit-pill">
+									<div class="apple-circuit-info">
+										<span class="apple-circuit-name">Nürburgring GP</span>
+										<span class="apple-circuit-meta">
+											<img src="assets/country/alemania.svg" alt="Alemania" title="Alemania" class="apple-circuit-flag" width="11" height="8" loading="lazy">
+											<span>5.15 km</span>
+										</span>
+									</div>
+									<div class="apple-circuit-map" aria-hidden="true">
+										<img src="assets/tracks/nurburgring_gp.svg" alt="Trazado Nürburgring GP" loading="lazy">
+									</div>
+								</div>
+								<div class="apple-circuit-pill">
+									<div class="apple-circuit-info">
+										<span class="apple-circuit-name">Grand Valley</span>
+										<span class="apple-circuit-meta">
+											<img src="assets/country/gran_turismo.svg" alt="Gran Turismo" title="Circuito Gran Turismo" class="apple-circuit-flag" width="11" height="8" loading="lazy">
+											<span>4.94 km</span>
+										</span>
+									</div>
+									<div class="apple-circuit-map" aria-hidden="true">
+										<img src="assets/tracks/grand_valley.svg" alt="Trazado Grand Valley" loading="lazy">
+									</div>
+								</div>
+								<div class="apple-circuit-pill">
+									<div class="apple-circuit-info">
+										<span class="apple-circuit-name">Silverstone</span>
+										<span class="apple-circuit-meta">
+											<img src="assets/country/uk.svg" alt="UK" title="Reino Unido" class="apple-circuit-flag" width="11" height="8" loading="lazy">
+											<span>5.89 km</span>
+										</span>
+									</div>
+									<div class="apple-circuit-map" aria-hidden="true">
+										<img src="assets/tracks/silverstone.svg" alt="Trazado Silverstone" loading="lazy">
+									</div>
+								</div>
+								<div class="apple-circuit-pill">
+									<div class="apple-circuit-info">
+										<span class="apple-circuit-name">Spa-Francorchamps</span>
+										<span class="apple-circuit-meta">
+											<img src="assets/country/belgica.svg" alt="Bélgica" title="Bélgica" class="apple-circuit-flag" width="11" height="8" loading="lazy">
+											<span>7.00 km</span>
+										</span>
+									</div>
+									<div class="apple-circuit-map" aria-hidden="true">
+										<img src="assets/tracks/spa_francorchamps.svg" alt="Trazado Spa-Francorchamps" loading="lazy">
+									</div>
+								</div>
+								<div class="apple-circuit-pill">
+									<div class="apple-circuit-info">
+										<span class="apple-circuit-name">Suzuka Circuit</span>
+										<span class="apple-circuit-meta">
+											<img src="assets/country/japon.svg" alt="Japón" title="Japón" class="apple-circuit-flag" width="11" height="8" loading="lazy">
+											<span>5.81 km</span>
+										</span>
+									</div>
+									<div class="apple-circuit-map" aria-hidden="true">
+										<img src="assets/tracks/suzuka.svg" alt="Trazado Suzuka Circuit" loading="lazy">
+									</div>
+								</div>
+								<div class="apple-circuit-pill">
+									<div class="apple-circuit-info">
+										<span class="apple-circuit-name">Circuit de la Sarthe</span>
+										<span class="apple-circuit-meta">
+											<img src="assets/country/francia.svg" alt="Francia" title="Francia" class="apple-circuit-flag" width="11" height="8" loading="lazy">
+											<span>13.63 km</span>
+										</span>
+									</div>
+									<div class="apple-circuit-map" aria-hidden="true">
+										<img src="assets/tracks/lemans.svg" alt="Trazado Le Mans" loading="lazy">
+									</div>
+								</div>
+							</div>
+
+							<div class="apple-actions-group justify-content-center">
+								<a href="circuitos.html" class="hero-btn-primary">
+									<i class="fas fa-road me-2"></i> Enciclopedia de Circuitos GT6 (Historia & Telemetría)
+								</a>
+								<a href="calendario.html" class="hero-btn-secondary">
+									<i class="fas fa-calendar-alt me-2"></i> Calendario de la Temporada
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<!-- Capítulo 04: Paddock & Comunidad (SIN AUTO - MÉTRICAS GIGANTES LIMPIAS) -->
+					<div class="apple-chapter-step" data-step="3">
+						<div class="apple-clean-stage text-center">
+							<h2 class="apple-clean-headline mb-3">
+								<span class="apple-headline-sub">PADDOCK Y COMUNIDAD</span>
+								<span class="apple-headline-title">37 PILOTOS EN PISTA</span>
+							</h2>
+							<p class="apple-clean-lead mx-auto mb-5">
+								Consulta las fichas de telemetría de cada piloto, tiempos de clasificación y únete a las salas privadas oficiales en Discord.
+							</p>
+
+							<div class="apple-clean-stats mb-5">
+								<div class="apple-clean-stat-item">
+									<div class="apple-stat-big">37</div>
+									<div class="apple-stat-caption">Pilotos Oficiales</div>
+								</div>
+								<div class="apple-clean-stat-item">
+									<div class="apple-stat-big">14</div>
+									<div class="apple-stat-caption">Rondas Oficiales</div>
+								</div>
+								<div class="apple-clean-stat-item">
+									<div class="apple-stat-big">100%</div>
+									<div class="apple-stat-caption">Salas Privadas</div>
+								</div>
+							</div>
+
+							<div class="apple-actions-group justify-content-center">
+								<a href="paddock.html" class="hero-btn-primary">
+									<i class="fas fa-users me-2"></i> Paddock de Pilotos
+								</a>
+								<a href="discord.html" class="hero-btn-secondary">
+									<i class="fab fa-discord me-2"></i> Servidor Discord
+								</a>
+							</div>
+						</div>
+					</div>
+
 				</div>
 
-				<!-- Apple-Style Bottom Scrollytelling Progress Navigation -->
+				<!-- Apple-Style Bottom Controls & Stepper Indicators -->
 				<div class="apple-scrolly-controls">
-					<div class="apple-progress-indicators">
-						<button class="apple-indicator is-active" data-target="0" type="button">
+					<button type="button" class="apple-nav-arrow" id="applePrevBtn" title="Capítulo anterior (Tecla ←)" aria-label="Capítulo anterior">
+						<i class="fas fa-chevron-left"></i>
+					</button>
+					<div class="apple-progress-indicators" role="tablist">
+						<div class="apple-indicator-glider" id="appleGlider"></div>
+						<button class="apple-indicator is-active" data-target="0" type="button" role="tab" aria-selected="true">
 							<span class="apple-indicator-bar"></span>
 							<span class="apple-indicator-label">01 Inicio</span>
 						</button>
-						<button class="apple-indicator" data-target="1" type="button">
+						<button class="apple-indicator" data-target="1" type="button" role="tab" aria-selected="false">
 							<span class="apple-indicator-bar"></span>
 							<span class="apple-indicator-label">02 Filosofía</span>
 						</button>
-						<button class="apple-indicator" data-target="2" type="button">
+						<button class="apple-indicator" data-target="2" type="button" role="tab" aria-selected="false">
 							<span class="apple-indicator-bar"></span>
 							<span class="apple-indicator-label">03 Circuitos</span>
 						</button>
-						<button class="apple-indicator" data-target="3" type="button">
+						<button class="apple-indicator" data-target="3" type="button" role="tab" aria-selected="false">
 							<span class="apple-indicator-bar"></span>
-							<span class="apple-indicator-label">04 Comunidad</span>
+							<span class="apple-indicator-label">04 Paddock</span>
 						</button>
 					</div>
+					<button type="button" class="apple-nav-arrow" id="appleNextBtn" title="Siguiente capítulo (Tecla →)" aria-label="Siguiente capítulo">
+						<i class="fas fa-chevron-right"></i>
+					</button>
+				</div>
+
+				<!-- Discreet Micro-Footer inside 100vh Single Viewport -->
+				<div class="apple-micro-footer">
+					<span>Gran Turismo 6 (PS3) • Comunidad creada por Ricardo Polanco</span>
+					<span class="micro-sep">•</span>
+					<a href="/admin"><i class="fas fa-lock me-1"></i> Admin</a>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- END APPLE SCROLLYTELLING SHOWCASE -->
-
-	<!-- PILARES DEL CAMPEONATO -->
-	<section class="py-5" style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
-		<div class="container py-4">
-			<div class="row mb-5">
-				<div class="col-lg-8 offset-lg-2 text-center">
-					<span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #f28123; letter-spacing: 2px; text-transform: uppercase;">FILOSOFÍA DE COMPETICIÓN</span>
-					<h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 800; color: #0f172a; margin-top: 6px; letter-spacing: -0.5px;">
-						¿CÓMO SE COMPITE EN LA GT ACADEMY?
-					</h2>
-					<p style="color: #64748b; font-size: 15px;">Diseñado para simracers de PlayStation 3 que buscan máxima igualdad mecánica y deportividad absoluta.</p>
-				</div>
-			</div>
-
-			<div class="row g-4">
-				<div class="col-lg-4 col-md-6 mb-4">
-					<div class="gt-pillar-card">
-						<div class="gt-pillar-icon" style="color: #f28123;">
-							<i class="fas fa-flag-checkered"></i>
-						</div>
-						<h3 class="gt-pillar-title">Parrilla Abierta & Sin Rangos</h3>
-						<p class="gt-pillar-desc">
-							Eliminamos las categorías artificiales de bronce o plata. Cada piloto entra a la pista con su PSN ID y su propia habilidad al volante; el respeto y la reputación se forjan curva a curva con podios y constancia.
-						</p>
-					</div>
-				</div>
-
-				<div class="col-lg-4 col-md-6 mb-4">
-					<div class="gt-pillar-card">
-						<div class="gt-pillar-icon" style="color: #0284c7;">
-							<i class="fas fa-sliders-h"></i>
-						</div>
-						<h3 class="gt-pillar-title">Igualdad Técnica & PR GT6</h3>
-						<p class="gt-pillar-desc">
-							Regulación estricta en sala por Puntos de Rendimiento (PR), compuestos de neumáticos oficiales y prohibición de ayudas artificiales (TCS=0, sin ayudas de frenada; solo ABS=1 permitido). Lo único que marca la diferencia son tus manos.
-						</p>
-					</div>
-				</div>
-
-				<div class="col-lg-4 col-md-6 mb-4">
-					<div class="gt-pillar-card">
-						<div class="gt-pillar-icon" style="color: #16a34a;">
-							<i class="fas fa-stopwatch"></i>
-						</div>
-						<h3 class="gt-pillar-title">Telemetría WEC & Paddock</h3>
-						<p class="gt-pillar-desc">
-							Resultados oficiales de sala, diferencias de tiempo milimétricas, registro de vueltas rápidas, poles y palmarés histórico actualizado directamente en base de datos tras cada bandera a cuadros.
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- END PILARES -->
-
-	<!-- VITRINA DE CIRCUITOS DE GRAN TURISMO 6 -->
-	<section class="gt-circuits-section" id="circuitos">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8 offset-lg-2 text-center">
-					<span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #f28123; letter-spacing: 2px; text-transform: uppercase;">TRAZADOS OFICIALES GT6</span>
-					<h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-top: 6px; letter-spacing: -0.5px;">
-						CIRCUITOS DE LA TEMPORADA
-					</h2>
-					<p style="color: #64748b; font-size: 15px; max-width: 650px; margin: 0 auto;">
-						Desde trazados legendarios de la Fórmula 1 y las 24 Horas de Le Mans hasta los circuitos clásicos originales de Gran Turismo en PS3.
-					</p>
-				</div>
-			</div>
-
-			<div class="gt-circuits-grid">
-				<!-- Circuito 1: Laguna Seca -->
-				<div class="gt-circuit-card">
-					<div class="gt-circuit-header">
-						<div class="gt-circuit-title-wrap">
-							<img src="assets/country/eu.png" alt="USA" class="gt-circuit-flag" onerror="this.src='assets/country/pdi.png'">
-							<div>
-								<h3 class="gt-circuit-name">Laguna Seca</h3>
-								<div class="gt-circuit-location">California • EE. UU.</div>
-							</div>
-						</div>
-						<span class="gt-circuit-round-badge">Ronda 06</span>
-					</div>
-					<div class="gt-circuit-map-wrap">
-						<img src="assets/tracks/laguna_seca.svg" alt="Trazado Laguna Seca" loading="lazy">
-					</div>
-					<div class="gt-circuit-specs-grid">
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Longitud</div>
-							<div class="gt-circuit-spec-val">3.60 km</div>
-						</div>
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Curvas</div>
-							<div class="gt-circuit-spec-val">11 (Sacacorchos)</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Circuito 2: Brands Hatch -->
-				<div class="gt-circuit-card">
-					<div class="gt-circuit-header">
-						<div class="gt-circuit-title-wrap">
-							<img src="assets/country/pdi.png" alt="UK" class="gt-circuit-flag">
-							<div>
-								<h3 class="gt-circuit-name">Brands Hatch GP</h3>
-								<div class="gt-circuit-location">Kent • Reino Unido</div>
-							</div>
-						</div>
-						<span class="gt-circuit-round-badge">Ronda 07</span>
-					</div>
-					<div class="gt-circuit-map-wrap">
-						<img src="assets/tracks/brands_hatch.svg" alt="Trazado Brands Hatch" loading="lazy">
-					</div>
-					<div class="gt-circuit-specs-grid">
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Longitud</div>
-							<div class="gt-circuit-spec-val">3.91 km</div>
-						</div>
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Curvas</div>
-							<div class="gt-circuit-spec-val">9 curvas</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Circuito 3: Nürburgring GP -->
-				<div class="gt-circuit-card">
-					<div class="gt-circuit-header">
-						<div class="gt-circuit-title-wrap">
-							<img src="assets/country/alemania.png" alt="Alemania" class="gt-circuit-flag" onerror="this.src='assets/country/pdi.png'">
-							<div>
-								<h3 class="gt-circuit-name">Nürburgring GP</h3>
-								<div class="gt-circuit-location">Nürburg • Alemania</div>
-							</div>
-						</div>
-						<span class="gt-circuit-round-badge">Ronda 08</span>
-					</div>
-					<div class="gt-circuit-map-wrap">
-						<img src="assets/tracks/nurburgring_gp.svg" alt="Trazado Nürburgring GP" loading="lazy">
-					</div>
-					<div class="gt-circuit-specs-grid">
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Longitud</div>
-							<div class="gt-circuit-spec-val">5.15 km</div>
-						</div>
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Curvas</div>
-							<div class="gt-circuit-spec-val">16 curvas</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Circuito 4: Grand Valley Speedway -->
-				<div class="gt-circuit-card">
-					<div class="gt-circuit-header">
-						<div class="gt-circuit-title-wrap">
-							<img src="assets/country/pdi.png" alt="Polyphony" class="gt-circuit-flag">
-							<div>
-								<h3 class="gt-circuit-name">Grand Valley Speedway</h3>
-								<div class="gt-circuit-location">Clásico Gran Turismo</div>
-							</div>
-						</div>
-						<span class="gt-circuit-round-badge">Ronda 10</span>
-					</div>
-					<div class="gt-circuit-map-wrap">
-						<img src="assets/tracks/grand_valley.svg" alt="Trazado Grand Valley" loading="lazy">
-					</div>
-					<div class="gt-circuit-specs-grid">
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Longitud</div>
-							<div class="gt-circuit-spec-val">4.94 km</div>
-						</div>
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Curvas</div>
-							<div class="gt-circuit-spec-val">14 curvas</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Circuito 5: Silverstone -->
-				<div class="gt-circuit-card">
-					<div class="gt-circuit-header">
-						<div class="gt-circuit-title-wrap">
-							<img src="assets/country/pdi.png" alt="UK" class="gt-circuit-flag">
-							<div>
-								<h3 class="gt-circuit-name">Silverstone GP</h3>
-								<div class="gt-circuit-location">Northamptonshire • UK</div>
-							</div>
-						</div>
-						<span class="gt-circuit-round-badge">Ronda 12</span>
-					</div>
-					<div class="gt-circuit-map-wrap">
-						<img src="assets/tracks/silverstone.svg" alt="Trazado Silverstone" loading="lazy">
-					</div>
-					<div class="gt-circuit-specs-grid">
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Longitud</div>
-							<div class="gt-circuit-spec-val">5.89 km</div>
-						</div>
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Curvas</div>
-							<div class="gt-circuit-spec-val">18 curvas</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Circuito 6: Spa-Francorchamps -->
-				<div class="gt-circuit-card">
-					<div class="gt-circuit-header">
-						<div class="gt-circuit-title-wrap">
-							<img src="assets/country/pdi.png" alt="Bélgica" class="gt-circuit-flag">
-							<div>
-								<h3 class="gt-circuit-name">Spa-Francorchamps</h3>
-								<div class="gt-circuit-location">Stavelot • Bélgica</div>
-							</div>
-						</div>
-						<span class="gt-circuit-round-badge">Ronda 13</span>
-					</div>
-					<div class="gt-circuit-map-wrap">
-						<img src="assets/tracks/spa_francorchamps.svg" alt="Trazado Spa-Francorchamps" loading="lazy">
-					</div>
-					<div class="gt-circuit-specs-grid">
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Longitud</div>
-							<div class="gt-circuit-spec-val">7.00 km</div>
-						</div>
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Curvas</div>
-							<div class="gt-circuit-spec-val">19 (Eau Rouge)</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Circuito 7: Suzuka -->
-				<div class="gt-circuit-card">
-					<div class="gt-circuit-header">
-						<div class="gt-circuit-title-wrap">
-							<img src="assets/country/pdi.png" alt="Japón" class="gt-circuit-flag">
-							<div>
-								<h3 class="gt-circuit-name">Suzuka Circuit</h3>
-								<div class="gt-circuit-location">Mie • Japón</div>
-							</div>
-						</div>
-						<span class="gt-circuit-round-badge">Especial GT6</span>
-					</div>
-					<div class="gt-circuit-map-wrap">
-						<img src="assets/tracks/suzuka.svg" alt="Trazado Suzuka" loading="lazy">
-					</div>
-					<div class="gt-circuit-specs-grid">
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Longitud</div>
-							<div class="gt-circuit-spec-val">5.81 km</div>
-						</div>
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Curvas</div>
-							<div class="gt-circuit-spec-val">18 (Figura en 8)</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Circuito 8: Circuit de la Sarthe / Le Mans -->
-				<div class="gt-circuit-card">
-					<div class="gt-circuit-header">
-						<div class="gt-circuit-title-wrap">
-							<img src="assets/country/francia.png" alt="Francia" class="gt-circuit-flag" onerror="this.src='assets/country/pdi.png'">
-							<div>
-								<h3 class="gt-circuit-name">Circuit de la Sarthe</h3>
-								<div class="gt-circuit-location">Le Mans • Francia</div>
-							</div>
-						</div>
-						<span class="gt-circuit-round-badge">24H Especial</span>
-					</div>
-					<div class="gt-circuit-map-wrap">
-						<img src="assets/tracks/lemans.svg" alt="Trazado Le Mans" loading="lazy">
-					</div>
-					<div class="gt-circuit-specs-grid">
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Longitud</div>
-							<div class="gt-circuit-spec-val">13.63 km</div>
-						</div>
-						<div class="gt-circuit-spec-cell">
-							<div class="gt-circuit-spec-lbl">Curvas</div>
-							<div class="gt-circuit-spec-val">38 (Mulsanne)</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="text-center mt-5">
-				<a href="calendario.html" class="btn-gt-primary">
-					<i class="fas fa-calendar-alt"></i> Ver Calendario Completo de Fechas
-				</a>
-			</div>
-		</div>
-	</section>
-	<!-- END VITRINA DE CIRCUITOS -->
-
-	<!-- PADDOCK CTA CALLOUT -->
-	<section class="py-5" style="background-color: #ffffff; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
-		<div class="container py-4">
-			<div class="gt-glass-card p-4 p-md-5 text-center" style="max-width: 900px; margin: 0 auto;">
-				<div class="d-inline-flex align-items-center gap-2 mb-2" style="background: rgba(242, 129, 35, 0.08); border: 1px solid rgba(242, 129, 35, 0.25); padding: 4px 12px; border-radius: 20px;">
-					<span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #f28123; text-transform: uppercase;">PADDOCK OFICIAL ABIERTO</span>
-				</div>
-				<h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.9rem; font-weight: 800; color: #0f172a; margin-bottom: 12px;">
-					CONOCE A LOS 37 PILOTOS INSCRITOS
-				</h2>
-				<p style="color: #64748b; font-size: 15px; max-width: 600px; margin: 0 auto 24px auto;">
-					Consulta las tarjetas oficiales de piloto con sus autos insignia de Gran Turismo 6, estadísticas de carrera, podios y palmarés acumulado.
-				</p>
-				<div class="d-flex flex-wrap justify-content-center gap-3">
-					<a href="paddock.html" class="btn-gt-primary">
-						<i class="fas fa-id-card"></i> Ingresar al Paddock
-					</a>
-					<a href="discord.html" class="btn-gt-outline">
-						<i class="fab fa-discord"></i> Unirse al Discord Oficial
-					</a>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- END PADDOCK CTA -->
-
-	<!-- logo carousel -->
-	<div class="logo-carousel-section py-4" style="background: #f8fafc;">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="logo-carousel-inner">
-						<div class="single-logo-item">
-							<img src="assets/img/company-logos/1.png" alt="Sponsor 1" loading="lazy" decoding="async">
-						</div>
-						<div class="single-logo-item">
-							<img src="assets/img/company-logos/2.png" alt="Sponsor 2" loading="lazy" decoding="async">
-						</div>
-						<div class="single-logo-item">
-							<img src="assets/img/company-logos/3.png" alt="Sponsor 3" loading="lazy" decoding="async">
-						</div>
-						<div class="single-logo-item">
-							<img src="assets/img/company-logos/4.png" alt="Sponsor 4" loading="lazy" decoding="async">
-						</div>
-						<div class="single-logo-item">
-							<img src="assets/img/company-logos/5.png" alt="Sponsor 5" loading="lazy" decoding="async">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end logo carousel -->
-
-	<!-- copyright -->
-	<div class="copyright py-3" style="background: #ffffff; border-top: 1px solid #e2e8f0;">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6 col-md-12">
-					<p class="mb-0 text-muted small" style="font-family: 'Space Grotesk', sans-serif;">Página creada para la comunidad de Gran Turismo 6 (PS3) por Ricardo Polanco</p>
-				</div>
-				<div class="col-lg-6 text-right col-md-12">
-					<a href="/admin" class="text-muted small" style="text-decoration: none; opacity: 0.8; font-family: 'JetBrains Mono', monospace;"><i class="fas fa-lock me-1"></i> Panel Admin</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end copyright -->
+	<!-- END APPLE ZERO-SCROLL HERO SHOWCASE -->
 	
 	<!-- jquery -->
 	<script src="assets/js/jquery-1.11.3.min.js"></script>
@@ -649,6 +440,8 @@
 	<script src="assets/js/main.js"></script>
 	<!-- tournament dynamic js -->
 	<script src="assets/js/tournament.js"></script>
+	<!-- modern geometric plexus constellation particles -->
+	<script src="assets/js/speed-particles.js" defer></script>
 
 </body>
 </html>

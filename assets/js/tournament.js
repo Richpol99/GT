@@ -31,8 +31,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Apple Scrollytelling Showcase (index.html)
+    // Apple Zero-Scroll Hero Showcase (index.html)
     initAppleScrollytelling();
+    initSketchMockup();
 
     function initAppleScrollytelling() {
         const track = document.getElementById('heroTrack');
@@ -40,68 +41,232 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const steps = track.querySelectorAll('.apple-chapter-step');
         const indicators = track.querySelectorAll('.apple-indicator');
+        const glider = document.getElementById('appleGlider');
+        const indicatorsWrap = track.querySelector('.apple-progress-indicators');
+        const prevBtn = document.getElementById('applePrevBtn');
+        const nextBtn = document.getElementById('appleNextBtn');
         if (!steps.length) return;
 
         let currentStepIndex = 0;
-        let isTicking = false;
 
-        function updateScrollytelling() {
-            const rect = track.getBoundingClientRect();
-            const trackHeight = track.offsetHeight - window.innerHeight;
-            if (trackHeight <= 0) return;
-
-            // Progress from 0 to 1
-            const progress = Math.max(0, Math.min(1, -rect.top / trackHeight));
-            
-            // 4 steps -> determine active step
-            const stepIndex = Math.min(steps.length - 1, Math.floor(progress * steps.length));
-
-            if (stepIndex !== currentStepIndex) {
-                currentStepIndex = stepIndex;
-                steps.forEach((step, idx) => {
-                    if (idx === stepIndex) {
-                        step.classList.add('is-active');
-                    } else {
-                        step.classList.remove('is-active');
-                    }
-                });
-
-                indicators.forEach((ind, idx) => {
-                    if (idx === stepIndex) {
-                        ind.classList.add('is-active');
-                    } else {
-                        ind.classList.remove('is-active');
-                    }
-                });
-            }
-            isTicking = false;
+        function updateGlider(targetBtn) {
+            if (!glider || !targetBtn || !indicatorsWrap) return;
+            const btnRect = targetBtn.getBoundingClientRect();
+            const wrapRect = indicatorsWrap.getBoundingClientRect();
+            const offsetLeft = btnRect.left - wrapRect.left;
+            glider.style.width = `${btnRect.width}px`;
+            glider.style.transform = `translateX(${offsetLeft}px)`;
         }
 
-        window.addEventListener('scroll', () => {
-            if (!isTicking) {
-                window.requestAnimationFrame(updateScrollytelling);
-                isTicking = true;
+        function goToStep(index) {
+            if (index < 0) index = 0;
+            if (index >= steps.length) index = steps.length - 1;
+            if (index === currentStepIndex) return;
+
+            currentStepIndex = index;
+
+            steps.forEach((step, idx) => {
+                if (idx === currentStepIndex) {
+                    step.classList.add('is-active');
+                } else {
+                    step.classList.remove('is-active');
+                }
+            });
+
+            indicators.forEach((ind, idx) => {
+                const isActive = (idx === currentStepIndex);
+                ind.classList.toggle('is-active', isActive);
+                ind.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+
+            if (indicators[currentStepIndex]) {
+                updateGlider(indicators[currentStepIndex]);
+            }
+
+            // Update arrow disabled states
+            if (prevBtn) {
+                prevBtn.disabled = (currentStepIndex === 0);
+                prevBtn.classList.toggle('is-disabled', currentStepIndex === 0);
+            }
+            if (nextBtn) {
+                nextBtn.disabled = (currentStepIndex === steps.length - 1);
+                nextBtn.classList.toggle('is-disabled', currentStepIndex === steps.length - 1);
+            }
+
+            // Sync pill navbar current state with active chapter
+            const navInicio = document.querySelector('.gt-pill-item[href="index.html"]');
+            const navCircuitos = document.querySelector('.gt-pill-item[href*="#circuitos"]');
+            if (navInicio && navCircuitos) {
+                if (currentStepIndex === 0) {
+                    navInicio.classList.add('current');
+                    navCircuitos.classList.remove('current');
+                } else if (currentStepIndex === 2) {
+                    navInicio.classList.remove('current');
+                    navCircuitos.classList.add('current');
+                } else {
+                    navInicio.classList.remove('current');
+                    navCircuitos.classList.remove('current');
+                }
+            }
+        }
+
+        // Window resize to keep glider aligned
+        window.addEventListener('resize', () => {
+            if (indicators[currentStepIndex]) {
+                updateGlider(indicators[currentStepIndex]);
             }
         }, { passive: true });
 
-        // Click on progress indicators to jump smoothly to that chapter
-        indicators.forEach((indicator, idx) => {
-            indicator.addEventListener('click', (e) => {
-                e.preventDefault();
-                const trackTop = track.getBoundingClientRect().top + window.pageYOffset;
-                const trackHeight = track.offsetHeight - window.innerHeight;
-                // Target position in the center of each step's scroll segment
-                const targetProgress = (idx + 0.5) / steps.length;
-                const targetScrollY = trackTop + (trackHeight * targetProgress);
-                window.scrollTo({
-                    top: targetScrollY,
-                    behavior: 'smooth'
-                });
+        // Init glider position
+        setTimeout(() => {
+            if (indicators[0]) {
+                updateGlider(indicators[0]);
+            }
+        }, 60);
+
+        // Return to Step 0 on clicking Inicio from Navbar without reload
+        document.querySelectorAll('.gt-pill-item[href="index.html"], .gt-mobile-item[href="index.html"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/')) {
+                    e.preventDefault();
+                    goToStep(0);
+                }
             });
         });
 
-        // Run once on initial render
-        updateScrollytelling();
+        // Indicator click listeners
+        indicators.forEach((indicator, idx) => {
+            indicator.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToStep(idx);
+            });
+        });
+
+        // Prev & Next Buttons
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToStep(currentStepIndex - 1);
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToStep(currentStepIndex + 1);
+            });
+        }
+
+        // Wheel event navigation (Apple zero-scroll swipe on wheel)
+        let isWheelLocked = false;
+        window.addEventListener('wheel', (e) => {
+            if (isWheelLocked) return;
+            if (Math.abs(e.deltaY) > 25) {
+                if (e.deltaY > 0) {
+                    goToStep(currentStepIndex + 1);
+                } else {
+                    goToStep(currentStepIndex - 1);
+                }
+                isWheelLocked = true;
+                setTimeout(() => { isWheelLocked = false; }, 450);
+            }
+        }, { passive: true });
+
+        // Keyboard arrow navigation
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                goToStep(currentStepIndex + 1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                goToStep(currentStepIndex - 1);
+            }
+        });
+
+        // Touch swipe gestures for mobile
+        let touchStartX = 0;
+        let touchStartY = 0;
+        window.addEventListener('touchstart', (e) => {
+            if (e.touches && e.touches.length) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchend', (e) => {
+            if (!e.changedTouches || !e.changedTouches.length) return;
+            const diffX = e.changedTouches[0].clientX - touchStartX;
+            const diffY = e.changedTouches[0].clientY - touchStartY;
+            if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX < 0) {
+                    goToStep(currentStepIndex + 1);
+                } else {
+                    goToStep(currentStepIndex - 1);
+                }
+            }
+        }, { passive: true });
+
+        // Navbar link navigation for zero-scroll page
+        document.querySelectorAll('a[href*="#circuitos"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToStep(2); // Step 2 is Circuitos
+            });
+        });
+
+        // Check if loaded with #circuitos hash
+        if (window.location.hash === '#circuitos') {
+            goToStep(2);
+        }
+
+        // Init buttons state
+        if (prevBtn) {
+            prevBtn.disabled = true;
+            prevBtn.classList.add('is-disabled');
+        }
+    }
+
+    // Ultra-Lightweight Sketch Mockup 3D Tilt (GPU Compositor - 0% CPU idle)
+    function initSketchMockup() {
+        const wrapper = document.getElementById('sketchStageWrapper');
+        const board = document.getElementById('sketchStageBoard');
+        if (!wrapper || !board) return;
+
+        // Skip mouse tracking entirely on touch devices / mobile (Zero CPU overhead on mobile!)
+        if (window.matchMedia('(hover: none)').matches) return;
+
+        let rafId = null;
+        let targetX = 0;
+        let targetY = 0;
+
+        function onMouseMove(e) {
+            const rect = wrapper.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            // Subtle, controlled tilt (max ±5 degrees for elegant feel)
+            targetY = ((x - centerX) / centerX) * 5;
+            targetX = -((y - centerY) / centerY) * 4;
+
+            if (!rafId) {
+                rafId = requestAnimationFrame(updateTilt);
+            }
+        }
+
+        function updateTilt() {
+            board.style.transform = `rotateX(${targetX.toFixed(2)}deg) rotateY(${targetY.toFixed(2)}deg) translateZ(6px)`;
+            rafId = null;
+        }
+
+        function onMouseLeave() {
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+            board.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0)';
+        }
+
+        wrapper.addEventListener('mousemove', onMouseMove, { passive: true });
+        wrapper.addEventListener('mouseleave', onMouseLeave, { passive: true });
     }
 
     const isPaddockPage = window.location.pathname.includes('paddock') || !!document.getElementById('paddock-grid');

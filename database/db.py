@@ -1,4 +1,5 @@
 import os
+import json
 import sqlite3
 import hashlib
 import secrets
@@ -91,6 +92,36 @@ def init_db():
     CREATE INDEX IF NOT EXISTS idx_races_season ON races(season_id);
     CREATE INDEX IF NOT EXISTS idx_results_race ON race_results(race_id);
     CREATE INDEX IF NOT EXISTS idx_results_driver ON race_results(driver_id);
+
+    CREATE TABLE IF NOT EXISTS tracks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL UNIQUE,
+        slug TEXT NOT NULL UNIQUE,
+        category TEXT NOT NULL,
+        country TEXT NOT NULL,
+        country_code TEXT NOT NULL,
+        location TEXT NOT NULL,
+        length_km REAL NOT NULL,
+        turns INTEGER NOT NULL,
+        elevation_m REAL NOT NULL,
+        longest_straight_m REAL NOT NULL,
+        layouts_count INTEGER NOT NULL DEFAULT 1,
+        time_progression INTEGER NOT NULL DEFAULT 0,
+        weather_change INTEGER NOT NULL DEFAULT 0,
+        laser_scanned INTEGER NOT NULL DEFAULT 0,
+        first_game TEXT NOT NULL,
+        record_lap TEXT DEFAULT '',
+        image_url TEXT DEFAULT '',
+        svg_path TEXT DEFAULT '',
+        history_gt TEXT NOT NULL,
+        history_real TEXT NOT NULL,
+        driving_tips TEXT NOT NULL,
+        curiosities TEXT DEFAULT '[]',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_tracks_category ON tracks(category);
+    CREATE INDEX IF NOT EXISTS idx_tracks_country ON tracks(country);
     """)
 
     conn.commit()
@@ -322,3 +353,268 @@ def update_driver(driver_id: int, psn_id: str, country: str, rank: str):
     """, (psn_id.strip(), country.strip().lower(), rank.strip().lower(), driver_id))
     conn.commit()
     conn.close()
+
+# ==========================================
+# GRAN TURISMO 6 - CARS DATABASE HELPERS
+# ==========================================
+
+def get_cars(search=None, manufacturer=None, drivetrain=None, category=None, sort_by='pp_desc', page=1, limit=24):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    conditions = []
+    params = []
+
+    if search:
+        search_term = f"%{search.strip()}%"
+        conditions.append("(name LIKE ? OR manufacturer LIKE ?)")
+        params.extend([search_term, search_term])
+
+    if manufacturer and manufacturer.lower() != 'all':
+        conditions.append("manufacturer = ?")
+        params.append(manufacturer.strip())
+
+    if drivetrain and drivetrain.lower() != 'all':
+        conditions.append("drivetrain = ?")
+        params.append(drivetrain.strip().upper())
+
+    if category and category.lower() != 'all':
+        conditions.append("category = ?")
+        params.append(category.strip())
+
+    where_clause = f"WHERE {' AND '.join(conditions)}" if conditions else ""
+
+    # Sort options
+    sort_dict = {
+        'pp_desc': 'pp DESC, power_hp DESC',
+        'pp_asc': 'pp ASC, power_hp ASC',
+        'power_desc': 'power_hp DESC, pp DESC',
+        'power_asc': 'power_hp ASC, pp ASC',
+        'weight_asc': 'weight_kg ASC',
+        'weight_desc': 'weight_kg DESC',
+        'name_asc': 'name ASC',
+        'name_desc': 'name DESC',
+        'year_desc': 'year DESC',
+        'year_asc': 'year ASC'
+    }
+    order_clause = f"ORDER BY {sort_dict.get(sort_by, 'pp DESC')}"
+
+    # Count total matching rows
+    count_query = f"SELECT COUNT(*) FROM cars {where_clause}"
+    cursor.execute(count_query, params)
+    total_count = cursor.fetchone()[0]
+
+    # Calculate pagination
+    page = max(1, int(page))
+    limit = max(1, min(100, int(limit)))
+    offset = (page - 1) * limit
+    total_pages = max(1, (total_count + limit - 1) // limit)
+
+    # Fetch cars
+    query = f"""
+        SELECT id, name, manufacturer, country, year, category, drivetrain, aspiration,
+               power_hp, weight_kg, pp, interior, image_url, local_image, curiosities, setup_tip
+        FROM cars
+        {where_clause}
+        {order_clause}
+        LIMIT ? OFFSET ?
+    """
+    cursor.execute(query, params + [limit, offset])
+    rows = cursor.fetchall()
+
+    cars_list = []
+    for r in rows:
+        car = dict(r)
+        try:
+            car['curiosities'] = json.loads(car['curiosities']) if car.get('curiosities') else []
+        except Exception:
+            car['curiosities'] = []
+        cars_list.append(car)
+
+    conn.close()
+
+    return {
+        'cars': cars_list,
+        'total': total_count,
+        'page': page,
+        'limit': limit,
+        'total_pages': total_pages
+    }
+
+def get_car_by_id(car_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT id, name, manufacturer, country, year, category, drivetrain, aspiration,
+               power_hp, weight_kg, pp, interior, image_url, local_image, curiosities, setup_tip
+        FROM cars
+        WHERE id = ?
+    """, (car_id,))
+    row = cursor.fetchone()
+    conn.close()
+
+    if not row:
+        return None
+
+    car = dict(row)
+    try:
+        car['curiosities'] = json.loads(car['curiosities']) if car.get('curiosities') else []
+    except Exception:
+        car['curiosities'] = []
+    return car
+
+def get_car_manufacturers():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT manufacturer, country, COUNT(*) as car_count
+        FROM cars
+        GROUP BY manufacturer
+        ORDER BY car_count DESC, manufacturer ASC
+    """)
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+def get_cars_stats():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT 
+            COUNT(*) as total_cars,
+            COUNT(DISTINCT manufacturer) as total_manufacturers,
+            MAX(power_hp) as max_hp,
+            MAX(pp) as max_pp,
+            MIN(pp) as min_pp,
+            ROUND(AVG(pp), 1) as avg_pp
+        FROM cars
+    """)
+    stats = dict(cursor.fetchone())
+
+    # Drivetrain breakdown
+    cursor.execute("""
+        SELECT drivetrain, COUNT(*) as count
+        FROM cars
+        GROUP BY drivetrain
+        ORDER BY count DESC
+    """)
+    stats['drivetrains'] = [dict(r) for r in cursor.fetchall()]
+
+    conn.close()
+    return stats
+
+# ==========================================
+# CIRCUITOS GRAN TURISMO 6
+# ==========================================
+
+def get_tracks(search=None, category=None, sort_by='name_asc'):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    conditions = []
+    params = []
+
+    if search and search.strip():
+        term = f"%{search.strip()}%"
+        conditions.append("(name LIKE ? OR country LIKE ? OR location LIKE ?)")
+        params.extend([term, term, term])
+
+    if category and category != 'all':
+        conditions.append("category = ?")
+        params.append(category)
+
+    where_clause = ""
+    if conditions:
+        where_clause = "WHERE " + " AND ".join(conditions)
+
+    sort_dict = {
+        'name_asc': 'name ASC',
+        'name_desc': 'name DESC',
+        'length_desc': 'length_km DESC',
+        'length_asc': 'length_km ASC',
+        'elevation_desc': 'elevation_m DESC',
+        'turns_desc': 'turns DESC'
+    }
+    order_clause = f"ORDER BY {sort_dict.get(sort_by, 'name ASC')}"
+
+    query = f"""
+        SELECT id, name, slug, category, country, country_code, location,
+               length_km, turns, elevation_m, longest_straight_m, layouts_count,
+               time_progression, weather_change, laser_scanned, first_game,
+               record_lap, image_url, svg_path, history_gt, history_real,
+               driving_tips, curiosities
+        FROM tracks
+        {where_clause}
+        {order_clause}
+    """
+    cursor.execute(query, params)
+    rows = cursor.fetchall()
+
+    tracks_list = []
+    for r in rows:
+        track = dict(r)
+        try:
+            track['curiosities'] = json.loads(track['curiosities']) if track.get('curiosities') else []
+        except Exception:
+            track['curiosities'] = []
+        tracks_list.append(track)
+
+    conn.close()
+    return tracks_list
+
+def get_track_by_id(track_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT id, name, slug, category, country, country_code, location,
+               length_km, turns, elevation_m, longest_straight_m, layouts_count,
+               time_progression, weather_change, laser_scanned, first_game,
+               record_lap, image_url, svg_path, history_gt, history_real,
+               driving_tips, curiosities
+        FROM tracks
+        WHERE id = ?
+    """, (track_id,))
+    row = cursor.fetchone()
+    conn.close()
+
+    if not row:
+        return None
+
+    track = dict(row)
+    try:
+        track['curiosities'] = json.loads(track['curiosities']) if track.get('curiosities') else []
+    except Exception:
+        track['curiosities'] = []
+    return track
+
+def get_tracks_stats():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT 
+            COUNT(*) as total_tracks,
+            COUNT(DISTINCT country) as total_countries,
+            COALESCE(SUM(layouts_count), 0) as total_layouts,
+            ROUND(COALESCE(SUM(length_km), 0), 1) as total_km,
+            COALESCE(MAX(length_km), 0) as max_length_km,
+            COALESCE(MAX(elevation_m), 0) as max_elevation_m,
+            COALESCE(SUM(CASE WHEN laser_scanned = 1 THEN 1 ELSE 0 END), 0) as laser_scanned_count,
+            COALESCE(SUM(CASE WHEN weather_change = 1 THEN 1 ELSE 0 END), 0) as weather_count,
+            COALESCE(SUM(CASE WHEN time_progression = 1 THEN 1 ELSE 0 END), 0) as time_progression_count
+        FROM tracks
+    """)
+    stats = dict(cursor.fetchone())
+
+    # Category breakdown
+    cursor.execute("""
+        SELECT category, COUNT(*) as count
+        FROM tracks
+        GROUP BY category
+        ORDER BY count DESC
+    """)
+    stats['categories'] = [dict(r) for r in cursor.fetchall()]
+
+    conn.close()
+    return stats
+
+

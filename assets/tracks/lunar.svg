@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <!-- Hadley Rille Crater & Valley Path -->
+  <path d="M 120,480 C 180,460 220,410 210,350 C 200,280 140,240 180,170 C 220,100 310,90 370,140 C 430,190 410,270 470,310 C 530,350 610,320 660,260 C 710,200 740,240 720,310 C 700,380 640,430 570,450 C 490,470 420,440 350,470 C 270,500 180,510 120,480 Z" fill="none" stroke="#0f172a" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="480" cy="240" r="45" fill="none" stroke="#0f172a" stroke-width="8" stroke-dasharray="10 8"/>
+  <circle cx="280" cy="380" r="30" fill="none" stroke="#0f172a" stroke-width="8" stroke-dasharray="8 6"/>
+</svg>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="referrer" content="no-referrer">
+	<meta name="description" content="Garaje oficial y enciclopedia de autos de Gran Turismo 6 (PS3). 1,280 vehículos catalogados con especificaciones técnicas, puntos de rendimiento (PR) y curiosidades del motorsport.">
+
+	<!-- title -->
+	<title>Garaje Oficial GT6 - 1,280 Autos Catalogados | GT ACADEMY</title>
+
+	<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+	<!-- google font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<!-- main style -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="assets/css/responsive.css">
+	<!-- modern motorsport tournament style -->
+	<link rel="stylesheet" href="assets/css/tournament.css">
+
+</head>
+<body class="garage-page">
+	
+	<!--PreLoader-->
+    <div class="loader">
+        <div class="loader-inner">
+            <div class="circle"></div>
+        </div>
+    </div>
+    <!--PreLoader Ends-->
+	
+	<!-- Floating Pill Navbar (Light Glassmorphism) -->
+	<nav class="gt-pill-navbar" id="gtPillNavbar">
+		<div class="gt-pill-container">
+			<!-- Logo Brand -->
+			<a href="index.html" class="gt-pill-brand">
+				<img src="assets/img/logo-dark.png" alt="GT Academy" class="gt-pill-logo">
+			</a>
+
+			<!-- Desktop Navigation Links -->
+			<div class="gt-pill-menu">
+				<a href="index.html" class="gt-pill-item">
+					<i class="fas fa-home"></i> Inicio
+				</a>
+				
+				<div class="gt-pill-dropdown">
+					<button type="button" class="gt-pill-item gt-pill-dropbtn">
+						<i class="fas fa-trophy"></i> Eventos <i class="fas fa-chevron-down gt-pill-chevron"></i>
+					</button>
+					<div class="gt-pill-dropdown-content">
+						<a href="paddock.html"><i class="fas fa-users text-primary me-2"></i> Paddock de Pilotos</a>
+						<a href="resultados.html"><i class="fas fa-flag-checkered text-warning me-2"></i> Resultados de Carreras</a>
+						<a href="ranking.html"><i class="fas fa-list-ol text-success me-2"></i> Clasificación General</a>
+						<a href="calendario.html"><i class="fas fa-calendar-alt text-info me-2"></i> Calendario de la temporada</a>
+					</div>
+				</div>
+
+				<a href="circuitos.html" class="gt-pill-item">
+					<i class="fas fa-road"></i> Circuitos
+				</a>
+
+				<a href="garaje.html" class="gt-pill-item current">
+					<i class="fas fa-warehouse"></i> Garaje
+				</a>
+
+				<div class="gt-pill-dropdown">
+					<button type="button" class="gt-pill-item gt-pill-dropbtn">
+						<i class="fas fa-wrench"></i> Setup <i class="fas fa-chevron-down gt-pill-chevron"></i>
+					</button>
+					<div class="gt-pill-dropdown-content">
+						<a href="setup.html"><i class="fas fa-cogs text-secondary me-2"></i> Concepto de Setup</a>
+						<a href="conceptos.html"><i class="fas fa-sliders-h text-primary me-2"></i> Cómo hacer tu propio setup</a>
+					</div>
+				</div>
+
+				<a href="galeria.html" class="gt-pill-item">
+					<i class="fas fa-images"></i> Galería
+				</a>
+			</div>
+
+			<!-- Right Side CTA / Actions -->
+			<div class="gt-pill-actions">
+				<a href="discord.html" class="gt-pill-btn-discord">
+					<i class="fab fa-discord"></i> <span>Discord</span>
+				</a>
+				<button type="button" class="gt-pill-mobile-btn" id="gtPillMobileBtn" aria-label="Abrir menú">
+					<i class="fas fa-bars"></i>
+				</button>
+			</div>
+		</div>
+
+		<!-- Mobile Dropdown Menu -->
+		<div class="gt-pill-mobile-menu" id="gtPillMobileMenu">
+			<a href="index.html" class="gt-mobile-item"><i class="fas fa-home me-2"></i> Inicio</a>
+			<div class="gt-mobile-group-title">Eventos</div>
+			<a href="paddock.html" class="gt-mobile-subitem"><i class="fas fa-users text-primary me-2"></i> Paddock de Pilotos</a>
+			<a href="resultados.html" class="gt-mobile-subitem"><i class="fas fa-flag-checkered text-warning me-2"></i> Resultados de Carreras</a>
+			<a href="ranking.html" class="gt-mobile-subitem"><i class="fas fa-list-ol text-success me-2"></i> Clasificación General</a>
+			<a href="calendario.html" class="gt-mobile-subitem"><i class="fas fa-calendar-alt text-info me-2"></i> Calendario de la temporada</a>
+			<a href="circuitos.html" class="gt-mobile-item"><i class="fas fa-road me-2"></i> Circuitos Oficiales GT6</a>
+			<a href="garaje.html" class="gt-mobile-item current"><i class="fas fa-warehouse me-2"></i> Garaje Oficial GT6</a>
+			<div class="gt-mobile-group-title">Setup</div>
+			<a href="setup.html" class="gt-mobile-subitem"><i class="fas fa-cogs text-secondary me-2"></i> Concepto de Setup</a>
+			<a href="conceptos.html" class="gt-mobile-subitem"><i class="fas fa-sliders-h text-primary me-2"></i> Cómo hacer tu propio setup</a>
+			<a href="galeria.html" class="gt-mobile-item"><i class="fas fa-images me-2"></i> Galería</a>
+			<a href="discord.html" class="gt-mobile-item"><i class="fab fa-discord text-primary me-2"></i> Comunidad Discord</a>
+		</div>
+	</nav>
+	<!-- End Floating Pill Navbar -->
+
+	<!-- HERO HEADER SECTION -->
+	<header class="gt-garage-hero text-center">
+		<div class="container">
+			<div class="gt-badge-telemetry">
+				<i class="fas fa-database"></i> BASE DE DATOS SQLITE GT6
+			</div>
+			<h1 class="gt-garage-title">GARAJE OFICIAL GRAN TURISMO 6</h1>
+			<p class="gt-garage-lead">
+				Enciclopedia técnica completa con 1,280 vehículos oficiales, telemetría, puntos de rendimiento (PR), curiosidades del motorsport y reglajes de simulación.
+			</p>
+
+			<!-- Live Metric Stats Row -->
+			<div class="gt-garage-stats-row">
+				<div class="gt-stat-box">
+					<span class="gt-stat-box-val" id="statTotalCars">1,280</span>
+					<span class="gt-stat-box-lbl">Autos en Total</span>
+				</div>
+				<div class="gt-stat-box">
+					<span class="gt-stat-box-val" id="statTotalMfrs">111</span>
+					<span class="gt-stat-box-lbl">Fabricantes</span>
+				</div>
+				<div class="gt-stat-box">
+					<span class="gt-stat-box-val" id="statMaxHp">1,001 CV</span>
+					<span class="gt-stat-box-lbl">Potencia Máx.</span>
+				</div>
+				<div class="gt-stat-box">
+					<span class="gt-stat-box-val" id="statAvgPp">453 PR</span>
+					<span class="gt-stat-box-lbl">PR Promedio</span>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- END HERO HEADER -->
+
+	<!-- STICKY FILTER TOOLBAR -->
+	<section class="gt-garage-toolbar">
+		<div class="container">
+			<div class="row g-2 align-items-center">
+				<!-- Search Input -->
+				<div class="col-lg-5 col-md-6">
+					<div class="gt-search-input-wrap">
+						<i class="fas fa-search gt-search-icon"></i>
+						<input type="text" 
+							   id="carSearchInput" 
+							   class="gt-search-input" 
+							   placeholder="Buscar por auto, modelo, motor (ej. GT-R, F40, V8, Turbo)..." 
+							   autocomplete="off">
+						<button type="button" class="gt-search-clear" id="clearSearchBtn" aria-label="Limpiar">
+							<i class="fas fa-times"></i>
+						</button>
+					</div>
+				</div>
+
+				<!-- Manufacturer Select -->
+				<div class="col-lg-4 col-md-3">
+					<select id="manufacturerSelect" class="gt-select-custom" aria-label="Filtrar por fabricante">
+						<option value="all">Cargando fabricantes...</option>
+					</select>
+				</div>
+
+				<!-- Sort Select -->
+				<div class="col-lg-3 col-md-3">
+					<select id="sortSelect" class="gt-select-custom" aria-label="Ordenar resultados">
+						<option value="pp_desc">Mayor Rendimiento (PR ↓)</option>
+						<option value="pp_asc">Menor Rendimiento (PR ↑)</option>
+						<option value="power_desc">Mayor Potencia (CV ↓)</option>
+						<option value="weight_asc">Menor Peso (kg ↑)</option>
+						<option value="name_asc">Nombre (A - Z)</option>
+						<option value="year_desc">Año más reciente</option>
+					</select>
+				</div>
+			</div>
+
+			<!-- Secondary Pills Filter Row -->
+			<div class="gt-pills-filter-row">
+				<span class="gt-filter-pill-label">Tracción:</span>
+				<button type="button" class="gt-drivetrain-pill is-active" data-drivetrain="all">Todos</button>
+				<button type="button" class="gt-drivetrain-pill" data-drivetrain="4WD">4WD (168)</button>
+				<button type="button" class="gt-drivetrain-pill" data-drivetrain="FR">FR (944)</button>
+				<button type="button" class="gt-drivetrain-pill" data-drivetrain="MR">MR (73)</button>
+				<button type="button" class="gt-drivetrain-pill" data-drivetrain="FF">FF (82)</button>
+				<button type="button" class="gt-drivetrain-pill" data-drivetrain="RR">RR (13)</button>
+
+				<span class="gt-filter-pill-label ms-lg-3">Categoría:</span>
+				<button type="button" class="gt-category-pill is-active" data-category="all">Todas</button>
+				<button type="button" class="gt-category-pill" data-category="Road Car">Road Car</button>
+				<button type="button" class="gt-category-pill" data-category="Race Car">Race Car</button>
+				<button type="button" class="gt-category-pill" data-category="Vision GT">Vision GT</button>
+				<button type="button" class="gt-category-pill" data-category="Tuned Car">Tuned Car</button>
+				<button type="button" class="gt-category-pill" data-category="Kart">Kart</button>
+			</div>
+		</div>
+	</section>
+	<!-- END STICKY FILTER TOOLBAR -->
+
+	<!-- CARS GRID SECTION -->
+	<main class="gt-cars-grid-section">
+		<div class="container">
+			<div class="d-flex align-items-center justify-content-between mb-4">
+				<div class="text-muted small" id="totalResultsCount" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">
+					Cargando vehículos...
+				</div>
+				<div class="text-muted small" style="font-family: 'JetBrains Mono', monospace;">
+					24 autos por página
+				</div>
+			</div>
+
+			<!-- Dynamic Cars Grid -->
+			<div class="row g-4" id="carsGrid">
+				<!-- Dynamically populated by assets/js/garage.js -->
+			</div>
+
+			<!-- Pagination Controls -->
+			<div id="paginationWrap"></div>
+		</div>
+	</main>
+	<!-- END CARS GRID SECTION -->
+
+	<!-- TELEMETRY & LORE MODAL -->
+	<div class="gt-modal-backdrop" id="modalBackdrop"></div>
+	<div class="gt-car-modal" id="carTelemetryModal" role="dialog" aria-modal="true" aria-labelledby="modalCarName">
+		<div class="gt-modal-header">
+			<div>
+				<div class="d-flex align-items-center gap-2 mb-1" id="modalCarCountry">
+					<!-- Flag and country name -->
+				</div>
+				<h2 id="modalCarName" style="font-family: var(--wec-sans); font-size: 1.45rem; font-weight: 800; color: #0f172a; margin: 0;">
+					Auto
+				</h2>
+				<span id="modalCarManufacturer" class="text-muted small" style="font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">
+					Fabricante
+				</span>
+			</div>
+			<button type="button" class="gt-modal-close" id="closeModalBtn" aria-label="Cerrar ventana">
+				<i class="fas fa-times"></i>
+			</button>
+		</div>
+
+		<div class="gt-modal-body">
+			<!-- Big Visual Stage -->
+			<div class="gt-modal-thumb-stage">
+				<img id="modalCarImage" src="assets/cars/default.jpg" alt="Auto" class="gt-modal-car-img" referrerpolicy="no-referrer">
+			</div>
+
+			<!-- Specs Matrix 6 Cells -->
+			<h4 style="font-family: var(--wec-sans); font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">
+				Ficha Técnica Oficial GT6
+			</h4>
+			<div class="gt-modal-specs-grid">
+				<div class="gt-modal-spec-cell">
+					<span class="gt-modal-spec-val" id="modalCarPp">-- PR</span>
+					<span class="gt-modal-spec-lbl">Rendimiento (PR)</span>
+				</div>
+				<div class="gt-modal-spec-cell">
+					<span class="gt-modal-spec-val" id="modalCarHp">-- CV</span>
+					<span class="gt-modal-spec-lbl">Potencia Máxima</span>
+				</div>
+				<div class="gt-modal-spec-cell">
+					<span class="gt-modal-spec-val" id="modalCarWeight">-- kg</span>
+					<span class="gt-modal-spec-lbl">Peso en Vacío</span>
+				</div>
+				<div class="gt-modal-spec-cell">
+					<span class="gt-modal-spec-val" id="modalCarRatio">-- kg/CV</span>
+					<span class="gt-modal-spec-lbl">Relación Peso/Potencia</span>
+				</div>
+				<div class="gt-modal-spec-cell">
+					<span class="gt-modal-spec-val" id="modalCarDrivetrain">--</span>
+					<span class="gt-modal-spec-lbl">Tren Motriz</span>
+				</div>
+				<div class="gt-modal-spec-cell">
+					<span class="gt-modal-spec-val" id="modalCarAspiration">--</span>
+					<span class="gt-modal-spec-lbl">Aspiración</span>
+				</div>
+				<div class="gt-modal-spec-cell">
+					<span class="gt-modal-spec-val" id="modalCarCategory">--</span>
+					<span class="gt-modal-spec-lbl">Categoría</span>
+				</div>
+				<div class="gt-modal-spec-cell">
+					<span class="gt-modal-spec-val" id="modalCarYear">--</span>
+					<span class="gt-modal-spec-lbl">Año de Fabricación</span>
+				</div>
+				<div class="gt-modal-spec-cell">
+					<span class="gt-modal-spec-val" id="modalCarInterior">--</span>
+					<span class="gt-modal-spec-lbl">Tipo de Modelo</span>
+				</div>
+			</div>
+
+			<!-- Lore & Curiosities Section -->
+			<h4 style="font-family: var(--wec-sans); font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">
+				<i class="fas fa-lightbulb text-warning me-1"></i> Datos Curiosos & Historia en Motorsport
+			</h4>
+			<ul class="gt-lore-list" id="modalCuriositiesList">
+				<!-- Injected by assets/js/garage.js -->
+			</ul>
+
+			<!-- Recommended GT6 Setup -->
+			<div class="gt-setup-box">
+				<span class="gt-setup-badge">Reglaje Recomendado GT6</span>
+				<p class="gt-setup-text" id="modalSetupTip">
+					Cargando recomendación de puesta a punto...
+				</p>
+			</div>
+		</div>
+	</div>
+	<!-- END TELEMETRY MODAL -->
+
+	<!-- FOOTER -->
+	<footer class="py-4" style="background: #ffffff; border-top: 1px solid rgba(15, 23, 42, 0.08);">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6 col-md-12 text-center text-lg-start">
+					<p class="mb-0 text-muted small" style="font-family: var(--wec-sans);">
+						Gran Turismo 6 (PS3) • Enciclopedia de 1,280 autos creada para la comunidad por Ricardo Polanco
+					</p>
+				</div>
+				<div class="col-lg-6 text-center text-lg-end col-md-12 mt-2 mt-lg-0">
+					<a href="/admin" class="text-muted small" style="text-decoration: none; font-family: 'JetBrains Mono', monospace;">
+						<i class="fas fa-lock me-1"></i> Panel Admin
+					</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery-1.11.3.min.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script src="assets/js/garage.js" defer></script>
+
+</body>
+</html>
